@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deutsch hravo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#e6f0fb; --paper:#ffffff; --ink:#1d2f5e; --muted:#5b6b8f; --line:#cddbee;
+  --accent:#2f5bd3; --accent-deep:#1f3f99; --accent-soft:#e1e9ff;
+  --sun:#ffc83d; --grass:#3fa34d; --grass-soft:#dcf2df; --coral:#e8604f; --coral-soft:#fde3df;
+  --fill-a:#bfe3ff; --fill-b:#ffe7a3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sky:#0f1a33; --paper:#18264a; --ink:#e8eefc; --muted:#a3b3d8; --line:#2d4070;
+    --accent:#5b83ff; --accent-deep:#3a5fd6; --accent-soft:#233a74;
+    --grass-soft:#1c3d2a; --coral-soft:#4a2522; --fill-a:#2a4a8a; --fill-b:#7a6424;
+  }
+}
+:root[data-theme="dark"]{
+  --sky:#0f1a33; --paper:#18264a; --ink:#e8eefc; --muted:#a3b3d8; --line:#2d4070;
+  --accent:#5b83ff; --accent-deep:#3a5fd6; --accent-soft:#233a74;
+  --grass-soft:#1c3d2a; --coral-soft:#4a2522; --fill-a:#2a4a8a; --fill-b:#7a6424;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--sky);color:var(--ink);font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:17px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+#app{max-width:520px;margin:0 auto;min-height:100dvh;padding:16px 16px 150px}
+h1,h2,.big,.hello{font-family:'Baloo 2','Nunito',system-ui,sans-serif;line-height:1.1;margin:0}
+h2{font-size:24px;margin:28px 0 12px}
+p{margin:0}
+.muted{color:var(--muted);font-weight:700}
+.center{text-align:center}
+
+.btn{font:inherit;font-weight:800;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-bottom-width:5px;border-radius:16px;padding:14px 16px;min-height:56px;width:100%;cursor:pointer;text-align:center;transition:transform .08s,background .15s,border-color .15s}
+.btn:active{transform:translateY(3px);border-bottom-width:2px;margin-bottom:3px}
+.btn:focus-visible,.chip:focus-visible,.speak:focus-visible,.link:focus-visible,.x:focus-visible,.inp:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent-deep);color:#fff}
+.btn.good{background:var(--grass-soft);border-color:var(--grass)}
+.btn.bad{background:var(--coral-soft);border-color:var(--coral)}
+.btn.sel{background:var(--accent-soft);border-color:var(--accent)}
+.btn.done{opacity:.4;pointer-events:none}
+.link{font:inherit;font-weight:700;color:var(--muted);background:none;border:none;padding:12px;cursor:pointer;display:block;margin:6px auto 0;text-decoration:underline;text-underline-offset:3px}
+
+.scene{width:100%;height:auto;display:block;border-radius:22px}
+.hello{font-size:clamp(32px,9vw,42px);margin-top:18px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:800}
+.lesson{text-align:left;display:block;margin-bottom:12px}
+.lesson .t{font-family:'Baloo 2',sans-serif;font-size:22px;display:block}
+.lesson .s{color:var(--muted);font-weight:700;font-size:15px;display:block;margin-bottom:10px}
+.bar{height:10px;border-radius:999px;background:var(--sky);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--grass);border-radius:999px}
+
+.back{font:inherit;font-weight:800;background:none;border:none;color:var(--muted);padding:8px 0;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 22px}
+.chip{font:inherit;font-weight:700;font-size:15px;border-radius:999px;padding:8px 14px;border:2px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip small{opacity:.8;font-weight:700;margin-left:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.x{font:inherit;font-size:22px;font-weight:800;background:none;border:none;color:var(--muted);cursor:pointer;padding:6px 8px}
+.sky-track{position:relative;flex:1;height:34px;border-radius:999px;background:var(--paper);border:2px solid var(--line);overflow:hidden}
+.sky-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--fill-a),var(--fill-b));transition:width .5s ease}
+.sun{position:absolute;top:50%;left:15px;width:24px;height:24px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 5px rgba(255,200,61,.35);transform:translate(-50%,-50%);transition:left .5s ease}
+
+.card{background:var(--paper);border:2px solid var(--line);border-radius:22px;padding:22px 18px;text-align:center}
+.big{font-size:clamp(30px,9vw,44px);font-weight:700;word-break:break-word}
+.emoji{font-size:58px;line-height:1;margin-bottom:8px}
+.swatch{width:92px;height:92px;border-radius:50%;margin:0 auto 10px;border:3px solid var(--line)}
+.speak{font-size:22px;width:50px;height:50px;border-radius:50%;border:2px solid var(--line);background:var(--sky);cursor:pointer;margin-top:12px}
+.speak.huge{width:110px;height:110px;font-size:46px;margin:4px auto}
+.q{color:var(--muted);font-weight:800;margin:20px 0 12px}
+.card .q{margin:0 0 10px}
+.again{color:var(--accent);font-weight:800;text-align:center;margin-bottom:10px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.options.col{grid-template-columns:1fr}
+.sk-mean{font-size:22px;font-weight:800;color:var(--muted);margin-top:10px}
+
+.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:22px 0}
+.slot{min-width:24px;height:44px;border-bottom:3px solid var(--line);font-family:'Baloo 2',sans-serif;font-size:30px;font-weight:700;display:flex;align-items:flex-end;justify-content:center;padding:0 2px}
+.slot.gap{border:none;min-width:14px}
+.slot.filled{border-color:var(--grass)}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tile{width:52px;min-height:56px;padding:0;font-size:24px}
+.tile.used{visibility:hidden}
+
+.inp{font:inherit;font-size:24px;font-weight:800;width:100%;margin:18px 0 10px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:var(--paper);color:var(--ink);text-align:center}
+.uml{display:flex;gap:8px;justify-content:center;margin-bottom:14px}
+.uml .btn{width:52px;min-height:48px;padding:0;font-size:20px}
+
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pairs>div{display:flex;flex-direction:column;gap:10px}
+.pairs .btn{min-height:60px;padding:10px 8px;font-size:16px}
+
+.flash{min-height:260px;display:flex;flex-direction:column;justify-content:center;cursor:pointer}
+.flash .hint{color:var(--muted);font-weight:700;font-size:15px;margin-top:14px}
+
+.fb{position:fixed;left:0;right:0;bottom:0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));background:var(--paper);border-top:3px solid var(--line);transform:translateY(110%);transition:transform .22s ease;z-index:5}
+.fb.show{transform:none}
+.fb.good{background:var(--grass-soft);border-color:var(--grass)}
+.fb.bad{background:var(--coral-soft);border-color:var(--coral)}
+.fb .inner{max-width:488px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.fb .msg{font-family:'Baloo 2',sans-serif;font-size:26px;font-weight:800;line-height:1.1}
+.fb .sub{font-weight:700}
+
+.result{text-align:center;padding-top:30px}
+.stars{font-size:64px;letter-spacing:6px;color:var(--sun);line-height:1}
+.stars .dim{color:var(--line)}
+.result h1{font-size:38px;margin:14px 0 8px}
+.result .pills{justify-content:center;margin-bottom:24px}
+.missed{background:var(--paper);border:2px solid var(--line);border-radius:22px;padding:14px 16px;text-align:left;margin-bottom:18px}
+.missed li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0}
+.missed ul{list-style:none;margin:8px 0 0;padding:0}
+.missed .speak{margin:0;width:40px;height:40px;font-size:18px;flex:none}
+.stack{display:flex;flex-direction:column;gap:10px}
+
+.shake{animation:shake .32s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}
+.confetti i{position:absolute;top:-16px;width:10px;height:14px;border-radius:2px;animation:fall 2s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(600deg)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.confetti{display:none}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<div id="fb" class="fb" role="status" aria-live="polite">
+  <div class="inner">
+    <div><div class="msg"></div><div class="sub"></div></div>
+    <button class="btn primary" id="cont">Pokračovať</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   LEKCIE – sem pridávaj ďalšie lekcie.
+   Skopíruj celý blok { id: ..., groups: [...] } a uprav.
+   - id: jedinečný krátky názov (bez medzier), podľa neho sa ukladá pokrok
+   - každé slovo: { de: 'nemecky', sk: 'slovensky' }
+   - voliteľne: emoji: '🍎'  alebo  color: '#ff0000' (zobrazí sa ako obrázok)
+   ===================================================================== */
+const LESSONS = [
+  {
+    id: 'start-1',
+    title: 'Lekcia 1: Start',
+    subtitle: 'Učebnica, strana 9',
+    groups: [
+      { name: 'Základné slová', words: [
+        { de: 'hallo', sk: 'ahoj', emoji: '👋' },
+        { de: 'das ist', sk: 'to je' },
+        { de: 'und', sk: 'a' },
+        { de: 'ich bin', sk: 'ja som' },
+        { de: 'wie', sk: 'ako' },
+        { de: 'schreiben', sk: 'písať', emoji: '✏️' },
+        { de: 'man schreibt', sk: 'píše sa' },
+        { de: 'bitte', sk: 'prosím' },
+        { de: 'Vielen Dank', sk: 'Ďakujem pekne', emoji: '🙏' },
+        { de: 'ja', sk: 'áno', emoji: '👍' },
+        { de: 'nein', sk: 'nie', emoji: '👎' },
+      ]},
+      { name: 'Dni v týždni', words: [
+        { de: 'Montag', sk: 'pondelok' },
+        { de: 'Dienstag', sk: 'utorok' },
+        { de: 'Mittwoch', sk: 'streda' },
+        { de: 'Donnerstag', sk: 'štvrtok' },
+        { de: 'Freitag', sk: 'piatok' },
+        { de: 'Samstag', sk: 'sobota' },
+        { de: 'Sonntag', sk: 'nedeľa' },
+        { de: 'das Wochenende', sk: 'víkend', emoji: '🎉' },
+      ]},
+      { name: 'Pozdravy', words: [
+        { de: 'Guten Morgen', sk: 'Dobré ráno', emoji: '🌅' },
+        { de: 'Guten Tag', sk: 'Dobrý deň', emoji: '☀️' },
+        { de: 'Guten Abend', sk: 'Dobrý večer', emoji: '🌇' },
+        { de: 'Gute Nacht', sk: 'Dobrú noc', emoji: '🌙' },
+      ]},
+      { name: 'Mesiace', words: [
+        { de: 'Januar', sk: 'január' }, { de: 'Februar', sk: 'február' },
+        { de: 'März', sk: 'marec' }, { de: 'April', sk: 'apríl' },
+        { de: 'Mai', sk: 'máj' }, { de: 'Juni', sk: 'jún' },
+        { de: 'Juli', sk: 'júl' }, { de: 'August', sk: 'august' },
+        { de: 'September', sk: 'september' }, { de: 'Oktober', sk: 'október' },
+        { de: 'November', sk: 'november' }, { de: 'Dezember', sk: 'december' },
+      ]},
+      { name: 'Ročné obdobia', words: [
+        { de: 'Winter', sk: 'zima', emoji: '⛄' },
+        { de: 'Frühling', sk: 'jar', emoji: '🌷' },
+        { de: 'Sommer', sk: 'leto', emoji: '🏖️' },
+        { de: 'Herbst', sk: 'jeseň', emoji: '🍂' },
+      ]},
+      { name: 'Farby', words: [
+        { de: 'weiß', sk: 'biela', color: '#ffffff' },
+        { de: 'gelb', sk: 'žltá', color: '#ffd60a' },
+        { de: 'orange', sk: 'oranžová', color: '#f28c28' },
+        { de: 'rot', sk: 'červená', color: '#e0203a' },
+        { de: 'lila', sk: 'fialová', color: '#7b2a9e' },
+        { de: 'blau', sk: 'modrá', color: '#1b3a9a' },
+        { de: 'grün', sk: 'zelená', color: '#1f9a4a' },
+        { de: 'braun', sk: 'hnedá', color: '#7a4a2a' },
+        { de: 'grau', sk: 'sivá', color: '#7a7a7a' },
+        { de: 'schwarz', sk: 'čierna', color: '#000000' },
+      ]},
+    ]
+  },
+];
+/* ===================== koniec lekcií ===================== */
+
+const $app = document.getElementById('app');
+const fb = document.getElementById('fb');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const PRAISE = ['Super!', 'Výborne!', 'Sehr gut!', 'Presne tak!', 'Paráda!', 'Wunderbar!', 'Skvelé!'];
+const COMFORT = ['Nevadí!', 'Nič sa nedeje!', 'Takmer!', 'Nabudúce to dáš!'];
+
+LESSONS.forEach(L => L.groups.forEach((g, gi) => g.words.forEach(w => { w.id = L.id + '|' + w.de; w.g = gi; })));
+
+/* ---------- ukladanie pokroku ---------- */
+const KEY = 'deutsch-hravo-v1';
+let S = { name: '', xp: 0, streak: 0, lastDay: '', m: {} };
+try { Object.assign(S, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const mast = w => S.m[w.id] || 0;
+const dayStr = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+function yesterday() { const d = new Date(); d.setDate(d.getDate() - 1); return dayStr(d); }
+function currentStreak() { return (S.lastDay === dayStr(new Date()) || S.lastDay === yesterday()) ? S.streak : 0; }
+function bumpStreak() { const t = dayStr(new Date()); if (S.lastDay === t) return; S.streak = S.lastDay === yesterday() ? S.streak + 1 : 1; S.lastDay = t; }
+const dni = n => n === 1 ? 'deň' : (n >= 2 && n <= 4) ? 'dni' : 'dní';
+
+/* ---------- výslovnosť ---------- */
+const canSpeak = 'speechSynthesis' in window;
+let deVoice = null;
+function pickVoice() { try { const v = speechSynthesis.getVoices(); deVoice = v.find(x => /^de/i.test(x.lang)) || null; } catch (e) {} }
+if (canSpeak) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function say(t) {
+  if (!canSpeak) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'de-DE'; if (deVoice) u.voice = deVoice; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) {}
+}
+const speakBtn = (t, cls = '') => canSpeak ? `<button class="speak ${cls}" data-say="${esc(t)}" aria-label="Vypočuť">🔊</button>` : '';
+$app.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b) say(b.dataset.say); });
+const pic = w => w.color ? `<div class="swatch" style="background:${w.color}"></div>` : w.emoji ? `<div class="emoji">${w.emoji}</div>` : '';
+
+/* ---------- kontrola písania (tolerantná) ---------- */
+const raw = s => s.replace(/[!?.,]/g, '').replace(/\s+/g, ' ').trim();
+const noArt = s => s.replace(/^(der|die|das) /i, '');
+const loose = s => noArt(raw(s).toLowerCase()).replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ß/g, 'ss');
+function lev(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function checkTyped(input, target) {
+  const i = raw(input), t = raw(target);
+  if (i === t || i === noArt(t)) return 'exact';
+  if (i.toLowerCase() === t.toLowerCase() || i.toLowerCase() === noArt(t).toLowerCase()) return 'case';
+  const a = loose(input), b = loose(target);
+  if (!a) return 'wrong';
+  if (a === b || lev(a, b) <= Math.max(1, Math.floor(b.length / 5))) return 'close';
+  return 'wrong';
+}
+
+/* ---------- spätná väzba ---------- */
+let onCont = null;
+function showFb(kind, msg, sub, btn = 'Pokračovať', cb = null) {
+  fb.className = 'fb show ' + kind;
+  fb.querySelector('.msg').innerHTML = msg;
+  fb.querySelector('.sub').innerHTML = sub || '';
+  const b = document.getElementById('cont'); b.textContent = btn;
+  onCont = cb;
+  setTimeout(() => b.focus({ preventScroll: true }), 50);
+}
+function hideFb() { fb.className = 'fb'; onCont = null; }
+document.getElementById('cont').addEventListener('click', () => { const cb = onCont; hideFb(); if (cb) cb(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && fb.classList.contains('show') && e.target.tagName !== 'BUTTON') { e.preventDefault(); document.getElementById('cont').click(); }
+});
+
+/* ---------- úvodné obrazovky ---------- */
+function timeOfDay() {
+  const h = new Date().getHours();
+  return h < 10 ? ['morning', 'Guten Morgen', 'Dobré ráno'] : h < 17 ? ['day', 'Guten Tag', 'Dobrý deň'] : h < 22 ? ['evening', 'Guten Abend', 'Dobrý večer'] : ['night', 'Gute Nacht', 'Dobrú noc'];
+}
+function scene(kind) {
+  const sky = { morning: ['#ffdcb0', '#c4e6ff'], day: ['#8ccdff', '#d9f1ff'], evening: ['#f7a8c8', '#ffd79e'], night: ['#1a2550', '#35427c'] }[kind];
+  let body;
+  if (kind === 'night') {
+    body = `<circle cx="292" cy="36" r="16" fill="#fff3bf"/><circle cx="300" cy="30" r="14" fill="${sky[0]}"/>` +
+      [[60,26],[120,44],[180,20],[230,50],[40,58],[330,64]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="#fff"/>`).join('');
+  } else {
+    const cx = { morning: 86, day: 180, evening: 274 }[kind], cy = kind === 'day' ? 36 : 66;
+    body = `<circle cx="${cx}" cy="${cy}" r="21" fill="#ffc83d"/>`;
+  }
+  return `<svg class="scene" viewBox="0 0 360 120" aria-hidden="true"><defs><linearGradient id="skg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient></defs><rect width="360" height="120" fill="url(#skg)"/>${body}<path d="M0 88 Q90 62 190 84 T360 76 V120 H0Z" fill="#6cbf5f"/><path d="M0 104 Q120 88 240 102 T360 96 V120 H0Z" fill="#57a84c"/></svg>`;
+}
+
+function showName() {
+  hideFb();
+  const [k] = timeOfDay();
+  $app.innerHTML = `${scene(k)}
+    <h1 class="hello">Hallo! Wie heißt du?</h1>
+    <p class="muted" style="margin-top:6px">Ahoj! Ako sa voláš?</p>
+    <input id="nm" class="inp" maxlength="20" placeholder="Ich bin…" value="${esc(S.name)}">
+    <button class="btn primary" id="go">Poďme na to</button>`;
+  const nm = document.getElementById('nm');
+  const go = () => { S.name = nm.value.trim(); save(); showHome(); };
+  document.getElementById('go').onclick = go;
+  nm.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+}
+
+function lessonProgress(L) {
+  const ws = L.groups.flatMap(g => g.words);
+  return Math.round(100 * ws.filter(w => mast(w) >= 3).length / ws.length);
+}
+
+function showHome() {
+  hideFb();
+  const [k, de, sk] = timeOfDay();
+  const st = currentStreak();
+  $app.innerHTML = `${scene(k)}
+    <h1 class="hello">${de}${S.name ? ', ' + esc(S.name) : ''}!</h1>
+    <p class="muted" style="margin-top:4px">${sk}${S.name ? ', ' + esc(S.name) : ''}!</p>
+    <div class="pills"><span class="pill">🔥 ${st} ${dni(st)} v rade</span><span class="pill">⭐ ${S.xp} bodov</span></div>
+    <h2>Lekcie</h2>
+    ${LESSONS.map((L, i) => { const p = lessonProgress(L); return `
+      <button class="btn lesson" data-l="${i}">
+        <span class="t">${esc(L.title)}</span>
+        <span class="s">${esc(L.subtitle || '')} ${p ? '– naučené ' + p + ' %' : ''}</span>
+        <span class="bar"><i style="width:${p}%"></i></span>
+      </button>`; }).join('')}
+    <button class="link" id="rename">Zmeniť meno</button>`;
+  $app.querySelectorAll('[data-l]').forEach(b => b.onclick = () => openLesson(LESSONS[+b.dataset.l]));
+  document.getElementById('rename').onclick = showName;
+}
+
+/* ---------- lekcia ---------- */
+let cur = { lesson: null, groups: new Set() };
+function openLesson(L) {
+  if (cur.lesson !== L) cur = { lesson: L, groups: new Set(L.groups.map((_, i) => i)) };
+  showLesson();
+}
+function poolWords() { return cur.lesson.groups.filter((_, i) => cur.groups.has(i)).flatMap(g => g.words); }
+function allWords() { return cur.lesson.groups.flatMap(g => g.words); }
+
+function showLesson() {
+  hideFb();
+  const L = cur.lesson;
+  $app.innerHTML = `<button class="back" id="bk">‹ Späť</button>
+    <h1 style="font-size:34px;margin-top:6px">${esc(L.title)}</h1>
+    <p class="muted">${esc(L.subtitle || '')}</p>
+    <p class="q">Čo chceš precvičiť?</p>
+    <div class="chips">${L.groups.map((g, i) => {
+      const n = g.words.filter(w => mast(w) >= 3).length;
+      return `<button class="chip ${cur.groups.has(i) ? 'on' : ''}" data-g="${i}" aria-pressed="${cur.groups.has(i)}">${esc(g.name)}<small>${n}/${g.words.length}</small></button>`;
+    }).join('')}</div>
+    <button class="btn primary" id="play" style="font-size:20px;min-height:64px">Hrať kolo</button>
+    <div class="row2">
+      <button class="btn" id="flash">Kartičky</button>
+      <button class="btn" id="pairs">Spájanie párov</button>
+    </div>`;
+  document.getElementById('bk').onclick = showHome;
+  $app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => {
+    const i = +b.dataset.g;
+    if (cur.groups.has(i)) { if (cur.groups.size > 1) cur.groups.delete(i); } else cur.groups.add(i);
+    showLesson();
+  });
+  document.getElementById('play').onclick = () => startGame('mix');
+  document.getElementById('pairs').onclick = () => startGame('pairs');
+  document.getElementById('flash').onclick = showFlash;
+}
+
+/* ---------- kartičky ---------- */
+function showFlash() {
+  const ws = shuffle(poolWords()); let i = 0, flipped = false;
+  function r() {
+    const w = ws[i];
+    $app.innerHTML = `<div class="topbar"><button class="x" id="bk" aria-label="Späť">✕</button><span class="muted">${i + 1} / ${ws.length}</span></div>
+      <div class="card flash" id="card" role="button" tabindex="0">
+        ${pic(w)}<div class="big">${esc(w.de)}</div>
+        ${flipped ? `<div class="sk-mean">${esc(w.sk)}</div>` : `<div class="hint">Ťukni a uvidíš preklad</div>`}
+        <div>${speakBtn(w.de)}</div>
+      </div>
+      <div class="row2" style="margin-top:16px"><button class="btn" id="prev">‹ Späť</button><button class="btn primary" id="next">Ďalej ›</button></div>`;
+    document.getElementById('bk').onclick = showLesson;
+    const card = document.getElementById('card');
+    const flip = e => { if (e.target.closest('[data-say]')) return; flipped = !flipped; r(); };
+    card.onclick = flip; card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(e); } };
+    document.getElementById('prev').onclick = () => { i = (i - 1 + ws.length) % ws.length; flipped = false; r(); };
+    document.getElementById('next').onclick = () => { i = (i + 1) % ws.length; flipped = false; r(); };
+  }
+  r(); say(ws[0].de);
+}
+
+/* ---------- hra ---------- */
+let G = null;
+const tileable = w => w.de.replace(/ /g, '').length <= 12;
+
+function makeStep(w) {
+  const m = mast(w), o = [];
+  if (m <= 1) { o.push({ t: 'mc', w, dir: 'de-sk' }); if (canSpeak) o.push({ t: 'listen', w }); }
+  else if (m === 2) { o.push({ t: 'mc', w, dir: 'sk-de' }); if (tileable(w)) o.push({ t: 'tiles', w }); }
+  else { if (tileable(w)) o.push({ t: 'tiles', w }); o.push({ t: 'type', w }); o.push({ t: 'mc', w, dir: 'sk-de' }); if (canSpeak) o.push({ t: 'listen', w }); }
+  return pick(o);
+}
+
+function buildRound(mode) {
+  const pool = poolWords(), steps = [];
+  if (mode === 'pairs') {
+    const sh = shuffle(pool);
+    for (let i = 0; i < sh.length && steps.length < 4; i += 5) {
+      let chunk = sh.slice(i, i + 5);
+      if (chunk.length < 3) chunk = chunk.concat(shuffle(pool.filter(w => !chunk.includes(w))).slice(0, 3 - chunk.length));
+      steps.push({ t: 'pairs', words: chunk });
+    }
+    return steps;
+  }
+  const targets = shuffle(pool).sort((a, b) => mast(a) - mast(b)).slice(0, Math.min(8, pool.length));
+  shuffle(targets).forEach(w => {
+    steps.push(mast(w) === 0 ? { t: 'mc', w, dir: 'de-sk' } : makeStep(w));
+  });
+  if (pool.length >= 4) steps.splice(Math.floor(steps.length / 2), 0, { t: 'pairs', words: shuffle(pool).slice(0, 5) });
+  return steps;
+}
+
+function startGame(mode) {
+  G = { mode, steps: buildRound(mode), i: 0, pct: 0, scored: 0, good: 0, missed: new Set(), retried: new Set(), locked: false };
+  next();
+}
+
+function shell(inner) {
+  const p = 100 * G.i / G.steps.length, old = G.pct; G.pct = p;
+  $app.innerHTML = `<div class="topbar"><button class="x" id="quit" aria-label="Ukončiť kolo">✕</button>
+    <div class="sky-track"><div class="sky-fill" style="width:${old}%"></div><div class="sun" style="left:calc(15px + (100% - 30px) * ${old / 100})"></div></div></div>${inner}`;
+  document.getElementById('quit').onclick = () => { G = null; showLesson(); };
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const f = $app.querySelector('.sky-fill'), s = $app.querySelector('.sun');
+    if (f) { f.style.width = p + '%'; s.style.left = `calc(15px + (100% - 30px) * ${p / 100})`; }
+  }));
+}
+
+function next() {
+  if (!G) return;
+  if (G.i >= G.steps.length) return finish();
+  G.locked = false;
+  const st = G.steps[G.i];
+  ({ mc: rMC, listen: rListen, tiles: rTiles, type: rType, pairs: rPairs })[st.t](st);
+}
+function advance() { G.i++; next(); }
+
+function answer(ok, st, msg, sub) {
+  G.locked = true;
+  const w = st.w;
+  if (ok) S.m[w.id] = Math.min(5, mast(w) + 1);
+  else {
+    S.m[w.id] = Math.max(0, mast(w) - 1);
+    G.missed.add(w);
+    if (!G.retried.has(w.id)) { G.retried.add(w.id); G.steps.push({ t: 'mc', w, dir: pick(['de-sk', 'sk-de']), retry: true }); sub = (sub || '') + '<br>Toto slovo ešte príde.'; }
+  }
+  if (!st.retry) { G.scored++; if (ok) G.good++; }
+  save();
+  showFb(ok ? 'good' : 'bad', msg || (ok ? pick(PRAISE) : pick(COMFORT)), sub, 'Pokračovať', advance);
+}
+
+function distractors(w, field) {
+  const same = shuffle(cur.lesson.groups[w.g].words.filter(x => x !== w));
+  const other = shuffle(allWords().filter(x => x.g !== w.g));
+  const out = [], seen = new Set([w[field]]);
+  for (const x of [...same, ...other]) { if (!seen.has(x[field])) { seen.add(x[field]); out.push(x); } if (out.length === 3) break; }
+  return out;
+}
+
+function optionGrid(st, field, onPick) {
+  const w = st.w;
+  const opts = shuffle([w, ...distractors(w, field)]);
+  const col = opts.some(o => o[field].length > 13);
+  return {
+    html: `<div class="options ${col ? 'col' : ''}">${opts.map((o, i) => `<button class="btn opt" data-o="${i}">${esc(o[field])}</button>`).join('')}</div>`,
+    bind() {
+      $app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+        if (G.locked) return;
+        const o = opts[+b.dataset.o], ok = o === w;
+        b.classList.add(ok ? 'good' : 'bad');
+        if (!ok) $app.querySelectorAll('.opt').forEach(x => { if (opts[+x.dataset.o] === w) x.classList.add('good'); });
+        say(w.de);
+        onPick(ok);
+      });
+    }
+  };
+}
+const again = st => st.retry ? '<p class="again">Ešte raz toto slovo 🙂</p>' : '';
+
+function rMC(st) {
+  const w = st.w, toSk = st.dir === 'de-sk';
+  const g = optionGrid(st, toSk ? 'sk' : 'de', ok => answer(ok, st, null, ok ? `${esc(w.de)} = ${esc(w.sk)}` : `Správne je: <b>${esc(toSk ? w.sk : w.de)}</b>`));
+  shell(`${again(st)}<div class="card">${pic(w)}<div class="big">${esc(toSk ? w.de : w.sk)}</div>${toSk ? `<div>${speakBtn(w.de)}</div>` : ''}</div>
+    <p class="q">${toSk ? 'Čo to znamená?' : 'Ako sa to povie po nemecky?'}</p>${g.html}`);
+  g.bind(); if (toSk) say(w.de);
+}
+
+function rListen(st) {
+  const w = st.w;
+  const g = optionGrid(st, 'sk', ok => answer(ok, st, null, `Bolo to: <b>${esc(w.de)}</b> = ${esc(w.sk)}`));
+  shell(`<div class="card"><p class="q">Vypočuj si slovo</p>${speakBtn(w.de, 'huge')}</div><p class="q">Čo znamená?</p>${g.html}`);
+  g.bind(); setTimeout(() => say(w.de), 250);
+}
+
+function rTiles(st) {
+  const w = st.w, chars = [...w.de];
+  const letters = chars.map((c, i) => ({ c, i })).filter(x => x.c !== ' ');
+  const tiles = shuffle(letters.map(x => x.c));
+  let pos = 0, mistakes = 0;
+  shell(`<div class="card"><p class="q">Poskladaj po nemecky</p><div class="big">${esc(w.sk)}</div>${pic(w)}</div>
+    <div class="slots">${chars.map((c, i) => c === ' ' ? '<span class="slot gap"></span>' : `<span class="slot" data-s="${i}"></span>`).join('')}</div>
+    <div class="tiles">${tiles.map((c, i) => `<button class="btn tile" data-t="${i}">${esc(c)}</button>`).join('')}</div>
+    <button class="link" id="hint">Pomôž mi s písmenkom</button>`);
+  const place = btn => {
+    const target = letters[pos], slot = $app.querySelector(`[data-s="${target.i}"]`);
+    slot.textContent = target.c; slot.classList.add('filled'); btn.classList.add('used'); pos++;
+    if (pos === letters.length) {
+      say(w.de);
+      const ok = mistakes <= Math.max(2, Math.floor(letters.length / 4));
+      answer(ok, st, ok ? pick(PRAISE) : 'Hotovo!', `<b>${esc(w.de)}</b> = ${esc(w.sk)}`);
+    }
+  };
+  $app.querySelectorAll('.tile').forEach(b => b.onclick = () => {
+    if (G.locked || b.classList.contains('used')) return;
+    if (tiles[+b.dataset.t].toLowerCase() === letters[pos].c.toLowerCase()) place(b);
+    else { mistakes++; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); }
+  });
+  document.getElementById('hint').onclick = () => {
+    if (G.locked) return;
+    const need = letters[pos].c.toLowerCase();
+    const b = [...$app.querySelectorAll('.tile')].find(x => !x.classList.contains('used') && tiles[+x.dataset.t].toLowerCase() === need);
+    if (b) { mistakes++; place(b); }
+  };
+}
+
+function rType(st) {
+  const w = st.w;
+  shell(`<div class="card"><p class="q">Napíš po nemecky</p><div class="big">${esc(w.sk)}</div>${pic(w)}</div>
+    <input id="inp" class="inp" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="sem píš…" aria-label="Tvoja odpoveď">
+    <div class="uml">${['ä', 'ö', 'ü', 'ß'].map(c => `<button class="btn" data-u="${c}">${c}</button>`).join('')}</div>
+    <button class="btn primary" id="chk">Skontrolovať</button>
+    <button class="link" id="dunno">Neviem, ukáž mi to</button>`);
+  const inp = document.getElementById('inp');
+  $app.querySelectorAll('[data-u]').forEach(b => b.onclick = () => { inp.setRangeText(b.dataset.u, inp.selectionStart, inp.selectionEnd, 'end'); inp.focus(); });
+  const check = () => {
+    if (G.locked) return;
+    if (!inp.value.trim()) { inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); return; }
+    inp.disabled = true;
+    const r = checkTyped(inp.value, w.de); say(w.de);
+    if (r === 'exact') answer(true, st, pick(PRAISE), `<b>${esc(w.de)}</b> = ${esc(w.sk)}`);
+    else if (r === 'case') answer(true, st, 'Výborne!', `Tip: podstatné mená sa v nemčine píšu s veľkým písmenom: <b>${esc(w.de)}</b>`);
+    else if (r === 'close') answer(true, st, 'Skoro presne! 👌', `Presne sa to píše: <b>${esc(w.de)}</b>`);
+    else answer(false, st, null, `Správne je: <b>${esc(w.de)}</b>`);
+  };
+  document.getElementById('chk').onclick = check;
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); check(); } });
+  document.getElementById('dunno').onclick = () => { if (G.locked) return; inp.disabled = true; say(w.de); answer(false, st, 'Nevadí, teraz už to vieš!', `<b>${esc(w.de)}</b> = ${esc(w.sk)}`); };
+  setTimeout(() => inp.focus({ preventScroll: true }), 100);
+}
+
+function rPairs(st) {
+  const ws = st.words, left = shuffle(ws), right = shuffle(ws);
+  let sel = null, mistakes = 0, done = 0;
+  shell(`<p class="q center">Spoj, čo k sebe patrí</p>
+    <div class="pairs"><div>${left.map((w, i) => `<button class="btn pb" data-side="L" data-i="${i}">${esc(w.de)}</button>`).join('')}</div>
+    <div>${right.map((w, i) => `<button class="btn pb" data-side="R" data-i="${i}">${esc(w.sk)}</button>`).join('')}</div></div>`);
+  $app.querySelectorAll('.pb').forEach(b => b.onclick = () => {
+    if (G.locked || b.classList.contains('done')) return;
+    const side = b.dataset.side, w = (side === 'L' ? left : right)[+b.dataset.i];
+    if (side === 'L') say(w.de);
+    if (!sel || sel.side === side) { if (sel) sel.b.classList.remove('sel'); sel = { side, w, b }; b.classList.add('sel'); return; }
+    const a = sel.b; sel = null; a.classList.remove('sel');
+    if (a.dataset.side === side) return;
+    const aw = (a.dataset.side === 'L' ? left : right)[+a.dataset.i];
+    if (aw === w) {
+      [a, b].forEach(x => x.classList.add('good', 'done'));
+      if (side === 'R') say(w.de);
+      if (++done === ws.length) {
+        G.locked = true;
+        if (mistakes === 0) ws.forEach(x => { if (mast(x) < 2) S.m[x.id] = mast(x) + 1; });
+        G.scored++; if (mistakes <= 1) G.good++; save();
+        setTimeout(() => showFb('good', mistakes === 0 ? 'Všetko bez chyby!' : pick(PRAISE), '', 'Pokračovať', advance), 250);
+      }
+    } else {
+      mistakes++;
+      [a, b].forEach(x => { x.classList.add('bad', 'shake'); setTimeout(() => x.classList.remove('bad', 'shake'), 450); });
+    }
+  });
+}
+
+function finish() {
+  const acc = G.scored ? G.good / G.scored : 1;
+  const stars = acc >= .9 ? 3 : acc >= .7 ? 2 : 1;
+  const gained = 10 + G.good * 2;
+  S.xp += gained; bumpStreak(); save();
+  const missed = [...G.missed];
+  $app.innerHTML = `<div class="result">
+    <div class="stars" aria-label="${stars} z 3 hviezd">${'★'.repeat(stars)}<span class="dim">${'★'.repeat(3 - stars)}</span></div>
+    <h1>${stars === 3 ? 'Perfektné kolo!' : stars === 2 ? 'Super práca!' : 'Kolo hotové!'}</h1>
+    <div class="pills"><span class="pill">⭐ +${gained} bodov</span><span class="pill">🔥 ${S.streak} ${dni(S.streak)} v rade</span></div>
+    ${missed.length ? `<div class="missed"><b>Tieto si ešte zopakuj</b><ul>${missed.map(w => `<li><span><b>${esc(w.de)}</b> = ${esc(w.sk)}</span>${speakBtn(w.de)}</li>`).join('')}</ul></div>` : ''}
+    <div class="stack"><button class="btn primary" id="again">Hrať ďalšie kolo</button><button class="btn" id="toL">Späť na lekciu</button></div>
+  </div>`;
+  const mode = G.mode; G = null;
+  document.getElementById('again').onclick = () => startGame(mode);
+  document.getElementById('toL').onclick = showLesson;
+  if (stars >= 2) confetti();
+}
+
+function confetti() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const box = document.createElement('div'); box.className = 'confetti';
+  const cols = ['#ffd60a', '#f28c28', '#e0203a', '#7b2a9e', '#1b3a9a', '#1f9a4a'];
+  for (let i = 0; i < 44; i++) {
+    const c = document.createElement('i');
+    c.style.left = Math.random() * 100 + '%'; c.style.background = pick(cols);
+    c.style.animationDelay = Math.random() * .6 + 's'; c.style.animationDuration = 1.6 + Math.random() * 1.2 + 's';
+    box.appendChild(c);
+  }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 3500);
+}
+
+S.name ? showHome() : showName();
+</script>
+</body>
+</html>

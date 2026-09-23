@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prvky po stĺpcoch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EEF3F1;--card:#FFFFFF;--ink:#1D2B36;--muted:#5D6B75;--line:#C9D5D1;--accent:#3446D6;--accent-ink:#FFFFFF;--ok:#1E9E6A;--bad:#D1453B;--gold:#E7B622;--sel:#DCE1FF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#131C22;--card:#1C2830;--ink:#E6EEF0;--muted:#94A3AC;--line:#2F3E47;--accent:#8290FF;--accent-ink:#0E1430;--ok:#3CCB8D;--bad:#FF7A6E;--gold:#F2C94C;--sel:#26306A}}
+:root[data-theme="dark"]{--paper:#131C22;--card:#1C2830;--ink:#E6EEF0;--muted:#94A3AC;--line:#2F3E47;--accent:#8290FF;--accent-ink:#0E1430;--ok:#3CCB8D;--bad:#FF7A6E;--gold:#F2C94C;--sel:#26306A}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Lexend,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+main{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-weight:800;font-size:clamp(30px,8vw,42px);line-height:1.05;margin:8px 0 8px;letter-spacing:-.02em}
+h2{font-size:18px;font-weight:600;margin:28px 0 10px}
+.lead{color:var(--muted);margin:0 0 16px;font-size:16px}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.ptwrap{overflow-x:auto;margin:0 -16px;padding:4px 16px 8px}
+.pt{display:grid;grid-template-columns:repeat(18,34px);grid-template-rows:40px repeat(7,34px);gap:3px;width:max-content}
+.gh{border:0;border-radius:6px 6px 2px 2px;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;padding:0;line-height:1.1}
+.gh b{font-size:13px;font-weight:600;color:var(--ink)}
+.gh small{font-size:9px}
+.gh.on{background:var(--accent);color:var(--accent-ink)}
+.gh.on b{color:var(--accent-ink)}
+.c{position:relative;background:var(--card);border:1px solid var(--line);border-radius:4px;display:grid;place-items:center;font-size:13px;font-weight:600;cursor:pointer;user-select:none}
+.c.on{background:var(--sel);border-color:var(--accent)}
+.c.off{opacity:.35}
+.c i{position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.legend{font-size:13px;color:var(--muted);margin:4px 0 0;display:flex;align-items:center;gap:6px}
+.legend i{width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block}
+
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.row.center{justify-content:center}
+.pill{font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 13px;border-radius:999px;cursor:pointer}
+.sum{font-weight:600;margin:10px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0;list-style:none}
+.chips li{font-size:13px;background:var(--sel);padding:4px 10px;border-radius:6px}
+.known{font-size:14px;color:var(--muted);margin:8px 0 0}
+
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card);max-width:440px}
+.seg button{flex:1;font-size:14px;border:0;background:transparent;color:var(--ink);padding:10px 10px;cursor:pointer;white-space:nowrap}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.opts label{display:flex;gap:10px;align-items:center;margin:12px 0 0;font-size:15px;cursor:pointer}
+.opts input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+
+.modes{display:grid;gap:10px}
+.mode{display:flex;align-items:center;gap:14px;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer}
+.mode .ic{width:46px;height:46px;border-radius:7px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}
+.mode b{display:block;font-size:17px;font-weight:600}
+.mode .d{display:block;color:var(--muted);font-size:14px}
+.mode:disabled{opacity:.45;cursor:not-allowed}
+.reset{margin-top:28px;border:0;background:transparent;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:13px;padding:4px 0}
+
+.bar{display:flex;align-items:center;gap:12px}
+.x{border:0;background:transparent;color:var(--muted);font-size:15px;cursor:pointer;padding:8px 0}
+.prog{flex:1;height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.cnt{font-size:14px;color:var(--muted);min-width:52px;text-align:right}
+.stage{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:24px;text-align:center}
+.tile{position:relative;width:min(260px,72vw);aspect-ratio:1;background:var(--card);border:3px solid var(--ink);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;cursor:default}
+.tile.tap{cursor:pointer}
+.tile .z{position:absolute;top:10px;left:14px;font-size:18px;font-weight:600}
+.tile .gl{position:absolute;top:13px;right:14px;font-size:13px;color:var(--muted)}
+.tile .sym{font-size:clamp(76px,24vw,112px);font-weight:800;line-height:1;letter-spacing:-.02em}
+.tile .sym.q{color:var(--line)}
+.tile .nm{font-size:21px;margin-top:8px}
+.tile .nm.big{font-size:clamp(28px,8vw,38px);font-weight:600}
+.tile .nm.ph{color:var(--line)}
+.tile .lat{position:absolute;bottom:10px;left:0;right:0;font-size:13px;color:var(--muted);font-style:italic}
+.tile.ok{border-color:var(--ok)}
+.tile.bad{border-color:var(--bad)}
+.tile.pop{animation:pop .22s ease-out}
+@keyframes pop{from{transform:scale(.96)}to{transform:scale(1)}}
+.hint{margin:0;color:var(--muted)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:440px}
+.choice{font-size:18px;font-weight:600;padding:14px 10px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;min-height:58px}
+.choice.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--card))}
+.choice.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--card))}
+.choice:disabled{cursor:default;color:var(--ink)}
+.fb{min-height:24px;font-weight:600;margin:0}
+.fb.ok{color:var(--ok)}
+.fb.bad{color:var(--bad)}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.primary{font-size:17px;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;padding:14px 22px;cursor:pointer;min-width:150px}
+.ghost{font-size:17px;font-weight:600;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 20px;cursor:pointer;min-width:150px}
+.type{display:flex;gap:8px;width:100%;max-width:440px}
+.type input{flex:1;font:inherit;font-size:20px;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);min-width:0}
+.type .primary{min-width:0;padding:12px 16px;font-size:16px}
+.minis{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.mini{width:84px;padding:10px 4px;background:var(--card);border:2px solid var(--line);border-radius:8px;display:flex;flex-direction:column;align-items:center}
+.mini b{font-size:26px;font-weight:800;line-height:1.1}
+.mini span{font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<section id="home">
+  <h1>Prvky po stĺpcoch</h1>
+  <p class="lead">Ťukni na stĺpce periodickej tabuľky, ktoré sa chceš učiť.</p>
+  <div class="ptwrap"><div class="pt" id="pt"></div></div>
+  <p class="legend"><i></i>prvok, ktorý už vieš (3× po sebe správne)</p>
+  <div class="row">
+    <button class="pill" data-preset="main">Hlavné skupiny (A)</button>
+    <button class="pill" data-preset="all">Všetky</button>
+    <button class="pill" data-preset="none">Zrušiť výber</button>
+  </div>
+  <p class="sum" id="sum"></p>
+  <ul class="chips" id="chips"></ul>
+  <p class="known" id="known"></p>
+
+  <h2>Ako sa pýtať</h2>
+  <div class="seg" id="dir">
+    <button data-d="s2n">Značka → názov</button>
+    <button data-d="n2s">Názov → značka</button>
+    <button data-d="mix">Mix</button>
+  </div>
+  <div class="opts">
+    <label><input type="checkbox" id="extras">Ukazovať číslo a latinský názov</label>
+    <label><input type="checkbox" id="heavy">Aj umelé prvky 104 až 118</label>
+  </div>
+
+  <h2>Čo ideme robiť</h2>
+  <div class="modes">
+    <button class="mode" data-mode="cards"><span class="ic">Ka</span><span><b>Kartičky</b><span class="d">Pozri si prvok a otoč kartu</span></span></button>
+    <button class="mode" data-mode="quiz"><span class="ic">Kv</span><span><b>Kvíz</b><span class="d">Vyber správnu odpoveď zo štyroch</span></span></button>
+    <button class="mode" data-mode="type"><span class="ic">Pí</span><span><b>Písanie</b><span class="d">Napíš odpoveď, diakritika nevadí</span></span></button>
+  </div>
+  <button class="reset" id="reset">Vymazať pokrok</button>
+</section>
+
+<section id="play" hidden>
+  <div class="bar">
+    <button class="x" id="quit">✕ Koniec</button>
+    <div class="prog"><i id="prog"></i></div>
+    <span class="cnt" id="cnt"></span>
+  </div>
+  <div class="stage" id="stage"></div>
+</section>
+
+<section id="done" hidden>
+  <div class="stage">
+    <h1 id="dt"></h1>
+    <p class="lead" id="ds"></p>
+    <div id="miss"></div>
+    <div class="row center">
+      <button class="primary" id="again-miss"></button>
+      <button class="ghost" id="again">Celé znova</button>
+      <button class="ghost" id="homeb">Späť na výber</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+const G={
+1:[[1,'H','vodík','Hydrogenium'],[3,'Li','lítium','Lithium'],[11,'Na','sodík','Natrium'],[19,'K','draslík','Kalium'],[37,'Rb','rubídium','Rubidium'],[55,'Cs','cézium','Caesium'],[87,'Fr','francium','Francium']],
+2:[[4,'Be','berýlium','Beryllium'],[12,'Mg','horčík','Magnesium'],[20,'Ca','vápnik','Calcium'],[38,'Sr','stroncium','Strontium'],[56,'Ba','bárium','Barium'],[88,'Ra','rádium','Radium']],
+3:[[21,'Sc','skandium','Scandium'],[39,'Y','ytrium','Yttrium'],[57,'La','lantán','Lanthanum'],[89,'Ac','aktínium','Actinium']],
+4:[[22,'Ti','titán','Titanium'],[40,'Zr','zirkónium','Zirconium'],[72,'Hf','hafnium','Hafnium'],[104,'Rf','rutherfordium','']],
+5:[[23,'V','vanád','Vanadium'],[41,'Nb','nióbium','Niobium'],[73,'Ta','tantal','Tantalum'],[105,'Db','dubnium','']],
+6:[[24,'Cr','chróm','Chromium'],[42,'Mo','molybdén','Molybdaenum'],[74,'W','volfrám','Wolframium'],[106,'Sg','seaborgium','']],
+7:[[25,'Mn','mangán','Manganum'],[43,'Tc','technécium','Technetium'],[75,'Re','rénium','Rhenium'],[107,'Bh','bohrium','']],
+8:[[26,'Fe','železo','Ferrum'],[44,'Ru','ruténium','Ruthenium'],[76,'Os','osmium','Osmium'],[108,'Hs','hassium','']],
+9:[[27,'Co','kobalt','Cobaltum'],[45,'Rh','ródium','Rhodium'],[77,'Ir','irídium','Iridium'],[109,'Mt','meitnérium','']],
+10:[[28,'Ni','nikel','Niccolum'],[46,'Pd','paládium','Palladium'],[78,'Pt','platina','Platinum'],[110,'Ds','darmstadtium','']],
+11:[[29,'Cu','meď','Cuprum'],[47,'Ag','striebro','Argentum'],[79,'Au','zlato','Aurum'],[111,'Rg','röntgenium','']],
+12:[[30,'Zn','zinok','Zincum'],[48,'Cd','kadmium','Cadmium'],[80,'Hg','ortuť','Hydrargyrum'],[112,'Cn','kopernícium','']],
+13:[[5,'B','bór','Borum'],[13,'Al','hliník','Aluminium'],[31,'Ga','gálium','Gallium'],[49,'In','indium','Indium'],[81,'Tl','tálium','Thallium'],[113,'Nh','nihónium','']],
+14:[[6,'C','uhlík','Carboneum'],[14,'Si','kremík','Silicium'],[32,'Ge','germánium','Germanium'],[50,'Sn','cín','Stannum'],[82,'Pb','olovo','Plumbum'],[114,'Fl','flerovium','']],
+15:[[7,'N','dusík','Nitrogenium'],[15,'P','fosfor','Phosphorus'],[33,'As','arzén','Arsenicum'],[51,'Sb','antimón','Stibium'],[83,'Bi','bizmut','Bismuthum'],[115,'Mc','moskóvium','']],
+16:[[8,'O','kyslík','Oxygenium'],[16,'S','síra','Sulphur'],[34,'Se','selén','Selenium'],[52,'Te','telúr','Tellurium'],[84,'Po','polónium','Polonium'],[116,'Lv','livermórium','']],
+17:[[9,'F','fluór','Fluorum'],[17,'Cl','chlór','Chlorum'],[35,'Br','bróm','Bromum'],[53,'I','jód','Iodum'],[85,'At','astát','Astatium'],[117,'Ts','tenés','']],
+18:[[2,'He','hélium','Helium'],[10,'Ne','neón','Neon'],[18,'Ar','argón','Argon'],[36,'Kr','kryptón','Krypton'],[54,'Xe','xenón','Xenon'],[86,'Rn','radón','Radon'],[118,'Og','oganesón','']]
+};
+const START={1:1,2:2,13:2,14:2,15:2,16:2,17:2,18:1};
+const GM={1:['I.A','alkalické kovy'],2:['II.A','kovy alkalických zemín'],3:['III.B',''],4:['IV.B',''],5:['V.B',''],6:['VI.B',''],7:['VII.B',''],8:['VIII.B',''],9:['VIII.B',''],10:['VIII.B',''],11:['I.B',''],12:['II.B',''],13:['III.A',''],14:['IV.A',''],15:['V.A',''],16:['VI.A','chalkogény'],17:['VII.A','halogény'],18:['VIII.A','vzácne plyny']};
+const EL=[];
+for(const g in G){const s=START[g]||4;G[g].forEach((e,i)=>EL.push({z:e[0],sym:e[1],sk:e[2],lat:e[3],g:+g,p:s+i}))}
+
+let S={sel:[1],extras:true,heavy:false,dir:'s2n'};
+let M={};
+try{const s=JSON.parse(localStorage.getItem('prvky-set')||'null');if(s)S=Object.assign(S,s);M=JSON.parse(localStorage.getItem('prvky-m')||'{}')||{}}catch(e){}
+function save(){try{localStorage.setItem('prvky-set',JSON.stringify(S));localStorage.setItem('prvky-m',JSON.stringify(M))}catch(e){}}
+
+const $=s=>document.querySelector(s);
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const plural=n=>n===1?'prvok':(n>=2&&n<=4?'prvky':'prvkov');
+const known=e=>(M[e.sym]?.streak||0)>=3;
+const allowed=e=>S.heavy||e.z<104;
+const pool=()=>EL.filter(e=>S.sel.includes(e.g)&&allowed(e));
+function show(id){for(const s of ['home','play','done'])$('#'+s).hidden=s!==id;window.scrollTo(0,0)}
+
+function renderHome(){
+  let h='';
+  for(let g=1;g<=18;g++){const on=S.sel.includes(g);
+    h+=`<button class="gh${on?' on':''}" style="grid-column:${g};grid-row:1" data-g="${g}" aria-pressed="${on}" aria-label="${g}. skupina ${GM[g][0]}"><b>${g}</b><small>${GM[g][0]}</small></button>`}
+  for(const e of EL){
+    h+=`<div class="c${S.sel.includes(e.g)?' on':''}${allowed(e)?'':' off'}" style="grid-column:${e.g};grid-row:${e.p+1}" data-g="${e.g}" title="${e.sk}">${e.sym}${known(e)?'<i></i>':''}</div>`}
+  $('#pt').innerHTML=h;
+  const p=pool(),sel=[...S.sel].sort((a,b)=>a-b),n=sel.length;
+  $('#sum').textContent=n?`Vybraté: ${n} ${n===1?'stĺpec':(n<5?'stĺpce':'stĺpcov')}, spolu ${p.length} ${plural(p.length)}`:'Najprv vyber aspoň jeden stĺpec.';
+  $('#chips').innerHTML=sel.map(g=>`<li><b>${g}.</b> ${GM[g][0]}${GM[g][1]?' '+GM[g][1]:''}</li>`).join('');
+  const k=p.filter(known).length;
+  $('#known').textContent=p.length?`Z vybraných už vieš ${k} z ${p.length}.`:'';
+  document.querySelectorAll('.mode').forEach(b=>b.disabled=!p.length);
+  document.querySelectorAll('#dir button').forEach(b=>b.classList.toggle('on',b.dataset.d===S.dir));
+  $('#extras').checked=S.extras;$('#heavy').checked=S.heavy;
+}
+$('#pt').addEventListener('click',ev=>{const t=ev.target.closest('[data-g]');if(!t)return;const g=+t.dataset.g;
+  S.sel=S.sel.includes(g)?S.sel.filter(x=>x!==g):[...S.sel,g];save();renderHome()});
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{const p=b.dataset.preset;
+  S.sel=p==='main'?[1,2,13,14,15,16,17,18]:p==='all'?Array.from({length:18},(_,i)=>i+1):[];save();renderHome()});
+document.querySelectorAll('#dir button').forEach(b=>b.onclick=()=>{S.dir=b.dataset.d;save();renderHome()});
+$('#extras').onchange=e=>{S.extras=e.target.checked;save()};
+$('#heavy').onchange=e=>{S.heavy=e.target.checked;save();renderHome()};
+$('#reset').onclick=()=>{if(confirm('Naozaj vymazať celý pokrok?')){M={};save();renderHome()}};
+document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>start(b.dataset.mode));
+
+let R=null,timer=null;
+function start(mode,list){
+  const items=shuffle((list||pool()).slice());if(!items.length)return;
+  R={mode,items,queue:items.slice(),total:items.length,done:0,first:0,wrong:new Set(),cur:null,d:'s2n',answered:false};
+  show('play');next();
+}
+function next(){clearTimeout(timer);
+  if(!R.queue.length)return finish();
+  R.cur=R.queue.shift();R.d=S.dir==='mix'?(Math.random()<.5?'s2n':'n2s'):S.dir;R.answered=false;renderQ();
+}
+function requeue(e){R.queue.splice(Math.min(R.queue.length,2+Math.floor(Math.random()*3)),0,e)}
+function progress(){$('#prog').style.width=(R.done/R.total*100)+'%';$('#cnt').textContent=`${R.done} / ${R.total}`}
+
+function tileHTML(e,reveal,d,cls=''){
+  const showSym=reveal||d==='s2n',showName=reveal||d==='n2s';
+  return `<div class="tile ${cls}">
+    ${S.extras?`<span class="z">${e.z}</span>`:''}
+    <span class="gl">${e.g}. skupina</span>
+    ${showSym?`<span class="sym">${e.sym}</span>`:`<span class="sym q">?</span>`}
+    ${showName?`<span class="nm${!showSym?' big':''}">${e.sk}</span>`:`<span class="nm ph">?</span>`}
+    ${S.extras&&reveal&&e.lat?`<span class="lat">${e.lat}</span>`:''}
+  </div>`;
+}
+function reveal(cls){$('#tile').innerHTML=tileHTML(R.cur,true,R.d,cls+' pop')}
+
+function opts(e,d){
+  let c=shuffle(pool().filter(x=>x!==e));
+  if(d==='n2s'){const same=c.find(x=>x.sym[0]===e.sym[0]);if(same)c=[same,...c.filter(x=>x!==same)]}
+  c=c.slice(0,3);
+  if(c.length<3){const extra=EL.filter(x=>x!==e&&!c.includes(x)&&allowed(x)).sort((a,b)=>Math.abs(a.z-e.z)-Math.abs(b.z-e.z));c=c.concat(extra.slice(0,3-c.length))}
+  return shuffle([e,...c]);
+}
+
+function renderQ(){
+  const e=R.cur,d=R.d;progress();
+  let h=`<div id="tile">${tileHTML(e,false,d,R.mode==='cards'?'tap':'')}</div>`;
+  if(R.mode==='cards'){
+    h+=`<p class="hint">${d==='s2n'?'Ako sa volá tento prvok?':'Aká je jeho značka?'}</p><div class="btns" id="cb"><button class="primary" id="flip">Otočiť kartu</button></div>`;
+  }else if(R.mode==='quiz'){
+    h+=`<p class="hint">${d==='s2n'?'Vyber názov prvku':'Vyber značku prvku'}</p><div class="choices">${opts(e,d).map(x=>`<button class="choice" data-s="${x.sym}">${d==='s2n'?x.sk:x.sym}</button>`).join('')}</div>`;
+  }else{
+    h+=`<p class="hint">${d==='s2n'?'Napíš slovenský názov':'Napíš značku'}</p><form class="type" id="tf" autocomplete="off"><input id="ti" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="Odpoveď"><button class="primary" type="submit">Skontrolovať</button></form>`;
+  }
+  h+=`<p class="fb" id="fb" aria-live="polite"></p><div id="nx"></div>`;
+  $('#stage').innerHTML=h;
+
+  if(R.mode==='cards'){
+    const flip=()=>{if(R.answered)return;R.answered=true;reveal('');
+      $('#cb').innerHTML='<button class="ghost" id="no">Ešte nie</button><button class="primary" id="yes">Viem</button>';
+      $('#no').onclick=()=>{R.wrong.add(e.sym);requeue(e);next()};
+      $('#yes').onclick=()=>{R.done++;next()};
+      $('#yes').focus();
+    };
+    $('#flip').onclick=flip;$('#tile').onclick=flip;
+  }else if(R.mode==='quiz'){
+    document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
+      if(R.answered)return;const ok=b.dataset.s===e.sym;
+      document.querySelectorAll('.choice').forEach(x=>{x.disabled=true;if(x.dataset.s===e.sym)x.classList.add('ok')});
+      if(!ok)b.classList.add('bad');
+      answer(ok);
+    });
+  }else{
+    const inp=$('#ti');inp.focus();
+    $('#tf').onsubmit=ev=>{ev.preventDefault();if(R.answered){next();return}check(inp.value)};
+  }
+}
+
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,'');
+function lev(a,b){const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function check(v){
+  if(!v.trim())return;const e=R.cur;$('#ti').disabled=true;
+  if(R.d==='s2n'){
+    const a=norm(v),t=norm(e.sk);
+    if(v.trim().toLowerCase()===e.sk)answer(true);
+    else if(a===t)answer(true,`Správne! Píše sa ${e.sk}.`);
+    else if(t.length>=5&&lev(a,t)===1)answer(true,`Skoro! Správne sa píše ${e.sk}.`);
+    else answer(false);
+  }else{
+    const a=v.trim();
+    if(a===e.sym)answer(true);
+    else if(a.toLowerCase()===e.sym.toLowerCase())answer(true,`Správne! Píše sa ${e.sym}, prvé písmeno veľké.`);
+    else answer(false);
+  }
+}
+
+function answer(ok,note){
+  if(R.answered)return;R.answered=true;
+  const e=R.cur,m=M[e.sym]||(M[e.sym]={streak:0});
+  if(ok){m.streak++;if(!R.wrong.has(e.sym))R.first++;R.done++}
+  else{m.streak=0;R.wrong.add(e.sym);requeue(e)}
+  save();reveal(ok?'ok':'bad');progress();
+  const fb=$('#fb');fb.className='fb '+(ok?'ok':'bad');
+  fb.textContent=ok?(note||pick(['Správne!','Výborne!','Presne tak!','Super!'])):`Správne je: ${e.sym} je ${e.sk}`;
+  $('#nx').innerHTML='<button class="primary" id="nxb">Ďalej</button>';
+  $('#nxb').onclick=next;
+  if(ok)timer=setTimeout(next,note?4000:2800);
+  else $('#nxb').focus();
+}
+
+function finish(){
+  clearTimeout(timer);show('done');
+  const mode=R.mode,miss=R.items.filter(e=>R.wrong.has(e.sym));
+  $('#dt').textContent=mode==='cards'?'Kartičky prejdené!':'Hotovo!';
+  $('#ds').textContent=mode==='cards'
+    ?(miss.length?`${miss.length} ${plural(miss.length)} si ešte nevedela hneď.`:'Všetky si vedela hneď.')
+    :`Na prvý pokus správne: ${R.first} z ${R.total}.`;
+  $('#miss').innerHTML=miss.length?`<p class="hint">Tieto si ešte zopakuj:</p><div class="minis">${miss.map(e=>`<div class="mini"><b>${e.sym}</b><span>${e.sk}</span></div>`).join('')}</div>`:'';
+  const am=$('#again-miss');am.hidden=!miss.length;am.textContent=`Precvičiť tieto (${miss.length})`;
+  am.onclick=()=>start(mode,miss);
+  $('#again').onclick=()=>start(mode);
+}
+$('#homeb').onclick=()=>{renderHome();show('home')};
+$('#quit').onclick=()=>{clearTimeout(timer);renderHome();show('home')};
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.tagName!=='INPUT'&&ev.target.tagName!=='BUTTON'&&R&&R.answered&&$('#nxb'))next()});
+
+renderHome();
+</script>
+</body>
+</html>
