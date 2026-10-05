@@ -81,6 +81,21 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
 .prompt.sk{font-size:34px}
 .prompt mark{background:linear-gradient(transparent 55%,var(--mark) 55%,var(--mark) 92%,transparent 92%);color:inherit;padding:0 4px}
 .sub{margin:6px 0 0;color:var(--ink-soft);font-size:18px}
+.ask{display:inline-block;margin:0 0 14px;padding:8px 16px;border-radius:999px;font-size:19px;font-weight:500}
+.ask b{font-weight:700}
+.f2{background:var(--yellow);color:#1B2A57}
+.f3{background:var(--pink);color:var(--pink-ink)}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.cell{border-radius:16px;padding:8px 6px 10px;text-align:center;background:var(--card);border:2px solid var(--line)}
+.cell small{display:block;font-size:13px;color:var(--ink-soft)}
+.cell span{display:block;font-size:28px;font-weight:600;line-height:1.25;word-break:break-word}
+.cell.on{border-color:transparent;box-shadow:0 4px 0 color-mix(in srgb,currentColor 25%,transparent);transform:scale(1.05)}
+.cell.on.f2{background:var(--yellow);color:#1B2A57}
+.cell.on.f3{background:var(--pink);color:var(--pink-ink)}
+.cell.on span{font-size:32px;font-weight:700}
+.strip+.sub{margin-top:12px}
+.cell.on small{color:inherit;opacity:.8}
+.cell.off span{color:var(--line)}
 .opts{display:grid;gap:12px}
 .opts.c2{grid-template-columns:1fr 1fr}
 .opt{border:2px solid var(--line);background:var(--card);border-radius:16px;padding:16px 12px;font-size:21px;font-weight:500;box-shadow:0 3px 0 var(--line);min-height:62px;transition:transform .08s,background .15s}
@@ -256,6 +271,7 @@ function makeQ(i){
   else if(box<=1)types=['sk2en','en2sk','p','pp','which'];
   else if(box<=3)types=['p','pp','which','trio','trio'];
   else types=['trio','trio','p','pp','which'];
+  if(S&&S.mode==='forms')types=(!seen||box<=1)?['p','pp','p','pp','which']:['trio','trio','p','pp','which'];
   if(!v.pp)types=types.map(t=>t==='pp'||t==='trio'?'p':t);
   let t=pick(types);
   if(t==='which'){
@@ -288,7 +304,8 @@ function makeQ(i){
   shuffle(extra);extra=extra.slice(0,3);
   let g=0;
   while(extra.length<3&&g++<80){const o=pick(V);const f=pick([o.p,o.pp]);if(f&&!correct.includes(f)&&!extra.includes(f))extra.push(f)}
-  return{type:'trio',i,label:'Poskladaj všetky tri tvary',prompt:v.sk,promptSk:true,tiles:shuffle([...correct,...extra]),slots:[null,null,null]};
+  const fm=S&&S.mode==='forms';
+  return{type:'trio',i,label:'Poskladaj všetky tri tvary',prompt:fm?v.b:v.sk,promptSk:!fm,sub:fm?v.sk:'',tiles:shuffle([...correct,...extra]),slots:[null,null,null]};
 }
 
 /* ---------- session ---------- */
@@ -330,10 +347,19 @@ function renderQ(){
   }
   app.innerHTML=`<div class="game">
     <div class="top"><button class="icon" data-act="home" aria-label="Ukončiť">✕</button><div class="bar"><i style="width:${pct}%"></i></div><span class="combo">${S.combo>=2?'🔥 '+S.combo:''}</span></div>
-    <section class="q"><p class="label">${q.label}</p><h2 class="prompt ${q.promptSk?'sk':''}"><mark>${esc(q.prompt)}</mark></h2>${q.sub?`<p class="sub">${esc(q.sub)}</p>`:''}</section>
+    ${(q.type==='p'||q.type==='pp')?formHead(q):`<section class="q"><p class="label">${q.label}</p><h2 class="prompt ${q.promptSk?'sk':''}"><mark>${esc(q.prompt)}</mark></h2>${q.sub?`<p class="sub">${esc(q.sub)}</p>`:''}</section>`}
     ${body}
     <button class="skip" data-act="dunno">Neviem, ukáž mi</button>
     <div id="fb"></div></div>`;
+}
+function formHead(q){
+  const k=q.type==='p'?2:3,c='f'+k;
+  const cell=n=>n===1?`<div class="cell"><small>1. tvar</small><span>${esc(q.prompt)}</span></div>`
+    :n===k?`<div class="cell on ${c}"><small>${k}. tvar</small><span>?</span></div>`
+    :`<div class="cell off"><small>${n}. tvar</small><span>…</span></div>`;
+  return`<section class="q"><p class="ask ${c}">Hľadám <b>${k}. tvar</b> ${k===2?'(past simple)':'(past participle)'}</p>
+    <div class="strip">${cell(1)}${cell(2)}${cell(3)}</div>
+    ${q.sub?`<p class="sub">${esc(q.sub)}</p>`:''}</section>`;
 }
 const PRAISE=['Super!','Presne tak!','Výborne!','Paráda!','Správne!'];
 function answer(ok){
@@ -391,7 +417,8 @@ function home(){
       </ul>
     </section>
     <div class="actions">
-      <button class="btn primary" data-act="play">Hrať</button>
+      <button class="btn primary" data-act="forms">Tvary slovies<br><span class="n" style="font-size:15px">minulý čas a 3. tvar</span></button>
+      <button class="btn" data-act="play">Hrať aj s prekladom</button>
       <button class="btn" data-act="mistakes" ${weak?'':'disabled'}>Opakovať chyby <span class="n">${weak}</span></button>
       <button class="btn quiet" data-act="dict">Všetky slovesá</button>
     </div>
@@ -408,7 +435,7 @@ function results(){
     <p class="score">${S.correct} z ${S.answered} správne, +${S.xp} bodov</p>
     ${missed.length?`<section class="missed"><h3>Tieto si ešte zopakuj</h3>${missed.map(v=>`<div class="vrow" style="margin:8px 0"><div><div class="forms"><span>${esc(v.b)}</span><span>${esc(v.p)}</span>${v.pp?`<span>${esc(v.pp)}</span>`:''}</div><span class="sk">${esc(v.sk)}</span></div></div>`).join('')}</section>`:''}
     <div class="actions">
-      <button class="btn primary" data-act="play">Hrať ďalšie kolo</button>
+      <button class="btn primary" data-act="${S.mode==='forms'?'forms':'play'}">Hrať ďalšie kolo</button>
       ${V.some(isWeak)?`<button class="btn" data-act="mistakes">Opakovať chyby</button>`:''}
       <button class="btn quiet" data-act="home">Domov</button>
     </div></main>`;
@@ -441,6 +468,7 @@ app.addEventListener('click',e=>{
   if(act!=='reset')resetArmed=false;
   switch(act){
     case'play':startSession('smart');break;
+    case'forms':startSession('forms');break;
     case'mistakes':startSession('mistakes');break;
     case'dict':dictFilter='all';dict();break;
     case'home':home();break;
