@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Učíme sa hravo</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+<link rel="apple-touch-icon" id="touch-icon" href="ikona-spolu.png">
+<meta name="apple-mobile-web-app-title" content="Učíme sa">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"><text y='.9em' font-size='90'>📚</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
@@ -81,12 +86,13 @@ const KIDS = {
 /* ===================================================================== */
 const app=document.getElementById("app");
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function setIcon(k){const l=document.getElementById("touch-icon");if(l)l.href=k?"ikona-"+k+".png":"ikona-spolu.png"}
 function remember(k){try{k?localStorage.setItem("ucenie-kto",k):localStorage.removeItem("ucenie-kto")}catch(e){}}
 function remembered(){try{return localStorage.getItem("ucenie-kto")}catch(e){return null}}
 const count=k=>KIDS[k].subjects.map(s=>s.name).join(", ");
 
 function pick(){
-  remember(null);
+  remember(null);setIcon(null);
   app.innerHTML=`<h1>Učíme sa hravo</h1><p class="sub">Kto sa ide učiť?</p>
   <div class="who">${Object.entries(KIDS).map(([k,c])=>`
     <button class="person" data-k="${k}">
@@ -97,7 +103,7 @@ function pick(){
 
 function kid(k){
   const c=KIDS[k]; if(!c)return pick();
-  remember(k);
+  remember(k);setIcon(k);
   app.innerHTML=`<div class="top"><button class="back" data-act="pick" aria-label="Späť na výber">‹</button>
     <h1><span class="hl" style="background:linear-gradient(transparent 50%,${c.color} 50%,${c.color} 92%,transparent 92%)">${esc(c.name)}</span></h1></div>
     ${c.subjects.map(s=>`<section class="subject"><h2>${esc(s.name)}</h2><div class="apps">

@@ -631,5 +631,26 @@ function confetti() {
 
 S.name ? showHome() : showName();
 </script>
+<script>
+/* Odkaz späť na rozcestník Učíme sa hravo (len na webe) */
+(function(){
+  if(!/^https?:$/.test(location.protocol))return;
+  var css=document.createElement("style");
+  css.textContent='.hub-back{display:inline-flex;align-items:center;margin:0 0 12px;padding:5px 12px 5px 9px;border-radius:999px;border:1.5px solid currentColor;color:inherit;opacity:.7;font:600 15px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none;transform:none;position:relative;z-index:1}.hub-back:focus-visible{outline:3px solid currentColor;outline-offset:2px}';
+  document.head.appendChild(css);
+  var T=[[".hero",0],["#home",0],["h1.hello",1]];
+  function place(){
+    for(var i=0;i<T.length;i++){
+      var el=document.querySelector(T[i][0]);if(!el)continue;
+      var box=T[i][1]?document.getElementById("app"):el;
+      if(!box)return;
+      var f=box.firstElementChild;if(f&&f.classList.contains("hub-back"))return;
+      var a=document.createElement("a");a.className="hub-back";a.href="./";a.textContent="‹ Všetky appky";
+      box.insertBefore(a,box.firstChild);return;
+    }
+  }
+  place();new MutationObserver(place).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
