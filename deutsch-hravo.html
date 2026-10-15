@@ -208,6 +208,63 @@ const LESSONS = [
       ]},
     ]
   },
+  {
+    id: 'laura-2',
+    title: 'Lekcia 2: Laura',
+    subtitle: 'Učebnica, strana 16',
+    groups: [
+      { name: 'Ľudia a otázky', words: [
+        { de: 'wer', sk: 'kto' },
+        { de: 'du', sk: 'ty' },
+        { de: 'woher', sk: 'odkiaľ' },
+        { de: 'der Junge', sk: 'chlapec', emoji: '👦' },
+        { de: 'das Mädchen', sk: 'dievča', emoji: '👧' },
+      ]},
+      { name: 'Veci', words: [
+        { de: 'der Sessel', sk: 'kreslo', emoji: '🛋️' },
+        { de: 'die Gitarre', sk: 'gitara', emoji: '🎸' },
+        { de: 'die Lampe', sk: 'lampa', emoji: '💡' },
+        { de: 'das Surfbrett', sk: 'surfovacia doska', emoji: '🏄' },
+        { de: 'der Rucksack', sk: 'plecniak / ruksak', emoji: '🎒' },
+        { de: 'die Sporttasche', sk: 'športová taška' },
+        { de: 'das Fahrrad', sk: 'bicykel', emoji: '🚲' },
+        { de: 'das T-Shirt', sk: 'tričko', emoji: '👕' },
+        { de: 'das Foto', sk: 'fotografia / fotka', emoji: '📷' },
+      ]},
+      { name: 'Ako sa ti to páči?', words: [
+        { de: 'cool', sk: 'cool / skvelý', emoji: '😎' },
+        { de: 'super', sk: 'super / skvelý' },
+        { de: 'toll', sk: 'skvelý' },
+        { de: 'blöd', sk: 'blbý / hlúpy', emoji: '☹️' },
+        { de: 'süß', sk: 'sladký / zlatý (v prenesenom význame)' },
+        { de: 'interessant', sk: 'zaujímavý' },
+        { de: 'Hm, ja.', sk: 'Hm, áno.' },
+      ]},
+      { name: 'Frázy', words: [
+        { de: 'hi', sk: 'ahoj (pri stretnutí)', emoji: '🙋' },
+        { de: 'Tschüss!', sk: 'Ahoj! (pri lúčení)', emoji: '👋' },
+        { de: 'Bis bald!', sk: 'Tak zatiaľ! (pri lúčení)' },
+        { de: 'Schau mal!', sk: 'Pozri!', emoji: '👀' },
+        { de: 'Keine Ahnung!', sk: 'Netuším! / Neviem!', emoji: '🤷' },
+        { de: 'Ja, klar!', sk: 'Áno, jasné.' },
+      ]},
+      { name: 'Slovesá', words: [
+        { de: 'spielen', sk: 'hrať' },
+        { de: 'er spielt', sk: 'on hrá' },
+        { de: 'heißen', sk: 'volať sa' },
+        { de: 'du heißt', sk: 'voláš sa' },
+        { de: 'kommen aus', sk: 'pochádzať z' },
+        { de: 'du kommst aus', sk: 'pochádzaš z' },
+      ]},
+      { name: 'Šport a hudba', words: [
+        { de: 'der Fußball', sk: 'futbalová lopta / futbal', emoji: '⚽' },
+        { de: 'der Volleyball', sk: 'volejbal', emoji: '🏐' },
+        { de: 'das Tennis', sk: 'tenis', emoji: '🎾' },
+        { de: 'das Monopoly', sk: 'monopoly', emoji: '🎲' },
+        { de: 'das Saxofon', sk: 'saxofón', emoji: '🎷' },
+      ]},
+    ]
+  },
 ];
 /* ===================== koniec lekcií ===================== */
 
@@ -220,6 +277,13 @@ const PRAISE = ['Super!', 'Výborne!', 'Sehr gut!', 'Presne tak!', 'Paráda!', '
 const COMFORT = ['Nevadí!', 'Nič sa nedeje!', 'Takmer!', 'Nabudúce to dáš!'];
 
 LESSONS.forEach(L => L.groups.forEach((g, gi) => g.words.forEach(w => { w.id = L.id + '|' + w.de; w.g = gi; })));
+
+/* slová s rovnakým významom (napr. cool / super / toll = skvelý) sa nesmú
+   objaviť ako „nesprávna“ možnosť jedno pre druhé */
+const skParts = (w, keepNote) => w.sk.toLowerCase().replace(keepNote ? /$^/ : /\(.*?\)/g, '').split(/[\/,]/).map(x => x.replace(/[!?.]/g, '').trim()).filter(Boolean);
+const clash = (a, b) => a !== b && skParts(a).some(k => skParts(b).includes(k));
+const covers = (alt, w) => skParts(w, true).every(k => skParts(alt, true).includes(k));
+function pairSet(src, n) { const out = []; for (const w of src) { if (out.length === n) break; if (!out.some(x => clash(x, w))) out.push(w); } return out; }
 
 /* ---------- ukladanie pokroku ---------- */
 const KEY = 'deutsch-hravo-v1';
@@ -413,10 +477,11 @@ function makeStep(w) {
 function buildRound(mode) {
   const pool = poolWords(), steps = [];
   if (mode === 'pairs') {
-    const sh = shuffle(pool);
-    for (let i = 0; i < sh.length && steps.length < 4; i += 5) {
-      let chunk = sh.slice(i, i + 5);
-      if (chunk.length < 3) chunk = chunk.concat(shuffle(pool.filter(w => !chunk.includes(w))).slice(0, 3 - chunk.length));
+    let rest = shuffle(pool);
+    while (rest.length && steps.length < 4) {
+      let chunk = pairSet(rest, 5);
+      rest = rest.filter(w => !chunk.includes(w));
+      if (chunk.length < 3) chunk = pairSet([...chunk, ...shuffle(pool.filter(w => !chunk.includes(w)))], 3);
       steps.push({ t: 'pairs', words: chunk });
     }
     return steps;
@@ -425,7 +490,7 @@ function buildRound(mode) {
   shuffle(targets).forEach(w => {
     steps.push(mast(w) === 0 ? { t: 'mc', w, dir: 'de-sk' } : makeStep(w));
   });
-  if (pool.length >= 4) steps.splice(Math.floor(steps.length / 2), 0, { t: 'pairs', words: shuffle(pool).slice(0, 5) });
+  if (pool.length >= 4) steps.splice(Math.floor(steps.length / 2), 0, { t: 'pairs', words: pairSet(shuffle(pool), 5) });
   return steps;
 }
 
@@ -469,8 +534,8 @@ function answer(ok, st, msg, sub) {
 }
 
 function distractors(w, field) {
-  const same = shuffle(cur.lesson.groups[w.g].words.filter(x => x !== w));
-  const other = shuffle(allWords().filter(x => x.g !== w.g));
+  const same = shuffle(cur.lesson.groups[w.g].words.filter(x => x !== w && !clash(w, x)));
+  const other = shuffle(allWords().filter(x => x.g !== w.g && !clash(w, x)));
   const out = [], seen = new Set([w[field]]);
   for (const x of [...same, ...other]) { if (!seen.has(x[field])) { seen.add(x[field]); out.push(x); } if (out.length === 3) break; }
   return out;
@@ -559,7 +624,11 @@ function rType(st) {
     if (r === 'exact') answer(true, st, pick(PRAISE), `<b>${esc(w.de)}</b> = ${esc(w.sk)}`);
     else if (r === 'case') answer(true, st, 'Výborne!', `Tip: podstatné mená sa v nemčine píšu s veľkým písmenom: <b>${esc(w.de)}</b>`);
     else if (r === 'close') answer(true, st, 'Skoro presne! 👌', `Presne sa to píše: <b>${esc(w.de)}</b>`);
-    else answer(false, st, null, `Správne je: <b>${esc(w.de)}</b>`);
+    else {
+      const alt = allWords().find(x => x !== w && covers(x, w) && checkTyped(inp.value, x.de) !== 'wrong');
+      if (alt) answer(true, st, 'Aj to sedí! 👍', `<b>${esc(alt.de)}</b> tiež znamená ${esc(w.sk)}. V učebnici je tu: <b>${esc(w.de)}</b>`);
+      else answer(false, st, null, `Správne je: <b>${esc(w.de)}</b>`);
+    }
   };
   document.getElementById('chk').onclick = check;
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); check(); } });
