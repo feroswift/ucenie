@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VHF Rádiotelefonista – príprava na skúšku</title>
+<style>
+:root{
+  --navy:#0f2a44; --navy2:#173a5e; --sea:#e8f0f7; --paper:#fbfaf6; --ink:#16222e; --mute:#5d6b78;
+  --line:#d9e1e8; --red:#c0392b; --green:#1e8a5a; --amber:#d9902a; --blue:#2f6fb3;
+  --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+header{background:var(--navy);color:#fff;padding:14px 16px 12px;padding-top:max(14px,env(safe-area-inset-top));position:sticky;top:0;z-index:5}
+header .row{display:flex;align-items:center;gap:10px;max-width:760px;margin:0 auto}
+.flag{width:34px;height:34px;flex:none;border-radius:6px;background:
+  linear-gradient(90deg,transparent 40%,#fff 40% 60%,transparent 60%),
+  linear-gradient(0deg,transparent 40%,#fff 40% 60%,transparent 60%),#c0392b}
+header h1{font-size:17px;margin:0;letter-spacing:.2px}
+header .sub{font-size:12.5px;opacity:.78}
+.count{margin-left:auto;text-align:right;font-size:12px;opacity:.9}
+.count b{display:block;font-size:20px;line-height:1}
+main{max-width:760px;margin:0 auto;padding:14px 14px 96px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:6}
+nav .in{display:flex;max-width:760px;width:100%}
+nav button{flex:1;border:0;background:none;padding:8px 2px 9px;font-size:11.5px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button .i{font-size:20px;line-height:1.1}
+nav button.on{color:var(--navy);font-weight:700}
+nav button.on .i{transform:translateY(-1px)}
+h2{font-size:20px;margin:6px 0 10px}
+h3{font-size:16px;margin:16px 0 8px}
+.muted{color:var(--mute);font-size:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:10px 0}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:14px}
+.pill.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn{display:inline-block;border:0;border-radius:12px;padding:12px 16px;background:var(--navy);color:#fff;font-weight:600}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn.red{background:var(--red)}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.45}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.3px;border-radius:6px;padding:2px 7px;color:#fff}
+/* plan */
+.day{border-left:4px solid var(--navy);}
+.day.today{border-left-color:var(--red);box-shadow:0 0 0 2px #c0392b22}
+.day .dh{display:flex;justify-content:space-between;align-items:baseline}
+.day .dh b{font-size:16px}
+.task{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+.task:first-of-type{border-top:0}
+.chk{width:24px;height:24px;flex:none;border:2px solid var(--navy2);border-radius:7px;background:#fff;display:grid;place-items:center;font-size:15px;color:#fff;padding:0}
+.chk.on{background:var(--green);border-color:var(--green)}
+.task .go{margin-left:auto;border:0;background:var(--sea);border-radius:8px;padding:4px 9px;font-size:13px;color:var(--navy);white-space:nowrap}
+.task.done span{color:var(--mute);text-decoration:line-through}
+.bar{height:8px;background:var(--sea);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .3s}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat3 .card{margin:0;padding:10px}
+.stat3 b{font-size:22px;display:block}
+/* topics */
+.topic{padding:0;overflow:hidden}
+.topic>button{width:100%;text-align:left;border:0;background:none;padding:12px 14px;display:flex;gap:10px;align-items:center}
+.num{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff}
+.topic .tt{font-weight:600;font-size:15px;line-height:1.3}
+.topic .mast{margin-left:auto;flex:none;font-size:12px;color:var(--mute);text-align:right;min-width:38px}
+.topic .body{padding:0 14px 14px;display:none}
+.topic.open .body{display:block}
+.key{background:#fff7e6;border:1px solid #f1d9a6;border-radius:10px;padding:9px 11px;font-size:14.5px;margin:2px 0 10px}
+.key:before{content:"Zapamätaj: ";font-weight:700;color:#a5650a}
+.body ul{margin:0;padding-left:18px}
+.body li{margin:5px 0;font-size:14.5px}
+.symgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.symgrid div{border:1px solid var(--line);border-radius:10px;padding:6px;text-align:center;font-size:12.5px;color:var(--mute)}
+.sym{width:100%;max-width:120px;height:auto;color:var(--ink);display:block;margin:0 auto 3px}
+.search{width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--line);font:inherit;margin-bottom:6px;background:#fff}
+/* quiz */
+.qhead{display:flex;gap:8px;justify-content:space-between;align-items:center;font-size:13px;color:var(--mute);margin-bottom:6px}
+.qtext{font-size:18px;font-weight:600;margin:6px 0 12px;line-height:1.35}
+.qsym{max-width:180px;margin:0 auto 6px}
+.opt{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px 13px;margin:8px 0;font-size:15.5px}
+.opt.ok{border-color:var(--green);background:#e8f6ef}
+.opt.bad{border-color:var(--red);background:#fbecea}
+.opt.dim{opacity:.6}
+.expl{font-size:14.5px;background:var(--sea);border-radius:10px;padding:10px 12px;margin-top:6px}
+.link{border:0;background:none;color:var(--blue);text-decoration:underline;padding:0;font-size:14px}
+.flash{min-height:190px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}
+.flash .ans{font-size:18px;font-weight:700;color:var(--green);margin-top:12px}
+.big{font-size:44px;font-weight:800;line-height:1}
+/* comm */
+.scen{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 13px;margin:7px 0;font-size:15px}
+.scen .ok{color:var(--green);font-weight:700}
+.sit{background:var(--sea);border-radius:12px;padding:11px 13px;font-size:15px}
+.slot{min-height:64px;border:2px dashed #b9c7d4;border-radius:12px;padding:6px;margin:10px 0;display:flex;flex-direction:column;gap:6px;background:#fff}
+.slot:empty:before{content:"Ťukaj na bloky v správnom poradí…";color:#93a3b2;font-size:14px;padding:12px 6px}
+.blk{border:0;border-radius:10px;padding:10px 12px;text-align:left;font-size:15px;font-weight:600;background:var(--navy);color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.2px}
+.pool{display:flex;flex-wrap:wrap;gap:7px}
+.pool .blk{background:#fff;color:var(--navy);border:1.5px solid var(--navy2)}
+.slot .blk.ok{background:var(--green)}
+.slot .blk.bad{background:var(--red)}
+.slot .blk .n{opacity:.6;margin-right:7px;font-weight:400}
+.note{border-left:4px solid var(--amber);background:#fff7e6;padding:10px 12px;border-radius:8px;font-size:14.5px;margin-top:10px}
+.spellbig{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:34px;font-weight:800;letter-spacing:4px;text-align:center;color:var(--navy);margin:6px 0}
+/* exam */
+.res{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line)}
+.rev{font-size:14px;border-top:1px solid var(--line);padding:9px 0}
+.rev .y{color:var(--green)} .rev .n{color:var(--red)}
+.drawn{display:flex;gap:10px;align-items:flex-start}
+.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 14px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9}
+.toast.on{opacity:.95}
+@media (min-width:600px){ .qtext{font-size:19px} }
+</style>
+</head>
+<body>
+<header><div class="row">
+  <div class="flag" aria-hidden="true"></div>
+  <div><h1>VHF Rádiotelefonista</h1><div class="sub">Obmedzené osvedčenie · plavebná pohyblivá služba</div></div>
+  <div class="count" id="count"></div>
+</div></header>
+<main id="main"></main>
+<nav><div class="in">
+  <button data-tab="plan"><span class="i">🗓️</span>Plán</button>
+  <button data-tab="tahak"><span class="i">📘</span>Ťahák</button>
+  <button data-tab="kviz"><span class="i">✅</span>Kvíz</button>
+  <button data-tab="kom"><span class="i">📻</span>Komunikácia</button>
+  <button data-tab="skuska"><span class="i">🎓</span>Skúška</button>
+</div></nav>
+<div class="toast" id="toast"></div>
+<script>
+// Ťaháky – 53 tém podľa zoznamu otázok. Zdroj: učebnica Rádiotelefonista (YACHTER, 2026) + prezentácie z kurzu.
+const AREAS = {
+  P: { name: 'Rádiokomunikačné predpisy', short: 'Predpisy', color: '#2f6fb3' },
+  R: { name: 'Rádiokomunikačná prevádzka', short: 'Prevádzka', color: '#c0392b' },
+  E: { name: 'Elektrotechnika a rádiotechnika', short: 'Elektro', color: '#1e8a5a' }
+};
+
+const TOPICS = [
+// ===================== PREDPISY =====================
+{ id:'P1', a:'P', n:1, t:'Identifikačný znak',
+  k:'Bez volacej značky sa nevysiela. Hovorí sa na začiatku, na konci a každých 5 minút.',
+  b:[
+  'Žiadna stanica nesmie vysielať bez <b>identifikačného znaku</b> (u nás = <b>volacia značka, Call sign</b>).',
+  'Volaciu značku prideľuje a eviduje <b>Regulačný úrad SR</b> (ÚREKPS, „teleoff“) podľa Rádiokomunikačného poriadku ITU.',
+  'Vysiela sa <b>na začiatku a na konci spojenia a potom každých 5 minút</b> – aj pri skúšobnom vysielaní a nastavovaní vysielača.',
+  'Značka je unikátna – nemôže byť pridelená dvom prevádzkovateľom. Nesmie sa dať zameniť s <b>MAYDAY, PAN PAN, SECURITE</b> ani s <b>Q-kódmi</b>.',
+  'Identifikáciu nemusia uvádzať <b>stanice na záchranných plavidlách</b> s automatickým tiesňovým signálom (a zariadenia na určenie miesta katastrofy).',
+  'Povinne ju uvádzajú stanice služby: amatérskej, rozhlasovej, pevnej, pohyblivej, frekvenčných a časových normálov.',
+  'Značka môže obsahovať: názov stanice, umiestnenie, prevádzkovateľa, imatrikulačnú značku, číslo letu, selektívne volacie číslo…',
+  'VHF sa prihlasuje v štáte, kde je <b>registrovaná loď</b> – VHF je viazaná na loď, nie na majiteľa. Úrad pridelí <b>volaciu značku a MMSI</b>.',
+  'Volacie značky sa delia na <b>medzinárodné</b> a <b>vnútroštátne</b>.'
+  ]},
+{ id:'P2', a:'P', n:2, t:'Medzinárodné volacie značky, ich tvorba a použitie',
+  k:'Slovensko = OM (OMA–OMZ). Loď = 4 písmená + max 2 číslice (OMME23).',
+  b:[
+  'Musia ich mať stanice s oprávnením na <b>medzinárodnú verejnú korešpondenciu</b> (komunikujú so zahraničím), všetky <b>amatérske</b> stanice a stanice, ktoré môžu rušiť mimo územia štátu.',
+  'SR má sériu <b>OMA až OMZ</b> – prvé dve písmená sú vždy <b>OM</b>. (Susedia: ČR – OK, OL; Rakúsko – OE; Nemecko – DA–DR.)',
+  '<b>Pozemné stanice:</b> 3 písmená + max. 3 číslice → OMC (pobrežná stanica), OMZ66 (pevná služba MZV). <i>Pomôcka 3+3</i>',
+  '<b>Lodné stanice:</b> 4 písmená + max. 2 číslice → OMME (loď), OMME23 (vysielač v jej záchrannom člne). <i>4+2</i>',
+  '<b>Lietadlové stanice:</b> 5 písmen → OMSYI, OMAAA. <i>5</i>',
+  '<b>Amatérske stanice:</b> OM + 1 číslica (kraj/typ) + 1–3 písmená → OM1ABC, OM3KAA (klub). <i>2+1+3</i>',
+  'Číslice <b>nezačínajú 0 ani 1</b> – zámena s písmenami O a I.',
+  'Výnimka: stanice slúžiace národnej obrane.'
+  ]},
+{ id:'P3', a:'P', n:3, t:'Vnútroštátne volacie značky, ich tvorba a použitie',
+  k:'3 písmená (kraj–okres–odvetvie) + max 3 číslice. Nesmú komunikovať so zahraničím.',
+  b:[
+  'Majú ich stanice <b>bez oprávnenia na medzinárodnú korešpondenciu</b> (nekomunikujú so zahraničím a nerušia mimo územia štátu).',
+  'Týkajú sa iba staníc <b>pozemnej pohyblivej služby</b>; prideľuje a eviduje Regulačný úrad SR (predpis TPT-R2).',
+  'Tvorba: <b>3 písmená + najviac 3 číslice</b>:',
+  '1. písmeno = <b>kraj</b> (podľa sídla prevádzkovateľa), 2. = <b>okres</b> (viac okresov: <b>Q</b> alebo <b>R</b>), 3. = <b>odvetvie</b>, čísla = jednotlivé stanice.',
+  'Príklady: <b>HAN100</b> – taxikári v Bratislave, <b>HRA100</b> – Group 4 v celej SR.',
+  'Úrad môže vydať aj tzv. <b>zvláštne volacie značky</b> (urýchlia prevádzku). Staršie značky ostávajú platné.'
+  ]},
+{ id:'P4', a:'P', n:4, t:'Poplachový signál',
+  k:'Dva tóny 1300 a 2200 Hz, striedanie 250 ms, 30–60 s. Privolá obsluhu – len obchodné (SOLAS) lode.',
+  b:[
+  '<b>Význam:</b> privolanie obsluhy k rádiostanici (rádiofónna pohotovosť).',
+  '<b>Predpis:</b> dva tóny <b>1300 Hz a 2200 Hz</b>, striedajú sa s periódou <b>250 ms</b>, po dobu <b>30 až 60 sekúnd</b> (podľa SOLAS).',
+  '<b>Vysiela sa pred tiesňovým volaním</b> na tiesňovej frekvencii. Stanice v dosahu automaticky zazvonia (mostík, rádiostanica, kajuta rádiodôstojníka).',
+  'Týka sa <b>len obchodných lodí (SOLAS ships)</b>. Ostatní museli kedysi počúvať VHF v stanovených časoch (napr. každú polhodinu).',
+  'Dnes ho nahrádzajú <b>digitálne rádiostanice (DSC)</b> – zvonia ako mobil, netreba „sedieť“ pri stanici. SOLAS lode prešli na digitálne stanice do roku <b>1999</b>.',
+  'SOLAS = Safety of Life at Sea. Rekreačná námorná jachta (NON-SOLAS): dĺžka do 24 m, do 12 osôb.',
+  'Kanál 16 sa počas plavby <b>monitoruje</b> – platí aj pre rekreačné lode (pred vyplávaním zapnúť VHF a naladiť 16).'
+  ]},
+{ id:'P5', a:'P', n:5, t:'Používanie falošných identifikačných znakov a signálov',
+  k:'Iná značka než pridelená RÚ = falošná. Zneužitie MAYDAY/PAN PAN/SECURITE je trestné.',
+  b:[
+  'Stanica smie používať <b>len identifikačné kódy pridelené Regulačným úradom SR</b>. Každý iný je <b>falošný identifikačný kód</b>.',
+  'Zakázané sú aj <b>falošné signály</b> – tiesňový, súrny, bezpečnostný – v situáciách, keď to Rádiokomunikačný poriadok nepripúšťa (napr. „na utíšenie prevádzky“).',
+  'Zneužitie týchto signálov je <b>trestné</b>.'
+  ]},
+{ id:'P6', a:'P', n:6, t:'Právomoc veliteľa lode pri palubnej rádiostanici',
+  k:'Najvyššia právomoc = veliteľ. Rozkaz v rozpore s RP operátor splní a zapíše do denníka.',
+  b:[
+  'Služba na pohyblivej stanici podlieha <b>najvyššej právomoci veliteľa</b> (osoby zodpovednej za dopravný prostriedok).',
+  'Veliteľ zodpovedá za bezpečnosť plavby, posádky a nákladu; <b>vydáva príkaz</b> na vyslanie tiesňového, súrneho alebo bezpečnostného signálu.',
+  'Podáva správy o zistených nebezpečenstvách plavby; zodpovedá za <b>dokumentáciu, technický stav</b> stanice a <b>staničný denník</b>; zabezpečuje <b>telekomunikačné tajomstvo</b>.',
+  'Ak veliteľ vydá rozkaz v rozpore s RP, operátor ho <b>musí splniť a zapísať do staničného denníka</b>.',
+  '<b>Právomoc operátora:</b> so súhlasom veliteľa môže zaučiť poverenú osobu – zápis do staničného denníka.'
+  ]},
+{ id:'P7', a:'P', n:7, t:'Rádiokomunikačné služby, ich druhy',
+  k:'Pevná, pohyblivá (pozemná, námorná, letecká), rozhlasová, rádionavigačná, rádiolokačná, amatérska, družicová…',
+  b:[
+  '<b>Stanica</b> (podľa RP ITU) = jeden alebo viac vysielačov/prijímačov s príslušenstvom na zabezpečenie rádiokomunikačnej služby. Označuje sa podľa služby.',
+  '<b>Pevná služba</b> – medzi pevnými stanicami.',
+  '<b>Pohyblivá služba</b> – pozemná, <b>námorná (plavebná)</b>, letecká.',
+  'Ďalšie: <b>rozhlasová, rádionavigačná, rádiolokačná, amatérska, družicová</b>, služba časových signálov, rádioastronomická…'
+  ]},
+{ id:'P8', a:'P', n:8, t:'Predmet úpravy zákona o elektronických komunikáciách (351/2011 → dnes 452/2021)',
+  k:'Platí zákon 452/2021 Z.z. (od 1. 2. 2022), nahradil 351/2011. Upravuje siete, služby, rádiové zariadenia, reguláciu, spektrum.',
+  b:[
+  'V zozname je uvedený <b>zákon č. 351/2011 Z.z.</b>; od <b>1. 2. 2022</b> ho nahradil <b>zákon č. 452/2021 Z.z.</b> o elektronických komunikáciách (ešte starší bol 610/2003).',
+  'Upravuje: podmienky poskytovania <b>elektronických komunikačných sietí a služieb</b>, ich ochranu, práva a povinnosti podnikov a užívateľov.',
+  'Ďalej: podmienky <b>používania rádiových zariadení</b>, <b>štátnu reguláciu</b>, efektívne využívanie <b>frekvenčného spektra a čísel</b>, oprávnenia k cudzím nehnuteľnostiam, ochranu súkromia, pôsobnosť orgánov štátnej správy.',
+  '<b>Účel:</b> vo verejnom záujme vytvoriť podmienky na rozvoj konkurencie v elektronických komunikáciách; preberá právne akty EÚ.',
+  '<b>Elektronické komunikácie</b> = zriaďovanie, prevádzkovanie a poskytovanie zariadení, sietí a služieb elektronických komunikácií.'
+  ]},
+{ id:'P9', a:'P', n:9, t:'Pojem elektronické komunikácie a telekomunikačné zariadenie',
+  k:'Komunikácie = činnosť (prenos). Zariadenie = prístroj (telefón, rádio, palubná rádiostanica…).',
+  b:[
+  '<b>Elektronické komunikácie</b> (činnosť) slúžia na vysielanie, prenos, smerovanie, príjem, prepojenie alebo spracovanie signálov a informácií (obraz, zvuk, dáta) – vedením, rádiovo, opticky alebo inými elektromagnetickými prostriedkami.',
+  '<b>Telekomunikačné zariadenie</b> (prístroj) = technické zariadenie na tieto činnosti, vrátane pridružených prostriedkov.',
+  'Príklady: telefón, telefax, televízor, rádio, rádiotelefón, rádiodiaľnopis, diaľkové ovládanie hračiek, R a TV vysielače, palubné rádiostanice.'
+  ]},
+{ id:'P10', a:'P', n:10, t:'Pojem rádiové vlny a rádiové zariadenie',
+  k:'Rádiové vlny = elektromagnetické vlny 9 kHz – 3000 GHz, šíria sa voľným priestorom bez umelého vedenia.',
+  b:[
+  '<b>Rádiové vlny</b> sú elektromagnetické vlny s frekvenciou <b>od 9 kHz do 3000 GHz</b>, ktoré sa šíria vo voľnom priestore <b>bez umelého vedenia</b>.',
+  '<b>Rádiové zariadenie</b> = telekomunikačné zariadenie (alebo jeho časť), ktoré komunikuje vysielaním a/alebo príjmom rádiových vĺn v spektre pridelenom pozemským alebo kozmickým rádiokomunikáciám.',
+  'Príklady: televízor, rádio, rádiotelefón, diaľkové ovládanie hračiek, vysielače, palubné rádiostanice.'
+  ]},
+{ id:'P11', a:'P', n:11, t:'Elektronické komunikačné siete a ich delenie',
+  k:'Podľa koncových bodov: pevné / mobilné. Podľa okruhu užívateľov: verejné / neverejné.',
+  b:[
+  '<b>Elektronická komunikačná sieť</b> = funkčne prepojená sústava prenosových systémov (a prepájacích zariadení) na prenos signálu vedením, rádiovo, opticky… – vrátane družicových, internetu, mobilných sietí, rozvodov R/TV a káblových systémov.',
+  'Delenie <b>podľa koncových bodov</b>: <b>pevné</b> (napr. Slovak Telekom) a <b>mobilné</b> (Telekom, Orange, O2).',
+  'Delenie <b>podľa okruhu užívateľov</b>: <b>verejné</b> (Orange, TV vysielače) a <b>neverejné</b> (uzavretá skupina, napr. osobitná sieť pre obranu a bezpečnosť).'
+  ]},
+{ id:'P12', a:'P', n:12, t:'Verejná sieť',
+  k:'Verejná = služby pre verejnosť (aj R/TV vysielanie). Neverejná = len pre uzavretú skupinu.',
+  b:[
+  '<b>Verejná telekomunikačná sieť</b> sa používa úplne alebo čiastočne na poskytovanie telekomunikačných služieb verejnosti – najmä verejná telefónna sieť a sieť na prenos dát.',
+  'Jej súčasťou sú aj zariadenia na šírenie <b>rozhlasových a televíznych</b> programov.',
+  '<b>Neverejná sieť</b> slúži výlučne pre vlastné potreby <b>uzavretej skupiny</b> užívateľov.'
+  ]},
+{ id:'P13', a:'P', n:13, t:'Zriaďovanie a prevádzkovanie osobitných komunikačných sietí',
+  k:'Osobitné siete = obrana a bezpečnosť štátu. Smú ich mať MO SR, MV SR a SIS.',
+  b:[
+  '<b>Osobitná sieť</b> = neverejná sieť pre určený okruh užívateľov na osobitné účely – najmä <b>obrana a bezpečnosť štátu</b>.',
+  'Zriaďovať a prevádzkovať ich smie <b>Ministerstvo obrany SR, Ministerstvo vnútra SR a Slovenská informačná služba (SIS)</b>.',
+  'Nesmú poskytovať verejné služby ani to umožniť tretím osobám.',
+  'Pripojenie na verejnú sieť len tam, kde je to účelné v <b>dôležitom záujme štátu</b>; prevádzkovateľ verejnej siete musí žiadosti vyhovieť, ak je to technicky možné.'
+  ]},
+{ id:'P14', a:'P', n:14, t:'Vysielacia rádiová stanica',
+  k:'3 podmienky: vyžaruje EM vlny + prenáša správy + frekvencia nad 9 kHz.',
+  b:[
+  'Telekomunikačné zariadenie na prenos správ (slovo, obraz, signály), ktoré musí spĺňať <b>tri podmienky</b>:',
+  '1) pracuje na princípe <b>vyžarovania elektromagnetických vĺn</b>, 2) <b>uskutočňuje prenos správ</b>, 3) vysiela na frekvencii <b>vyššej ako 9 kHz</b>.',
+  'Ak jedna podmienka chýba, nejde o vysielaciu rádiostanicu.',
+  '<b>Časti:</b> vlastná rádiostanica (vysielač + prijímač), napájací zdroj, anténa, príslušenstvo (mikrofón, reproduktor, DTMF klávesnica…).'
+  ]},
+{ id:'P15', a:'P', n:15, t:'Pôsobnosť orgánov štátnej správy v oblasti elektronických komunikácií',
+  k:'Ministerstvo dopravy = politika a návrh tabuľky spektra. Regulačný úrad = regulácia, správa spektra, dohľad, pokuty.',
+  b:[
+  '<b>Ministerstvo dopravy SR:</b> národná politika pre elektronické komunikácie, <b>návrh národnej tabuľky frekvenčného spektra</b>, medzinárodné vzťahy.',
+  '<b>Úrad pre reguláciu elektronických komunikácií a poštových služieb (RÚ):</b> vykonáva <b>reguláciu</b>, <b>správu frekvenčného spektra</b>, vydáva všeobecne záväzné predpisy, vykonáva <b>dohľad a ukladá sankcie</b>, spolupracuje s Radou pre vysielanie a retransmisiu.',
+  '<b>Medzinárodne:</b> <b>ITU</b> (založená 17. 5. 1865 v Paríži; konferencie WRC každé 2–3 roky; vydáva Rádiokomunikačný poriadok), <b>CEPT</b> (1959, SR členom od 1993), <b>IMO</b> (námorná organizácia OSN), <b>RAINWAT</b> (rádiotelefónia na vnútrozemských vodných cestách).'
+  ]},
+{ id:'P16', a:'P', n:16, t:'Doklady rádiovej stanice plavebnej pohyblivej služby',
+  k:'Povolenie lodnej stanice (Ship Station Licence) + osvedčenie operátora + staničný denník.',
+  b:[
+  '<b>Povolenie na prevádzkovanie lodnej rádiostanice – Ship Station Licence</b> – vydá štát, v ktorom je loď <b>registrovaná</b>. Uvádza všetky povolené rádiové zariadenia na palube (hlavný a núdzový vysielač, ručné stanice, radar…).',
+  '<b>Osvedčenie o odbornej spôsobilosti</b> operátora (Operator’s Certificate).',
+  '<b>Staničný denník (Radio log)</b> – rádiová korešpondencia, začiatok a koniec služby, údržba zariadení vrátane akumulátorov. <b>Zápisy o nebezpečenstve v plnom znení.</b>',
+  'Na rekreačných plavidlách môže staničný denník nahradiť <b>palubný denník (logbook)</b>.',
+  'Pri kontrole musia byť k dispozícii aj ďalšie pomôcky predpísané RP.'
+  ]},
+{ id:'P17', a:'P', n:17, t:'Povoľovanie prevádzkovania rádiového zariadenia, pridelenie frekvencií a identifikačných znakov',
+  k:'Druhy povolení: individuálne, osobitné, amatérske. Ostatné zariadenia = všeobecné povolenie. Vydáva RÚ.',
+  b:[
+  'Zariadenie, ktoré potrebuje <b>pridelenie frekvencie</b> alebo obmedzujúce podmienky, sa prevádzkuje len na základe <b>povolenia</b>; ostatné na základe <b>všeobecného povolenia</b>.',
+  'Povoľovacie konanie vedie <b>Regulačný úrad SR</b>; žiadosť na predpísanom tlačive.',
+  'Druhy povolení: <b>individuálne, osobitné, amatérske</b>.',
+  'Povolenie obsahuje: údaje o držiteľovi, druh zariadenia a technické parametre, druh prevádzky, <b>pridelenú frekvenciu a volaciu značku</b> (platnosť, podmienky), triedu pre amatérov, doklad o úhrade.',
+  '<b>Povolenie zaniká:</b> uplynutím lehoty; smrťou/zánikom držiteľa; zrušením povolenia; vrátením alebo vzdaním sa; zánikom licencie, od ktorej záviselo.'
+  ]},
+{ id:'P18', a:'P', n:18, t:'Telekomunikačné tajomstvo',
+  k:'Čo počuješ, nešír. Sprístupniť len dotknutej osobe a oprávneným štátnym orgánom.',
+  b:[
+  '<b>Predmet:</b> obsah prenášaných informácií a dát, mená a adresy komunikujúcich strán, prevádzkové doklady.',
+  'Zachovávať ho musí <b>každý</b>, kto s ním príde do styku (operátor aj užívateľ).',
+  'Sprístupniť ho možno <b>len osobe, ktorej sa týka</b>, a <b>štátnym orgánom</b> (bezpečnosť štátu, trestné činy, neoprávnené používanie zariadení).',
+  'Zakázané je nahrávanie, odpočúvanie a ukladanie cudzej komunikácie (okrem zmluvne dohodnutého a zákonných oprávnení).',
+  'Výnimka: informácie o pôvodcovi <b>výhražného, obťažujúceho alebo zlomyseľného volania</b> a <b>poplašnej správy</b>.',
+  'V praxi: nepočúvaj správy, ktoré nie sú pre teba, a nerozširuj ich (ani na sociálne siete).'
+  ]},
+{ id:'P19', a:'P', n:19, t:'Ochrana proti rušeniu',
+  k:'Rušenie = vyžarovanie, ktoré zhoršuje signál v pásme prijímača. Typy: vzájomné, priemyslové, škodlivé. Hlási sa RÚ.',
+  b:[
+  '<b>Rušenie</b> = každé vyžarovanie EM vĺn, ktoré zhoršuje kvalitu požadovaného signálu, ak je pásmo rušenia <b>zhodné s pásmom prijímača</b>.',
+  '<b>Typy:</b> vzájomné, priemyslové, škodlivé. Vzájomné rušenie sa <b>hlási RÚ SR</b>, ktorý ho preverí a môže nariadiť odrušenie.',
+  'Zariadenia sa prevádzkujú tak, aby rušenie <b>neprijateľne nezhoršovalo, opakovane neprerušovalo</b> ani neohrozovalo inú prevádzku.',
+  'Zariadenia musia mať obmedzené vlastné rušenie a primeranú odolnosť; zabezpečuje výrobca/predajca pred uvedením na trh.',
+  'Vybrané telekomunikačné zariadenia (aj <b>rádiové zariadenia a antény</b>) sa smú prevádzkovať len po <b>schválení technickej spôsobilosti</b> – okrem amatérskych.',
+  'Schvaľovaniu nepodliehajú zariadenia obrany, vojenského spravodajstva, SIS, polície a civilného letectva.',
+  'Na lodi je zakázané: rozprávať o veciach mimo plavby, púšťať hudbu, používať kanál 16 na iné účely než tieseň/bezpečnosť/nadviazanie spojenia.'
+  ]},
+{ id:'P20', a:'P', n:20, t:'Nedovolené prevádzkovanie rádiového zariadenia, správne delikty',
+  k:'Je to správny delikt. Pokuta: fyzická osoba 100 – 10 000 €, podnikateľ 200 € – 5 % obratu.',
+  b:[
+  'Nedovolené prevádzkovanie rádiového zariadenia je <b>správny delikt</b> – pokutu ukladá Regulačný úrad.',
+  'Pokuta napr. za: prevádzku <b>bez povolenia</b> alebo v rozpore s ním; zariadenie prekračujúce rušenie; prevádzku bez posúdenia zhody; <b>obsluhu bez osobitnej odbornej spôsobilosti</b>; nezaplatenie úhrady za frekvenciu.',
+  'Úrad prihliada na <b>povahu, závažnosť, spôsob, trvanie a následky</b> porušenia.',
+  'Výška: <b>fyzická osoba 100 € až 10 000 €</b>; <b>podnikateľ 200 € až 5 % obratu</b>. Pri opakovaní možno pokutu uložiť opakovane.'
+  ]},
+{ id:'P21', a:'P', n:21, t:'Osobitná odborná spôsobilosť',
+  k:'Overuje RÚ skúškou a osvedčením. V tiesni smie vysielať ktokoľvek – ale len tiesňovú prevádzku.',
+  b:[
+  'Na obsluhu <b>vybraných rádiových zariadení</b> (letecké, lietadlové, pobrežné, <b>lodné</b>, pozemné, amatérske stanice) treba osobitnú odbornú spôsobilosť.',
+  'Overuje ju <b>Regulačný úrad SR skúškou a vydaním osvedčenia</b> (neplatí pre MO, MV a SIS).',
+  'So <b>súhlasom veliteľa</b> môže stanicu obsluhovať aj <b>poverená osoba</b>, ktorú kvalifikovaný operátor preukázateľne poučil – <b>zápis do staničného denníka</b>.',
+  '<b>V tiesni</b> môže stanicu obsluhovať <b>ktokoľvek</b>, ale len na <b>tiesňovú prevádzku</b>.',
+  'Druhy osvedčení: letecké (všeobecné, obmedzené I a II), plavebné GOC, ROC, všeobecné a <b>obmedzené osvedčenie rádiotelefonistu plavebnej pohyblivej služby</b>, vnútrozemské vodné cesty, rádiotelegrafista, amatéri.'
+  ]},
+{ id:'P22', a:'P', n:22, t:'Obmedzené osvedčenie rádiotelefonistu plavebnej pohyblivej služby',
+  k:'Do 200 námorných míľ od pobrežia (alebo pobrežná plavba), len jednoduché vonkajšie ovládacie prvky.',
+  b:[
+  'Oprávňuje obsluhovať rádiotelefónnu službu na lodnej stanici, ktorá pláva <b>do 200 námorných míľ od pobrežia</b> alebo zabezpečuje <b>pobrežnú plavbu</b>,',
+  '…ak ovládanie vysielača spočíva len v <b>jednoduchých vonkajších ovládacích prvkoch</b> (klávesnica, prepínač).',
+  'Stratu alebo poškodenie musí držiteľ <b>oznámiť RÚ SR</b> a požiadať o <b>duplikát</b>.'
+  ]},
+{ id:'P23', a:'P', n:23, t:'Kontrola rádiových staníc plavebnej pohyblivej služby cudzími orgánmi',
+  k:'Cudzí kontrolór smie kontrolovať technický stav podľa povolenia, NIE odbornú spôsobilosť operátora.',
+  b:[
+  'Na princípe <b>reciprocity</b>: cudzie lode u nás a naše lode v zahraničí prevádzkujú stanice na základe povolenia svojho štátu.',
+  'Zahraničné orgány smú kontrolovať <b>technický stav stanice podľa povolenia</b> – výkon, frekvencie, druh prevádzky, prevádzkový (staničný) denník.',
+  '<b>Nesmú overovať odbornú spôsobilosť</b> operátorov – to smie iba RÚ SR (pre tých, čo skladali skúšku v SR).'
+  ]},
+
+// ===================== PREVÁDZKA =====================
+{ id:'R1', a:'R', n:1, t:'Prednostné poradie správ v plavebnej pohyblivej službe',
+  k:'MAYDAY (tieseň) > PAN PAN (súrnosť) > SECURITE (bezpečnosť) > bežné volanie.',
+  b:[
+  '<b>1. MAYDAY</b> – tiesňové volanie, správy a korešpondencia (Distress).',
+  '<b>2. PAN PAN</b> – súrne správy (Urgency).',
+  '<b>3. SECURITE</b> – bezpečnostné správy (Safety); ďalej správy o rádiovom zariadení, navigácii a bezpečnom pohybe lode, meteorologické správy, štátne a služobné správy.',
+  '<b>Posledné (bez signálu):</b> bežné volanie loď–loď (Routine) a kontrola rádiostanice.',
+  'Prebiehajúcu komunikáciu smiem prerušiť len správou s <b>vyššou prioritou</b>.'
+  ]},
+{ id:'R2', a:'R', n:2, t:'Účel rádiového zariadenia v pohyblivej službe',
+  k:'Prvotný účel = bezpečnosť a záchrana života. Ďalej navigácia, efektívne využitie lodí, vzájomná komunikácia.',
+  b:[
+  'Výmena informácií <b>loď–loď</b> a <b>loď–pobrežná stanica</b>; pohyblivá služba sa delí na pozemnú, lodnú (námornú) a leteckú.',
+  'Prvotný účel: <b>zaistenie bezpečnosti a záchrany života</b>.',
+  'Ďalej: orientácia počas plavby (navigácia), efektívnejšie využívanie plavidiel, vzájomná komunikácia.',
+  'Rádio je <b>spoločné</b> – na kanáli počujú všetci, vysielať môže naraz len jedna stanica (na rozdiel od mobilu).',
+  'Preto <b>štandardné výrazy</b> s jednoznačným významom – neštandardné frázy spôsobovali nehody.',
+  'Motto: <i>VHF mobilom nenahradíš.</i>'
+  ]},
+{ id:'R3', a:'R', n:3, t:'Technika vysielania',
+  k:'Jasná reč, správna výslovnosť, cca 100 slov za minútu, stručne, slušne, bez tajných kódov.',
+  b:[
+  '<b>Jasná reč</b> – všeobecne zrozumiteľné slová bez skrytého významu; zakázané vopred dohodnuté kódy.',
+  '<b>Správna výslovnosť</b>, <b>rovnomerná rýchlosť</b> (cca <b>100 slov za minútu</b>), rovnaká hlasitosť.',
+  'Žiadne hrubé a vulgárne výrazy; hovoriť <b>stručne</b>, bez zbytočného opakovania.',
+  'Pozor na <b>tlačidlo PTT</b> (prepínanie mikrotelefónu) – najprv stlač, potom hovor; po pustení počúvaš.',
+  'Simplexná prevádzka: <b>OVER</b> = končím, púšťam tlačidlo a počúvam. <b>OUT</b> = koniec spojenia.'
+  ]},
+{ id:'R4', a:'R', n:4, t:'Volacie a pracovné frekvencie, spôsob volania',
+  k:'Volá sa na kanáli 16 (156,8 MHz), hovorí sa na pracovnom: 6, 8, 9, 10, 67, 69, 72, 73, 77.',
+  b:[
+  'Spojenie sa nadväzuje na <b>volacej frekvencii 156,8 MHz = kanál 16</b>, ktorá je zároveň <b>tiesňová</b>. Na nej sa nič neoznamuje.',
+  'Po nadviazaní sa prejde na <b>pracovný kanál</b> (loď–loď): <b>6, 8, 9, 10, 67, 69, 72, 73, 77</b>. Po skončení späť na 16 (alebo DW – sledovanie dvoch kanálov).',
+  '<b>Typ A</b>: volám na 16 → „GO TO CHANNEL 8“ → na pracovnom znovu nadviažem spojenie → odovzdám info.',
+  '<b>Typ B</b>: hneď na pracovnom kanáli (dohodnutý, z Pilot book). V praxi lepšie.',
+  'Pri <b>MAYDAY a PAN PAN</b> vždy kanál 16 a ostávam na ňom; pri <b>SECURITE</b> ohlásim na 16 pracovný kanál a prejdem naň (krátku správu môžem povedať na 16).',
+  'Pobrežná stanica (úrad) preberá <b>riadiacu úlohu</b> a určí pracovný kanál.',
+  'Ďalšie kanály: <b>70</b> – len DSC (digitálne volanie), <b>13</b> – bridge-to-bridge, navigačná bezpečnosť; 67 Baleáry a 68 Taliansko – počasie.',
+  'Kanály 1–28 pôvodné, doplnkový rad 60–88 vložený medzi (1, 61, 2, 62…).'
+  ]},
+{ id:'R5', a:'R', n:5, t:'Predbežné operácie pred začiatkom vysielania',
+  k:'Skontroluj zdroj, anténu, mikrofón → zapni → nalaď kanál → hlasitosť a squelch → počúvaj, či je voľno.',
+  b:[
+  'Kontrola pripojenia <b>zdroja, antény a mikrofónu</b>.',
+  '<b>Zapnutie</b> a kontrola funkčnosti.',
+  'Nastavenie frekvencie (spravidla <b>volacej</b> – kanál 16).',
+  'Nastavenie <b>hlasitosti a tlmenia šumu (squelch)</b>, podsvietenia.',
+  'Pred vysielaním sa presvedčiť, že na kanáli <b>neprebieha iná komunikácia</b>. Prerušiť ju môžem len správou s vyššou prioritou.',
+  'Ak ruším cudziu komunikáciu, musím <b>prestať vysielať na prvú žiadosť</b> rušenej stanice.'
+  ]},
+{ id:'R6', a:'R', n:6, t:'Volanie a odpoveď na volanie',
+  k:'O-K-O: Oslov (3×) – Kto si: THIS IS + meno (3×) – OVER. Odpoveď stačí 1×.',
+  b:[
+  '<b>Pomôcka O-K-O (oko):</b> <b>O</b> – oslov, koho voláš; <b>K</b> – kto si (THIS IS + meno lode, call sign, MMSI); <b>O</b> – o čom / OVER.',
+  '<b>Volanie:</b> meno volanej stanice <b>3×</b>, THIS IS, meno mojej lode <b>3×</b>, OVER. (3× preto, aby obsluha stihla prísť k VHF.)',
+  '<b>Odpoveď:</b> stačí <b>1×</b> – volajúci už pri stanici sedí. Napr. „Blue Moon, this is yacht Sirius, over.“',
+  'Ak stanica <b>nevie, či volanie patrilo jej</b>, neodpovedá, kým sa volanie nezopakuje.',
+  'Ak vie, že volanie patrí jej, ale <b>nie je istá volacou značkou</b> volajúceho, odpovie ihneď a použije služobné skratky (napr. „WHO IS CALLING ME?“).',
+  'Ak volaná stanica nereaguje: volanie max <b>3× s 2-minútovými prestávkami</b>, ďalší pokus až po <b>15 minútach</b>.',
+  'Pri súkromnom volaní loď–loď sa call sign zvyčajne nepoužíva; pri oficiálnom (SECURITE, loď–pobrežie) áno. Na úrady pri bezpečnostných a núdzových volaniach používam <b>MMSI</b>.',
+  'Na pracovnom kanáli, ak sme sami, môžem vynechať oslovenie – <b>na 16 vždy oslovujem</b>. OVER musí zostať.',
+  'Ukončenie: celé O-K-O a namiesto OVER → <b>OUT</b>. Druhá loď už neodpovedá.',
+  'Pobrežnú stanicu oslovujem „najprv zemepis, potom úrad“: <b>SPLIT RADIO</b>, Rijeka COAST GUARD, …'
+  ]},
+{ id:'R7', a:'R', n:7, t:'Postup pri vysielaní na skúšku',
+  k:'Volaná stanica + moja stanica + RADIO CHECK. Odpoveď = čitateľnosť 1 (nečitateľné) až 5 (výborné).',
+  b:[
+  '<b>Skúšobné vysielanie obsahuje:</b> volaciu značku volanej stanice (ktorá skontroluje signál), moju volaciu značku a frázu <b>SKÚŠKA RÁDIA – RADIO CHECK</b>.',
+  '<b>Odpoveď obsahuje:</b> značku mojej stanice, značku kontrolujúcej stanice a <b>čitateľnosť číslom 1–5</b> (1 = nečitateľné, 5 = dokonale čitateľné) – alebo slovami („silne, ale prerušovane“).',
+  'Signály na vyladenie vysielača/prijímača: <b>max. 10 sekúnd</b>, rad vyslovovaných číslic + volacia značka.',
+  'Kontrola rádiostanice sa robí na <b>pracovnom kanáli</b> (napr. s marínou), má najnižšiu prioritu.'
+  ]},
+{ id:'R8', a:'R', n:8, t:'Vyslovovanie čísel a času v rádiotelefónii',
+  k:'Číslice po jednej (desiatky nikdy celé!). Čas 4-miestne v UTC: 1712 = one seven one two.',
+  b:[
+  'Oddelene sa vysielajú <b>číslice 0–9</b>. <b>Celé desiatky sa nesmú vysielať</b> (nie „twenty“, ale „two zero“).',
+  'Smú sa vysielať <b>celé stovky a tisícky</b> (one hundred, five hundred).',
+  '<b>Čas</b> = 4-miestne číslo hodiny+minúty, štandardne v <b>UTC</b>. V strese je praktické použiť lokálny čas (LT) – nie celkom správne, ale bez chyby v prepočte. Piloti hovoria len minúty.',
+  '0 <b>zero</b> (zírou), 1 <b>one</b> (uan), 2 <b>two</b> (tú), 3 <b>three</b> (trí), 4 <b>four</b> (fouer), 5 <b>five</b> (fajf), 6 <b>six</b>, 7 <b>seven</b>, 8 <b>eight</b> (ejt), 9 <b>nine</b> (najn).',
+  'Čiarka = <b>DECIMAL</b>, bodka = STOP, pomlčka = DASH, lomka = FRACTION BAR.',
+  'Príklad: 156,8 MHz = „one five six DECIMAL eight“. Číslice sa vyslovujú spravidla po dvojiciach alebo trojiciach.'
+  ]},
+{ id:'R9', a:'R', n:9, t:'Hláskovacia tabuľka (slovenská, medzinárodná)',
+  k:'Alfa, Bravo, Charlie, Delta, Echo, Foxtrot, Golf, Hotel, India, Juliett, Kilo, Lima, Mike, November, Oscar, Papa, Quebec, Romeo, Sierra, Tango, Uniform, Victor, Whiskey, X-ray, Yankee, Zulu.',
+  b:[
+  'Je súčasťou štandardných výrazov – <b>nesmie sa zamieňať</b> za vlastné slová.',
+  '<b>Medzinárodná:</b> A Alfa · B Bravo · C Charlie · D Delta · E Echo · F Foxtrot · G Golf · H Hotel · I India · J Juliett · K Kilo · L Lima · M Mike · N November · O Oscar · P Papa · Q Quebec · R Romeo · S Sierra · T Tango · U Uniform · V Victor · W Whiskey · X X-ray · Y Yankee · Z Zulu.',
+  'Volacia značka sa vždy <b>hláskuje</b>: OMMA11 = <b>Oscar Mike Mike Alfa one one</b>.',
+  '<b>Slovenská</b> (učebnica ju neuvádza, bežne používaná): A Adam · B Božena · C Cyril · D Dávid · E Emil · F František · G Gustáv · H Helena · CH Chrudim · I Ivan · J Jozef · K Karol · L Ľudovít · M Mária · N Norbert · O Oto · P Peter · Q Quido · R Rudolf · S Svätopluk · T Tomáš · U Urban · V Viktor · W dvojité V · X Xaver · Y Ypsilon · Z Zuzana.',
+  'Precvič v sekcii <b>Komunikácia → Hláskovanie</b>.'
+  ]},
+{ id:'R10', a:'R', n:10, t:'Štandardné slová a frázy',
+  k:'OVER = príjem/prepínam, OUT = koniec, SAY AGAIN = opakujte, ROGER = rozumiem, STAND BY = čakajte.',
+  b:[
+  '<b>HOW DO YOU READ ME?</b> – ako ma počujete · <b>GO TO CHANNEL…</b> – prejdite na kanál · <b>OVER</b> – príjem (prepínam) · <b>THIS IS</b> – tu je · <b>CALL SIGN</b> – volacia značka.',
+  '<b>GO AHEAD</b> – vysielajte · <b>SAY AGAIN</b> – opakujte · <b>ALL AFTER / ALL BEFORE / ALL BETWEEN</b> – všetko za / pred / medzi.',
+  '<b>I SAY AGAIN / I REPEAT</b> – opakujem · <b>READ BACK</b> – zopakujte celú správu · <b>STAND BY</b> alebo <b>WAIT … MINUTES</b> – čakajte.',
+  '<b>YES / AFFIRMATIVE</b> – áno · <b>NO / NEGATIVE</b> – nie · <b>WHO IS CALLING ME?</b> – kto ma volá · <b>CONFIRM</b> – potvrďte · <b>WORD TWICE</b> – slovo 2× · <b>ROGER (ROMEO)</b> – rozumiem.',
+  '<b>YOUR NUMBER … RECEIVED</b> – potvrdzujem vašu správu · <b>SPEAK SLOWLY</b> – hovorte pomaly · <b>ARE YOU READY?</b> · <b>SILENCE MAYDAY</b> – ticho, tieseň · <b>ALL SHIPS</b> – všetkým lodiam · <b>OUT</b> – koniec.',
+  '<b>MAYDAY, MAYDAY RELAY, PAN PAN, SECURITE, MOB</b> (man over board).',
+  'Havária: ENGINE FAILURE, MAST LOST, RUDDER LOST, FIRE ON THE SHIP, THE SHIP IS SINKING, THE CREW IN LIFE BOAT.',
+  'Lekárska: WE REQUEST THE DOCTOR, … FAST MEDICAL ASSISTANCE, SEVERE ACCIDENT, MASSIVE BURNS.',
+  'Bezpečnostná: WARNING ALL SHIPS, A RISK FOR SAILING, INDETERMINED FLOATING OBJECT, A LOOSE FLOATING BUOY.'
+  ]},
+{ id:'R11', a:'R', n:11, t:'Oprava a opakovanie správ',
+  k:'Chyba → CORRECTION + posledná správna skupina + správny text. SAY AGAIN žiada prijímač, REPEAT/READ BACK vysielač.',
+  b:[
+  'Pri chybe vysielam <b>OPRAVA – CORRECTION</b>, zopakujem <b>poslednú správne vyslanú skupinu</b> a potom správne znenie.',
+  'Ak prijímač pochybuje o texte, žiada <b>OPAKUJTE – SAY AGAIN</b>; dá sa spresniť: <b>ALL BEFORE / ALL AFTER / ALL BETWEEN</b>.',
+  '<b>SAY AGAIN</b> – vysiela <b>prijímacia</b> stanica: nerozumel som.',
+  '<b>REPEAT</b> – vysiela <b>vysielacia</b> stanica: opakujem, zdôrazňujem detail.',
+  '<b>READ BACK</b> – vysiela <b>vysielacia</b> stanica: zopakuj celú správu (overenie príjmu).',
+  'V letectve sa vždy opakuje celá správa.'
+  ]},
+{ id:'R12', a:'R', n:12, t:'Overovanie správ a potvrdzovanie správ',
+  k:'READ BACK = prijímač musí zopakovať celú správu. CONFIRM = potvrď príjem.',
+  b:[
+  'Bezchybný príjem overím slovom <b>READ BACK</b> – prijímacia stanica je <b>povinná zopakovať celý text</b>.',
+  'Ak treba overiť len <b>čísla</b>, vysielacia stanica požiada o zopakovanie <b>každého čísla</b>.',
+  'Potvrdenie príjmu si vyžiadam slovom <b>CONFIRM</b> (potvrďte).',
+  'Viac správ za sebou sa potvrdzuje <b>jednotlivo alebo hromadne</b> („potvrdzujem všetky správy“) – zvyčajne s uvedením počtu.',
+  'Zmenu kanála potvrdzujem najlepšie <b>zopakovaním čísla kanála</b> (ROGER/ROMEO je slabšie).'
+  ]},
+{ id:'R13', a:'R', n:13, t:'Medzinárodné tiesňové a volacie frekvencie',
+  k:'156,8 MHz (kanál 16) – hlas. 156,525 MHz (kanál 70) – DSC. 2182 kHz MF. Letecká 121,5 MHz.',
+  b:[
+  '<b>156,800 MHz – VHF kanál 16</b>: tiesňová, súrna, bezpečnostná a <b>volacia</b> frekvencia (hlas). Platí na celom svete.',
+  '<b>156,525 MHz – kanál 70</b>: digitálne tiesňové volanie <b>DSC</b> (bez hlasu).',
+  '<b>2182 kHz</b> – MF rádiotelefónna tiesňová; <b>2187,5 kHz</b> – MF DSC; v pásme HF (3–30 MHz) je niekoľko DSC frekvencií pre GMDSS (napr. 8 MHz pásmo).',
+  '<b>500 kHz</b> – historická rádiotelegrafná tiesňová (SOS). <b>121,5 MHz</b> – letecká tiesňová.',
+  '<b>NAVTEX 518 kHz</b> (a 490 kHz) – navigačné a bezpečnostné info, počasie.',
+  '<b>EPIRB 406 MHz</b> (COSPAS-SARSAT, aj letecké ELT); <b>AIS</b> 161,975 a 162,025 MHz; <b>SART</b> 9 GHz; GPS 1,5 GHz.',
+  'Námorné pásmo VHF: <b>156–162 MHz</b>. Na mori je tiesňová frekvencia zároveň volacia – preto „tiesňová a volacia“.',
+  'GMDSS = celosvetový námorný tiesňový a bezpečnostný systém; more je rozdelené na oblasti A1–A4.'
+  ]},
+{ id:'R14', a:'R', n:14, t:'Tiesňový signál, tiesňové volanie, tiesňová správa',
+  k:'Signál = MAYDAY. Volanie = MAYDAY 3×, THIS IS, meno 3×, call sign, MMSI. Správa = M-I-P-D-A-N-I-O.',
+  b:[
+  '<b>Signál</b> je slovo <b>MAYDAY</b> („mejdej“): loď je v <b>vážnom a bezprostrednom nebezpečenstve</b> a žiada <b>okamžitú pomoc</b>. Zneužitie je trestné.',
+  '<b>Tiesňové volanie:</b> MAYDAY <b>3×</b> · THIS IS · meno lode <b>3×</b> · CALL SIGN <b>1×</b> (hláskovane) · MMSI <b>1×</b>. <b>Nikoho neoslovuje</b> (nie je adresované konkrétnej stanici).',
+  'Má <b>absolútnu prednosť</b>. Kto ho počuje, musí <b>prestať vysielať a počúvať</b>. Nepotvrdzuje sa, kým nezaznie tiesňová správa.',
+  'Po volaní <b>pauza</b> – ostatní si pripravia denník, pero, nahrávanie.',
+  '<b>Tiesňová správa – M-I-P-D-A-N-I-O:</b>',
+  '<b>M</b> – MAYDAY (1×) · <b>I</b> – Identification: THIS IS, meno, call sign, MMSI · <b>P</b> – Position at time: orientačný bod, smer a vzdialenosť od neho + čas (UTC, v strese LT) · <b>D</b> – Distress: čo sa stalo, jedným slovom (SINKING, FIRE) · <b>A</b> – Assistance: aká pomoc (IMMEDIATE ASSISTANCE) · <b>N</b> – Number: počet osôb vrátane detí · <b>I</b> – Information: modrý trup, opúšťame loď… · <b>O</b> – OVER.',
+  'Polohu radšej <b>od orientačného bodu</b> (maják Sestrica, SW, 5 Nm) než súradnicami – menej chýb.',
+  'Všetko na <b>156,8 MHz</b> v <b>otvorenej reči</b>. V tiesni možno použiť akýkoľvek prostriedok a frekvenciu.'
+  ]},
+{ id:'R15', a:'R', n:15, t:'Tiesňová korešpondencia, ukončenie tiesňovej korešpondencie',
+  k:'Cudzie MAYDAY: čakaj ~5 min → potvrď (RECEIVED MAYDAY, ETA) alebo prepošli (MAYDAY RELAY). Zrušenie: CANCEL MY DISTRESS ALERT. Koniec ticha: SEELONCE FEENEE.',
+  b:[
+  '<b>Počujem cudzie MAYDAY:</b> 1) čakám pár minút (cca 5), počúvam a nechávam priestor <b>pobrežnej stanici</b>; 2) ak sa nehlási, preberám iniciatívu – <b>potvrdím</b> (plávam na pomoc) alebo <b>prepošlem</b>.',
+  '<b>Potvrdenie:</b> MAYDAY 1× · meno lode v tiesni 3× · THIS IS · moja loď 3× · call sign · MMSI · <b>RECEIVED MAYDAY</b> · <b>ETA IS 1 HOUR</b> (za aký čas, nie o koľkej!) · OUT.',
+  '<b>Preposlanie:</b> <b>MAYDAY RELAY 3×</b> · <b>ALL STATIONS 3×</b> · THIS IS · moja loď 3× · môj call sign · MMSI → potom správa lode v tiesni: MAYDAY · jej meno, call sign, MMSI · poloha · čo sa stalo · pomoc · počet osôb · OVER.',
+  '<b>Rádiový pokoj:</b> rušiacim staniciam: MAYDAY · ALL STATIONS 3× · THIS IS … · <b>SEELONCE MAYDAY</b> (ticho, prebieha tieseň).',
+  '<b>PRUDONCE</b> – obmedzená prevádzka je opäť možná (tieseň ešte trvá). <b>SEELONCE FEENEE</b> (v učebnici „Seelonce Fini“) – koniec rádiového pokoja, tieseň skončila.',
+  '<b>Zrušenie vlastného MAYDAY</b> (nájdený MOB, falošný poplach EPIRB/DSC): <b>bez slova MAYDAY</b> · ALL STATIONS 3× · THIS IS · meno 3× · call sign · MMSI · <b>CANCEL MY DISTRESS ALERT</b> (+ čas) · OUT.'
+  ]},
+{ id:'R16', a:'R', n:16, t:'Súrny signál, súrna správa',
+  k:'PAN PAN 3× – len so súhlasom veliteľa. Ohrozenie nie je bezprostredné. Prednosť pred všetkým okrem MAYDAY.',
+  b:[
+  'Signál je slovo <b>PAN PAN</b> (pan pan / pen pen).',
+  'Smie sa vyslať <b>len so súhlasom veliteľa</b> (osoby zodpovednej za loď).',
+  '<b>Význam:</b> nasleduje veľmi <b>súrna správa o bezpečnosti</b> lode alebo osoby. Na záchranu nestačím sám, ale <b>ohrozenie nie je bezprostredné</b> (napr. nefunguje motor a unáša nás).',
+  '<b>Adresát:</b> všetky stanice, skupina staníc alebo jedna stanica. Ukončenie súrnej korešpondencie <b>nie je predpísané</b>.',
+  '<b>Priorita:</b> pred všetkým okrem MAYDAY. Vysiela sa na tiesňovej frekvencii (kanál 16).',
+  '<b>Volanie:</b> PAN PAN <b>3×</b> · ALL STATIONS <b>3×</b> · THIS IS · motor boat DAFNE <b>3×</b> · call sign · MMSI · správa podľa M-I-P-D-A-N-I-O (poloha, DRIFTING, NEED TOW, dĺžka lode 42 FEET) · OVER.'
+  ]},
+{ id:'R17', a:'R', n:17, t:'Bezpečnostný signál, bezpečnostná správa',
+  k:'SECURITE 3× – nebezpečenstvo pre plavbu alebo meteo výstraha. Začať na 16, potom pracovný kanál.',
+  b:[
+  'Signál je slovo <b>SECURITE</b> („sekjúrité“).',
+  '<b>Význam:</b> nasleduje <b>bezpečnostná správa</b> o bezpečnosti plavby alebo dôležitá <b>meteorologická výstraha</b> (plávajúca prekážka, búrka…).',
+  '<b>Adresát:</b> všetky stanice, skupina alebo jedna stanica. Postup a ukončenie <b>nie sú predpísané</b>. Volať môže loď aj pobrežná stanica či Coast Guard.',
+  '<b>Priorita:</b> pred všetkým <b>okrem tiesňových a súrnych</b> správ; vždy v <b>otvorenej reči</b>.',
+  '<b>Kanál:</b> začína sa na <b>16</b>, oznámi sa pracovný kanál a prejde sa naň; krátku správu možno povedať priamo na 16.',
+  '<b>Volanie:</b> SECURITE <b>3×</b> · ALL STATIONS <b>3×</b> · THIS IS · meno 3× · call sign · MMSI · (pozícia) → správa (FLOATING BOX, 0,5 Nm WEST of Milna, UTC 1712) · OVER/OUT.'
+  ]},
+
+// ===================== ELEKTROTECHNIKA =====================
+{ id:'E1', a:'E', n:1, t:'Rozdiel medzi vodičom, polovodičom a izolantom',
+  k:'Vodič má voľné elektróny (meď), izolant nemá (sklo, plast), polovodič vedie len za určitých podmienok.',
+  b:[
+  'Nosičmi elektriny sú <b>elektróny</b> – rozhodujú tie na poslednej (<b>valenčnej</b>) dráhe atómu (Bohrov model).',
+  '<b>Vodič</b> – veľa <b>voľných elektrónov</b>, vedie prúd. Meď, zlato, striebro… Po pripojení napätia tečú elektróny ku kladnému pólu.',
+  '<b>Izolant (nevodič)</b> – <b>nemá voľné elektróny</b>, nevedie prúd. Sklo, vzduch, plast, porcelán…',
+  '<b>Polovodič</b> – vedie prúd <b>len za určitých podmienok</b>: vonkajších (teplo – teplomer, svetlo – fotobunka) alebo vnútorných (pridaná <b>prímes</b>, napr. ku kremíku).',
+  'Typ <b>N</b> – prímes má elektrón navyše (negatívny); typ <b>P</b> – chýba elektrón, „diera“ (pozitívny).',
+  '<b>Dióda</b> (spojenie P a N) prepúšťa prúd <b>len jedným smerom</b> – využitie na usmernenie striedavého prúdu.',
+  '<b>Tranzistor</b> (NPN alebo PNP) – <b>zosilňuje</b> slabý signál (napr. z mikrofónu).'
+  ]},
+{ id:'E2', a:'E', n:2, t:'Schématické značky základných elektrotechnických obvodových prvkov',
+  k:'Rezistor = obdĺžnik, kondenzátor = dve rovnobežné čiary, zdroj = dlhá a krátka čiara, ampérmeter = A v krúžku.',
+  sym:true,
+  b:[
+  'Treba poznať značky: <b>vodič, uzemnenie, anténa (prijímacia/vysielacia), zdroj jednosmerného prúdu, jednosmerný a striedavý prúd, rezistor (odpor), kondenzátor, cievka, transformátor so železným jadrom, poistka, žiarovka, ampérmeter, voltmeter, dióda, vypínač</b>.',
+  'Precvič ich v kvíze – značky sú nakreslené nižšie.'
+  ]},
+{ id:'E3', a:'E', n:3, t:'Jednotky elektrických veličín',
+  k:'U – volt (V), I – ampér (A), R – ohm (Ω), P – watt (W), f – hertz (Hz), C – farad (F), L – henry (H).',
+  b:[
+  '<b>Napätie U – volt V</b> · <b>Prúd I – ampér A</b> · <b>Odpor R – ohm Ω</b> · <b>Výkon P – watt W</b>.',
+  'Práca A – joule J · Vodivosť G – siemens S · Indukčnosť L – henry H · Kapacita C – farad F · <b>Frekvencia f – hertz Hz</b> · Vlnová dĺžka λ – meter m.',
+  'Kapacita akumulátora: <b>ampérhodina Ah</b> (C = I × t).',
+  '<b>Násobky:</b> T tera 10¹² · G giga 10⁹ · M mega 10⁶ · k kilo 10³ · m mili 10⁻³ · µ mikro 10⁻⁶ · n nano 10⁻⁹ · p piko 10⁻¹².',
+  '1 ampér = náboj 1 coulomb za 1 sekundu.'
+  ]},
+{ id:'E4', a:'E', n:4, t:'Ohmov zákon',
+  k:'U = R × I · I = U / R · R = U / I (pyramída: U hore, R a I dole).',
+  b:[
+  '<b>U = R × I</b>, <b>I = U / R</b>, <b>R = U / I</b>.',
+  '<b>Pyramída:</b> U hore, R a I dole vedľa seba. Vedľa seba = násobenie, nad sebou = delenie.',
+  '<b>Voda:</b> prúd = prúd vody v potrubí, odpor = kohútik (čím zavretejší, tým väčší odpor), napätie = výška nádrže.',
+  'Väčšie napätie → väčší prúd; väčší odpor → menší prúd.',
+  '<b>Ampérmeter</b> meria prúd – zapája sa <b>sériovo</b> (rozpojiť obvod), musí mať <b>čo najmenší vnútorný odpor</b>. Rozsah sa zväčšuje paralelným odporom (bočník).',
+  '<b>Voltmeter</b> meria napätie – zapája sa <b>paralelne</b> k spotrebiču, musí mať <b>čo najväčší vnútorný odpor</b>.',
+  'Príklad: 12 V, 4 Ω → I = 12/4 = <b>3 A</b>.'
+  ]},
+{ id:'E5', a:'E', n:5, t:'Elektrický výkon, príkon a účinnosť',
+  k:'P = U × I (W). Príkon = výkon + straty. Účinnosť η = výkon / príkon (× 100 %).',
+  b:[
+  '<b>Výkon</b> = práca za jednotku času, vo <b>wattoch</b>: <b>P = U × I</b>.',
+  'Striedavý prúd: zdanlivý P = U·I, <b>činný</b> P = U·I·cos φ (koná prácu), <b>jalový</b> P = U·I·sin φ (vytvára pole, nekoná prácu).',
+  '<b>Príkon</b> = energia, ktorú do stroja privádzame: <b>Pp = Pv + Ps</b> (výkon + straty, napr. teplo).',
+  '<b>Účinnosť η (eta)</b> = výkon / príkon, v % = Pv/Pp × 100. Je vždy menšia ako 1 (100 %).',
+  'Príklad: vrátok s príkonom 1000 W na 12 V → I = 1000/12 ≈ <b>83 A</b>.'
+  ]},
+{ id:'E6', a:'E', n:6, t:'Zdroje jednosmerného prúdu a ich zapojenie',
+  k:'Sériovo: napätia sa sčítajú, prúd rovnaký. Paralelne: prúdy sa sčítajú, napätie rovnaké.',
+  b:[
+  '<b>Galvanické články</b> – chemická reakcia, článok 1,5 V · <b>Akumulátory</b> – vratná reakcia, nabíjajú sa opakovane (olovené, alkalické) · <b>Dynamá</b> – mechanická energia · <b>Usmerňovače</b> – diódy zo striedavého · <b>Termoelektrické</b> – teplo · <b>Fotoelektrické</b> – svetlo.',
+  '<b>Sériové zapojenie (za sebou):</b> <b>napätie sa sčítava</b> (U = U₁ + U₂ + …), prúd sa nemení – je daný zdrojom s najmenším prúdom.',
+  '<b>Paralelné zapojenie (vedľa seba):</b> <b>prúdy sa sčítajú</b> (I = I₁ + I₂ + …), napätie sa nemení. Len zdroje <b>rovnakého napätia</b> (inak vyrovnávacie skratové prúdy).',
+  'Nedá sa zapojiť tak, aby sa zväčšilo napätie aj prúd naraz.',
+  '<b>Rezistory:</b> sériovo R = R₁ + R₂ + … ; paralelne 1/R = 1/R₁ + 1/R₂ + …',
+  'Striedavý prúd: <b>transformátor</b> – cievky na spoločnom železnom jadre; U₁/U₂ = n₁/n₂. Cievka s viac závitmi = vyššie napätie, menší prúd, tenší drôt.'
+  ]},
+{ id:'E7', a:'E', n:7, t:'Údržba olovených a alkalických akumulátorov',
+  k:'Olovené: čisté svorky, dolievať destilovanú vodu, nabíjať 0,1 × kapacity. Alkalické: 1,2 V, lúh, ľahké. Skladovať oddelene!',
+  b:[
+  '<b>Formovanie oloveného:</b> vypláchnuť destilovanou vodou → naplniť kyselinou, 2 h nasakovať → nabíjať → po nabití vybiť menovitým prúdom (článok 1,8 V) → znovu nabiť. Pri nabíjaní článok 2,8 V.',
+  '<b>V prevádzke:</b> udržiavať <b>čisté svorky</b> (malé prechodové odpory, žiadne samovybíjanie), <b>dolievať destilovanú vodu</b>, kontrolovať napätie, dobíjať. Pred odstavením <b>úplne nabiť</b>.',
+  '<b>Kapacita</b> C = I × t (Ah). <b>Nabíjací prúd = 0,1 × C</b> → batéria 50 Ah = 5 A. Moderné nabíjačky majú programy podľa typu batérie.',
+  '<b>Olovené:</b> ťažké, krehké, náročné na údržbu, ale <b>malý vnútorný odpor</b> → veľký skratový prúd → <b>štartovanie motorov</b>.',
+  '<b>Alkalické:</b> elektrolyt <b>lúh sodný alebo draselný</b>, článok <b>1,2 V</b> (1,1–1,3 V), <b>ľahké, otrasuvzdorné</b>, <b>veľký vnútorný odpor</b> → malý skratový prúd.',
+  'Olovené a alkalické <b>skladovať oddelene</b> – vznikali by výbušné zlúčeniny plynov.'
+  ]},
+{ id:'E8', a:'E', n:8, t:'Fyziologické účinky elektrického prúdu',
+  k:'1–3 mA brnenie · 5–10 mA popáleniny · ~10 mA sa nedá pustiť · ~30 mA zlyháva srdce.',
+  b:[
+  'Ide o účinky prúdu na živé tkanivo; prúd pôsobí aj na <b>nervovú sústavu</b>.',
+  '<b>1–3 mA</b> – slabé brnenie.',
+  '<b>5–10 mA</b> – rozklad buniek (popáleniny).',
+  '<b>okolo 10 mA</b> – človek sa už nedokáže z vlastnej vôle pustiť (kŕč). <i>(V učebnici je preklep „10 A“.)</i>',
+  'Väčšie prúdy – krvné zrazeniny; <b>okolo 30 mA</b> prestáva srdce plniť funkciu.',
+  'Hodnoty platia pre <b>striedavý prúd</b> a sú približné. S rastúcou frekvenciou kŕče slabnú, pri <b>~200 kHz</b> zmiznú – <b>vysokofrekvenčné prúdy</b> však spôsobujú povrchové aj hĺbkové <b>popáleniny</b>.'
+  ]},
+{ id:'E9', a:'E', n:9, t:'Prvá pomoc pri úraze elektrickým prúdom',
+  k:'Vyprostiť z prúdu → nedýcha: dýchanie → nemá pulz: masáž srdca → ošetriť rany → lekár.',
+  b:[
+  '<b>a)</b> postihnutého <b>uvoľniť od styku s prúdom</b> (vypnúť, odsunúť nevodivým predmetom),',
+  '<b>b)</b> ak <b>nedýcha</b> – ihneď <b>umelé dýchanie</b>,',
+  '<b>c)</b> ak <b>nemá hmatateľný pulz</b> – <b>nepriama masáž srdca</b>,',
+  '<b>d)</b> ošetriť rany, popáleniny, zlomeniny,',
+  '<b>e)</b> zavolať lekára.',
+  'Konať <b>rýchlo, pokojne a rozvážne</b>. Postihnutého v bezvedomí <b>neprenášať</b> ani neprevážať a <b>nenechať samého</b> – výnimka: silné krvácanie (prevážať ležiaceho).',
+  '<b>Ochrana pred nadprúdom:</b> poistky (pri výmene vypnúť, odstrániť skrat, rovnaká hodnota, <b>neopravovať</b>), ističe, nadprúdové relé. <b>Pred prepätím</b> (búrka, dlhé antény): iskrište, dútnavky, výbojky.'
+  ]},
+{ id:'E10', a:'E', n:10, t:'Rozdelenie rádiových vĺn a ich šírenie',
+  k:'VHF (30–300 MHz, metrové vlny) sa šíri priamočiaro. Dosah závisí od výšky antény: D = 2,5 × (√H₁ + √H₂) Nm.',
+  b:[
+  '<b>DV</b> dlhé (pod 0,3 MHz) – prízemná vlna, ohýbajú sa, veľké vzdialenosti, cez deň aj v noci.',
+  '<b>SV</b> stredné (0,3–3 MHz, 1000–100 m) – cez deň prízemná, <b>v noci odraz</b>; NAVTEX 490/518 kHz.',
+  '<b>KV</b> krátke (3–30 MHz, 100–10 m) – <b>odraz od ionosféry</b>, celosvetové spojenie.',
+  '<b>VKV / VHF</b> veľmi krátke (<b>30–300 MHz, 10–1 m</b>) – <b>priamočiaro</b>, na optickú vzdialenosť; lodné VHF 156–162 MHz, AIS. Počasie ich prakticky neovplyvňuje.',
+  '<b>UKV / UHF</b> (300–3000 MHz) – priamo, cez ionosféru: EPIRB 406 MHz, GPS 1,5 GHz. SART 9 GHz.',
+  '<b>Ionosféra</b> – 50–500 km, ionizovaná slnečným žiarením; vrstvy <b>D (~60 km), E (~120 km), F1 a F2 (200–400 km)</b>. Závisí od dennej doby, ročného obdobia a 11-ročného slnečného cyklu; v noci slabne.',
+  'Šírenie: <b>prízemná vlna</b> (DV, SV cez deň), <b>priama</b> (VKV), <b>odrazená</b> od terénu, <b>priestorová</b> – od ionosféry (SV v noci, KV).',
+  '<b>Rádiový horizont VHF:</b> d [Nm] = 2,5 × √H [m]; dve stanice: <b>D = 2,5 × (√H₁ + √H₂)</b>. Príklad: 16 m a 100 m → 2,5 × (4 + 10) = <b>35 Nm</b>. Lode sa bežne počujú na cca 15–30 Nm.',
+  'Maximálny dosah VHF závisí <b>od výšky antény</b>, nie od výkonu.'
+  ]},
+{ id:'E11', a:'E', n:11, t:'Antény, napájače, druhy',
+  k:'Všesmerové (dipól, tyčová λ/4) a smerové (Yagi, parabola). Napájače: dvojlinka 300 Ω, koaxiál 75 Ω (komunikačný 50 Ω).',
+  b:[
+  '<b>Všesmerové</b> – vyžarujú rovnomerne do všetkých smerov v jednej rovine; <b>smerové</b> – hlavne jedným smerom.',
+  '<b>Dipól</b> – polvlnová anténa z dvoch symetrických častí, <b>osmičková</b> charakteristika (v smere žiaričov nevyžaruje).',
+  '<b>Tyčová</b> – zvislý dipól, ktorého dolnú polovicu tvorí <b>zem</b>; dĺžka <b>λ/4</b>. Kratšia = menšia účinnosť. Anténa musí byť <b>uzemnená</b>.',
+  '<b>Yagi</b> – žiarič + reflektor (vzadu) + direktory (vpredu); viac prvkov = užšia charakteristika. <b>Parabolická</b> – veľmi úzka (pootočenie o 10° = strata signálu). <b>Súfázové</b> – dipóly nad sebou. <b>Rámová</b> – zameriavanie vysielačov (s tyčovou = rádiogoniometer).',
+  'Krátka anténa = „široká“ charakteristika, necitlivá na náklon (ručné stanice). Dlhá = „štíhla“, silná, ale pri náklone lode vysiela do neba.',
+  '<b>Napájač</b> = vedenie medzi anténou a stanicou. <b>Dvojlinka</b>: symetrická, <b>300 Ω</b>. <b>Koaxiálny kábel</b>: nesymetrický, tienený, <b>75 Ω</b> (komunikačný <b>50 Ω</b>); na symetrickú anténu treba symetrizačný člen.',
+  '<b>Zlomená anténa → NEVYSIELAŤ!</b> Signál sa vráti a spáli zosilňovač. Núdzovo: obnažiť vnútorný drôt koaxiálu (učebnica: cca 92 mm).'
+  ]},
+{ id:'E12', a:'E', n:12, t:'Vzťah medzi frekvenciou a dĺžkou vlny',
+  k:'λ = c / f, c = 300 000 km/s. Kratšia vlna = vyššia frekvencia. Kanál 16: λ ≈ 1,9 m.',
+  b:[
+  '<b>Frekvencia f</b> – počet vĺn za sekundu (Hz). <b>Vlnová dĺžka λ</b> – vzdialenosť, ktorú vlna prejde za jeden kmit (m).',
+  'Rádiové vlny sa šíria rýchlosťou svetla <b>c = 300 000 km/s = 3 × 10⁸ m/s</b>.',
+  '<b>λ = c / f</b> a <b>f = c / λ</b>.',
+  '<b>Čím kratšia vlna, tým vyššia frekvencia.</b> VKV = veľmi krátke vlny = VHF (very high frequency).',
+  'Kanál 16: 300 000 000 / 156 800 000 ≈ <b>1,91 m</b>; polovica ≈ 0,96 m (efektívne cca 0,92 m).',
+  'Príklad: 100 MHz → 3 m; 30 MHz → 10 m.'
+  ]},
+{ id:'E13', a:'E', n:13, t:'Simplexná, semiduplexná a duplexná prevádzka',
+  k:'Simplex = 1 frekvencia, hovorí jeden (OVER). Duplex = 2 frekvencie naraz ako telefón. Semiduplex = jedna strana duplex, druhá simplex.',
+  b:[
+  'Rádiostanica má dva obvody – príjem a vysielanie; prepína sa <b>tlačidlom na mikrofóne (PTT)</b>. Bežne je na príjme.',
+  '<b>Simplex:</b> <b>jedna frekvencia</b>, hovorí len jeden, druhý počúva. „OVER“ = púšťam tlačidlo. Stačí bežná vysielačka. <b>Loď–loď vždy simplexne</b>.',
+  '<b>Duplex:</b> <b>dve frekvencie súčasne</b>, hovoria obaja naraz ako po telefóne (napr. trajekt – most). Treba upravenú stanicu; pobrežná stanica má frekvencie opačne.',
+  '<b>Semiduplex:</b> dvojfrekvenčný kanál – pobrežná stanica pracuje duplexne, loď s bežnou stanicou simplexne (kým hovorí, nepočuje). Preto sa ohlasuj <b>typom lode</b>: „This is sailboat…“.',
+  '<b>Duplexné kanály</b> majú pod jedným číslom dve frekvencie (väčšina), ostatné sú jednofrekvenčné (napr. 6, 8, 13, 16, 72, 77).',
+  '<b>Modulácia</b> = spojenie signálu reči s nosnou vlnou; obe stanice musia mať rovnaký druh modulácie.',
+  '<b>DW (dual watch)</b> – sledovanie dvoch kanálov (pracovného a 16).'
+  ]}
+];
+
+// Kvízové otázky: [téma, otázka, SPRÁVNA, zlá, zlá, zlá, vysvetlenie]
+const Q = [
+// ---------- PREDPISY ----------
+['P1','Kedy musí stanica vysielať svoju volaciu značku?','Na začiatku a na konci spojenia a potom každých 5 minút','Iba na začiatku spojenia','Iba ak sa ju niekto opýta','Každých 15 minút','Aj pri skúšobnom vysielaní a nastavovaní vysielača.'],
+['P1','Kto v SR prideľuje a eviduje volacie značky?','Úrad pre reguláciu elektronických komunikácií a poštových služieb','Ministerstvo dopravy SR','Medzinárodná námorná organizácia IMO','Prístavný kapitanát','Skrátene Regulačný úrad (RÚ), web teleoff.gov.sk.'],
+['P1','Ktoré stanice nemusia uvádzať identifikáciu?','Stanice na záchranných plavidlách vysielajúce automatický tiesňový signál','Ručné VHF rádiostanice','Rekreačné jachty do 12 m','Pobrežné stanice','Výnimka platí aj pre zariadenia na určenie miesta katastrofy.'],
+['P1','S čím nesmie byť volacia značka zameniteľná?','S tiesňovými signálmi (MAYDAY, PAN PAN, SECURITE) a Q-kódmi','S menom lode','S MMSI číslom','S názvom prístavu',''],
+['P1','V ktorom štáte sa prihlasuje lodná VHF?','V štáte, kde je loď registrovaná','V štáte trvalého pobytu majiteľa','V štáte, kde bola VHF kúpená','V štáte, kde loď kotví','VHF je viazaná na loď, nie na majiteľa.'],
+['P2','Akú sériu medzinárodných volacích značiek má Slovensko?','OMA – OMZ','SKA – SKZ','OKA – OKZ','OEA – OEZ','Prvé dve písmená sú vždy OM. Česko má OK a OL.'],
+['P2','Ako vyzerá medzinárodná volacia značka lodnej stanice?','4 písmená + max. 2 číslice','3 písmená + max. 3 číslice','5 písmen','2 písmená + 1 číslica + 3 písmená','Napr. OMME, OMME23. Pomôcka 4+2.'],
+['P2','Ako vyzerá volacia značka pozemnej stanice?','3 písmená + max. 3 číslice','4 písmená + max. 2 číslice','5 písmen','OM + číslica kraja + písmená','Napr. OMC, OMZ66. Pomôcka 3+3.'],
+['P2','Ako vyzerá volacia značka lietadlovej stanice?','5 písmen','4 písmená + 2 číslice','3 písmená + 3 číslice','2 písmená + 3 číslice','Napr. OMAAA, OMSYI.'],
+['P2','Prečo číslica vo volacej značke nesmie začínať 0 alebo 1?','Môže sa zameniť s písmenami O a I','Sú rezervované pre armádu','Používajú sa v MMSI','Nedajú sa hláskovať',''],
+['P2','Volacia značka OMME23 patrí podľa učebnice:','vysielaču v záchrannom člne lode OMME','pobrežnej stanici','lietadlu','rádioamatérskemu klubu',''],
+['P2','Ktoré stanice musia mať medzinárodnú volaciu značku?','Stanice s oprávnením pre medzinárodnú verejnú korešpondenciu, amatérske a tie, čo môžu rušiť za hranicami','Iba lodné stanice','Iba stanice štátnych orgánov','Všetky stanice v SR bez výnimky',''],
+['P3','Z čoho sa skladá vnútroštátna volacia značka?','Z 3 písmen (kraj, okres, odvetvie) a najviac 3 číslic','Z OM a 3 číslic','Z 5 písmen','Z MMSI a mena stanice','Napr. HAN100 – taxikári v Bratislave.'],
+['P3','Čo označuje druhé písmeno vnútroštátnej volacej značky?','Okres (pri viacerých okresoch Q alebo R)','Kraj','Odvetvie prevádzkovateľa','Druh služby',''],
+['P3','Smie stanica s vnútroštátnou volacou značkou komunikovať so zahraničím?','Nie','Áno, bez obmedzenia','Áno, len v tiesni a cez Rakúsko','Áno, ak má výkon do 5 W',''],
+['P3','Vnútroštátne volacie značky sa týkajú staníc:','pozemnej pohyblivej služby','námornej pohyblivej služby','leteckej služby','amatérskej služby',''],
+['P4','Z čoho sa skladá poplachový signál?','Z dvoch tónov 1300 Hz a 2200 Hz striedaných každých 250 ms','Z tónu 1000 Hz trvajúceho 1 minútu','Zo slova MAYDAY vysloveného 3×','Z Morseovho SOS','Vysiela sa 30 až 60 sekúnd.'],
+['P4','Na čo slúži poplachový signál?','Na privolanie obsluhy k rádiostanici pred tiesňovým volaním','Na ukončenie tiesňovej prevádzky','Na kontrolu rádiostanice','Na ohlásenie predpovede počasia',''],
+['P4','Ako dlho sa vysiela poplachový signál?','30 až 60 sekúnd','5 sekúnd','2 minúty','Až do odpovede pobrežnej stanice',''],
+['P4','Čo dnes nahrádza poplachový signál?','Digitálne rádiostanice (DSC), ktoré zazvonia ako mobil','Mobilné telefóny','Svetlice','Hliadka pri VHF každú polhodinu','SOLAS lode prešli na digitálne stanice do roku 1999.'],
+['P4','Pre ktoré lode je poplachový signál určený?','Pre obchodné lode (SOLAS)','Pre všetky rekreačné jachty','Len pre riečne lode','Len pre vojnové lode',''],
+['P5','Čo je falošný identifikačný kód?','Akýkoľvek kód, ktorý stanici nepridelil Regulačný úrad SR','Kód vyslaný bez hláskovania','Kód staršej lode','Kód zahraničnej lode',''],
+['P5','Aké sú následky zneužitia tiesňového signálu?','Je to trestné','Nič, ak sa ospravedlním','Len napomenutie','Odobratie lode',''],
+['P6','Kto má najvyššiu právomoc nad lodnou rádiostanicou?','Veliteľ lode','Operátor rádiostanice','Pobrežná stanica','Regulačný úrad',''],
+['P6','Čo urobí operátor, ak mu veliteľ vydá rozkaz v rozpore s Rádiokomunikačným poriadkom?','Splní ho a zapíše to do staničného denníka','Odmietne ho','Nahlási to pobrežnej stanici','Vypne rádiostanicu',''],
+['P6','Kto vydáva príkaz na vyslanie tiesňového, súrneho alebo bezpečnostného signálu?','Veliteľ lode','Ktorýkoľvek člen posádky','Pobrežná stanica','Najstarší pasažier',''],
+['P6','Za čo zodpovedá veliteľ v súvislosti s rádiostanicou?','Za dokumentáciu, technický stav, staničný denník a telekomunikačné tajomstvo','Len za nabitie batérie','Len za zaplatenie poplatkov','Za nič, zodpovedá operátor',''],
+['P7','Ktorá z týchto služieb je rádiokomunikačná služba podľa RP ITU?','Pohyblivá námorná služba','Kuriérska služba','Prístavná služba','Poštová služba',''],
+['P7','Na aké druhy sa delí pohyblivá služba?','Pozemná, námorná, letecká','Pevná, rozhlasová, amatérska','Verejná a neverejná','Analógová a digitálna',''],
+['P8','Ktorý zákon o elektronických komunikáciách dnes platí?','452/2021 Z.z.','610/2003 Z.z.','351/2011 Z.z.','128/2015 Z.z.','Od 1. 2. 2022 nahradil zákon 351/2011, na ktorý sa pýta zoznam otázok.'],
+['P8','Čo upravuje zákon o elektronických komunikáciách?','Podmienky sietí a služieb, používanie rádiových zariadení, reguláciu a využívanie spektra','Výcvik kapitánov','Registráciu lodí','Colné predpisy na lodi',''],
+['P8','Aký je účel zákona o elektronických komunikáciách?','Vytvoriť podmienky na rozvoj konkurencie v elektronických komunikáciách','Zakázať súkromné vysielačky','Financovať pobrežné stanice','Určiť ceny mobilných paušálov',''],
+['P9','Čo je telekomunikačné zariadenie?','Technické zariadenie na vysielanie, prenos, príjem či spracovanie signálov (obraz, zvuk, dáta)','Len telefón','Len anténa','Budova operátora',''],
+['P9','Ktorý z príkladov je telekomunikačné zariadenie?','Palubná rádiostanica','Kotva','Kompas','Lodný motor',''],
+['P10','V akom rozsahu frekvencií sú rádiové vlny?','9 kHz až 3000 GHz','1 Hz až 1 MHz','156 až 162 MHz','100 kHz až 100 GHz',''],
+['P10','Ako sa šíria rádiové vlny?','Vo voľnom priestore bez umelého vedenia','Iba po kábli','Iba vo vode','Iba cez satelit',''],
+['P11','Ako sa delia siete podľa koncových bodov?','Pevné a mobilné','Verejné a neverejné','Analógové a digitálne','Domáce a zahraničné',''],
+['P11','Ako sa delia siete podľa okruhu užívateľov?','Verejné a neverejné','Pevné a mobilné','Rádiové a optické','Lokálne a globálne',''],
+['P12','Čo je verejná telekomunikačná sieť?','Sieť na poskytovanie telekomunikačných služieb verejnosti (aj R a TV vysielanie)','Sieť len pre armádu','Sieť pre uzavretú skupinu užívateľov','Sieť bez povolenia',''],
+['P12','Pre koho je neverejná sieť?','Výlučne pre vlastné potreby uzavretej skupiny užívateľov','Pre všetkých obyvateľov','Len pre zahraničné lode','Pre rozhlas a televíziu',''],
+['P13','Kto smie zriaďovať osobitné telekomunikačné siete?','MO SR, MV SR a SIS','Ktorákoľvek firma s licenciou','Regulačný úrad','Mobilní operátori',''],
+['P13','Na aké účely slúžia osobitné siete?','Najmä na obranu a bezpečnosť štátu','Na rozhlasové vysielanie','Na komunikáciu jácht','Na internet pre verejnosť',''],
+['P13','Smie osobitná sieť poskytovať verejné služby?','Nie','Áno, za poplatok','Áno, v noci','Áno, ak to schváli ministerstvo dopravy',''],
+['P14','Ktoré tri podmienky musí spĺňať vysielacia rádiová stanica?','Vyžaruje EM vlny, prenáša správy, frekvencia vyššia ako 9 kHz','Má anténu, batériu a mikrofón','Má povolenie, MMSI a call sign','Výkon nad 1 W, kanál 16, DSC',''],
+['P14','Z čoho sa obyčajne skladá vysielacia rádiostanica?','Vysielač a prijímač, napájací zdroj, anténa, príslušenstvo','Len z antény','Zo zosilňovača a reproduktora','Z kompasu a GPS',''],
+['P15','Kto vypracúva návrh národnej tabuľky frekvenčného spektra?','Ministerstvo dopravy SR (v spolupráci s RÚ)','ITU','Slovenská informačná služba','Prístavný kapitanát',''],
+['P15','Kto v SR vykonáva dohľad a ukladá sankcie v elektronických komunikáciách?','Regulačný úrad (ÚREKPS)','Ministerstvo obrany','Polícia','IMO',''],
+['P15','Čo je ITU?','Medzinárodná telekomunikačná únia – vydáva Rádiokomunikačný poriadok','Medzinárodná námorná organizácia','Európska konferencia poštových správ','Dohoda o rádiu na riekach','ITU vznikla 17. 5. 1865 v Paríži.'],
+['P15','Čo rieši dohoda RAINWAT?','Rádiotelefónnu službu na vnútrozemských vodných cestách (riekach)','Bezpečnosť na mori (SOLAS)','Letecké frekvencie','Satelitné tiesňové bóje',''],
+['P16','Ktoré doklady musí mať lodná rádiostanica?','Povolenie (Ship Station Licence), osvedčenie operátora, staničný denník','Len technický preukaz','Len faktúru za VHF','Lodný denník a crew list',''],
+['P16','Kto vydáva Ship Station Licence?','Povoľujúci orgán štátu, v ktorom je loď registrovaná','Výrobca rádiostanice','Prístav, kde loď kotví','Kapitán lode',''],
+['P16','Čo môže na rekreačnej lodi nahradiť staničný denník?','Palubný denník (logbook), ak sa doň zapisuje aj rádiová korešpondencia','Mobilný telefón','Crew list','Nič, musí byť samostatný',''],
+['P16','Ako sa zapisujú do staničného denníka správy o nebezpečenstve?','V plnom znení','Skratkou','Vôbec sa nezapisujú','Len čas a kanál',''],
+['P17','Aké druhy povolení na prevádzkovanie rádiových zariadení existujú?','Individuálne, osobitné, amatérske','Dočasné, trvalé, núdzové','Národné, európske, svetové','Lodné, letecké, pozemné',''],
+['P17','Kedy povolenie stráca platnosť?','Napr. uplynutím lehoty, smrťou držiteľa, zrušením alebo vzdaním sa povolenia','Pri predaji rádiostanice do bazáru','Pri výmene antény','Po každej plavbe',''],
+['P17','Kto vedie povoľovacie konanie?','Regulačný úrad SR','Ministerstvo vnútra','Výrobca zariadenia','Prístavný kapitanát',''],
+['P18','Komu možno sprístupniť predmet telekomunikačného tajomstva?','Len osobe, ktorej sa týka, a oprávneným štátnym orgánom','Novinárom','Komukoľvek na lodi','Majiteľovi prístavu',''],
+['P18','Kto je povinný zachovávať telekomunikačné tajomstvo?','Každý, kto s ním príde do styku','Len operátor','Len veliteľ','Len Regulačný úrad',''],
+['P18','Na čo sa zákaz nahrávania a odpočúvania nevzťahuje?','Na informácie o pôvodcovi výhražného alebo zlomyseľného volania a poplašnej správy','Na tiesňové správy','Na správy loď–loď','Na nič, platí vždy',''],
+['P19','Čo je rušenie?','Vyžarovanie EM vĺn, ktoré zhoršuje kvalitu signálu v pásme prijímača','Hovorenie počas cudzieho vysielania','Zlomená anténa','Slabá batéria',''],
+['P19','Aké typy rušenia rozlišujeme?','Vzájomné, priemyslové, škodlivé','Krátke a dlhé','Denné a nočné','Analógové a digitálne',''],
+['P19','Komu sa hlási vzájomné rušenie rádiových zariadení?','Regulačnému úradu SR','Polícii','Výrobcovi','Pobrežnej stanici',''],
+['P19','Ktoré zariadenia nepodliehajú schvaľovaniu technickej spôsobilosti?','Zariadenia obrany, SIS, polície a civilného letectva (a amatérske)','Lodné VHF','Ručné VHF','Antény na jachtách',''],
+['P20','Čím je nedovolené prevádzkovanie rádiového zariadenia?','Správnym deliktom','Priestupkom proti poriadku','Trestným činom vždy','Ničím, ak nikoho neruší',''],
+['P20','Aká pokuta hrozí fyzickej osobe?','100 € až 10 000 €','10 € až 100 €','Až 5 % obratu','Pevne 1000 €',''],
+['P20','Aká pokuta hrozí podnikateľovi?','200 € až 5 % obratu','100 € až 10 000 €','Pevne 50 000 €','Len napomenutie',''],
+['P20','Na čo prihliada úrad pri ukladaní pokuty?','Na povahu, závažnosť, spôsob, trvanie a následky porušenia','Na vek a vzdelanie','Na veľkosť lode','Na počasie',''],
+['P21','Kto smie v prípade tiesne obsluhovať vysielaciu stanicu?','Ktokoľvek, ale len na tiesňovú prevádzku','Len držiteľ osvedčenia','Len veliteľ','Nikto bez povolenia',''],
+['P21','Za akých podmienok môže stanicu obsluhovať osoba bez osvedčenia?','So súhlasom veliteľa, po poučení kvalifikovaným operátorom a so zápisom do denníka','Nikdy','Ak má vodičský preukaz','Ak loď stojí v prístave',''],
+['P21','Kto overuje osobitnú odbornú spôsobilosť?','Regulačný úrad SR skúškou a vydaním osvedčenia','Jachtársky klub','Výrobca rádiostanice','Prístavný kapitán',''],
+['P22','Do akej vzdialenosti od pobrežia oprávňuje obmedzené osvedčenie rádiotelefonistu?','200 námorných míľ (alebo pobrežná plavba)','20 námorných míľ','2 námorné míle','Bez obmedzenia',''],
+['P22','Čo urobí držiteľ pri strate osvedčenia?','Oznámi to RÚ SR a požiada o duplikát','Spraví novú skúšku','Nemusí nič','Oznámi to polícii',''],
+['P22','Aké ovládanie vysielača pokrýva obmedzené osvedčenie?','Iba jednoduché vonkajšie ovládacie prvky (klávesnica, prepínač)','Akékoľvek vrátane opráv','Len ručné stanice','Len MF/HF stanice',''],
+['P23','Čo smú kontrolovať zahraničné orgány na našej lodnej stanici?','Technický stav podľa povolenia (výkon, frekvencie, druh prevádzky, denník)','Odbornú spôsobilosť operátora','Nič','Všetko vrátane preskúšania kapitána',''],
+['P23','Kto smie overovať odbornú spôsobilosť operátora, ktorý skladal skúšku v SR?','Iba RÚ SR','Ktorýkoľvek prístavný úrad','Coast Guard','Pobrežná stanica',''],
+// ---------- PREVÁDZKA ----------
+['R1','Ktorý signál má najvyššiu prioritu?','MAYDAY','PAN PAN','SECURITE','ALL SHIPS',''],
+['R1','Zoraď správne od najvyššej priority:','MAYDAY → PAN PAN → SECURITE → bežné volanie','PAN PAN → MAYDAY → SECURITE → bežné','SECURITE → PAN PAN → MAYDAY → bežné','MAYDAY → SECURITE → PAN PAN → bežné',''],
+['R1','Kedy smiem prerušiť prebiehajúcu komunikáciu na kanáli?','Len ak vysielam správu s vyššou prioritou','Kedykoľvek','Ak som väčšia loď','Ak trvá dlhšie ako 1 minútu',''],
+['R1','Ktorá komunikácia má najnižšiu prioritu?','Kontrola rádiostanice a bežné správy loď–loď','Meteorologické výstrahy','Súrne správy','Navigačné výstrahy',''],
+['R2','Aký je prvotný účel rádiového zariadenia v pohyblivej službe?','Zaistenie bezpečnosti a záchrany života','Zábava posádky','Objednávanie v reštauráciách','Komunikácia s rodinou',''],
+['R2','Čím sa VHF líši od mobilu?','Na kanáli počujú všetci a naraz môže vysielať len jeden','Nedá sa ním volať pobrežie','Je šifrované','Funguje len v prístave',''],
+['R3','Akou rýchlosťou sa má hovoriť do rádia?','Rovnomerne, asi 100 slov za minútu','Čo najrýchlejšie','Asi 30 slov za minútu','Na rýchlosti nezáleží',''],
+['R3','Čo sa rozumie jasnou rečou?','Všeobecne zrozumiteľné slová bez skrytého významu','Spisovná slovenčina','Hovorenie nahlas','Používanie Q-kódov',''],
+['R3','Sú v námornej VHF prevádzke dovolené vopred dohodnuté kódy?','Nie','Áno, medzi priateľmi','Áno, v noci','Áno, na kanáli 16',''],
+['R4','Na ktorom kanáli sa nadväzuje spojenie a vysiela tiesňové volanie?','Kanál 16 (156,8 MHz)','Kanál 70','Kanál 13','Kanál 9',''],
+['R4','Ktoré kanály sú pracovné pre komunikáciu loď–loď?','6, 8, 9, 10, 67, 69, 72, 73, 77','16, 70, 13','1 až 28','60 až 88',''],
+['R4','Na čo slúži kanál 70?','Výhradne na digitálne volanie DSC','Na hlasové tiesňové volanie','Na počasie v Taliansku','Na komunikáciu v maríne',''],
+['R4','Smie na kanáli 16 prebiehať bežná komunikácia?','Nie, len nadviazanie spojenia, tieseň a bezpečnosť','Áno, ak je krátka','Áno, v prístave','Áno, cez víkend',''],
+['R4','Čo je „Typ B“ volania?','Volám priamo na dohodnutom pracovnom kanáli (z Pilot book)','Volám cez kanál 16 a potom prejdem na pracovný','Volám mobilom','Volám cez DSC',''],
+['R4','Kde ostávam pri MAYDAY a PAN PAN?','Na kanáli 16','Prejdem na kanál 70','Prejdem na kanál 13','Na ľubovoľnom pracovnom',''],
+['R4','Na čo slúži kanál 13?','Bridge-to-bridge – navigačná bezpečnosť, manévrovanie lodí','Predpoveď počasia na Baleároch','DSC','Tieseň',''],
+['R5','Čo urobím ako prvé pred začiatkom vysielania?','Skontrolujem pripojenie zdroja, antény a mikrofónu','Zavolám MAYDAY na skúšku','Nastavím kanál 70','Vypnem squelch',''],
+['R5','Čo musím urobiť tesne pred vysielaním?','Presvedčiť sa, že na kanáli neprebieha iná komunikácia','Zvýšiť výkon na maximum','Zavolať pobrežnú stanicu','Zapísať sa do denníka',''],
+['R5','Ak ruším cudziu komunikáciu, musím:','prestať vysielať na prvú žiadosť rušenej stanice','pokračovať, kým nedohovorím','prejsť na kanál 16','znížiť hlasitosť',''],
+['R6','Čo znamená pomôcka O-K-O?','Oslov – Kto si – Over (o čom)','Otvor – Kanál – Odpovedz','Over – Kanál – Out','Oznám – Kontroluj – Opakuj',''],
+['R6','Koľkokrát pri volaní oslovujem volanú loď?','3×','1×','2×','5×','Aby obsluha stihla prísť k rádiostanici.'],
+['R6','Koľkokrát povie meno lode stanica, ktorá odpovedá na volanie?','1×','3×','2×','Vôbec',''],
+['R6','Volaná stanica neodpovedá. Ako dlho a ako často smiem opakovať volanie?','3× s 2-minútovými prestávkami, ďalší pokus po 15 minútach','Nepretržite','Každých 10 sekúnd','Len 1×',''],
+['R6','Čo použijem na konci komunikácie namiesto OVER?','OUT','ROGER','STAND BY','FINISH',''],
+['R6','Stanica počula volanie, ale nie je istá, či bolo pre ňu. Čo urobí?','Neodpovie, kým sa volanie nezopakuje','Hneď odpovie','Zavolá pobrežnú stanicu','Vyšle SECURITE',''],
+['R6','Ako oslovujem pobrežnú stanicu?','Najprv miesto, potom úrad – napr. SPLIT RADIO','Najprv úrad, potom miesto – RADIO SPLIT','Len „Coast station“','Len MMSI',''],
+['R6','Používa sa pri súkromnom volaní loď–loď volacia značka?','Zvyčajne nie; pri oficiálnom volaní áno','Vždy 3×','Nikdy, ani pri tiesni','Len v noci',''],
+['R7','Čo obsahuje skúšobné vysielanie?','Volanú stanicu, moju stanicu a frázu RADIO CHECK','MAYDAY a polohu','Len moju volaciu značku','Rad tónov 1300/2200 Hz',''],
+['R7','Čo znamená čitateľnosť 5?','Dokonale čitateľné','Nečitateľné','Sotva čitateľné','5 námorných míľ',''],
+['R7','Ako dlho smie trvať signál na vyladenie vysielača?','Najviac 10 sekúnd','1 minútu','30 sekúnd','Bez obmedzenia',''],
+['R7','Čo znamená čitateľnosť 1?','Nečitateľné','Výborné','Prvý kanál','Prvá výzva',''],
+['R8','Ako sa vyslovuje číslo 20?','two zero','twenty','two-oh','twelve',''],
+['R8','Ako sa vyslovuje frekvencia 156,8 MHz?','one five six DECIMAL eight','one hundred fifty six point eight','fifteen six comma eight','one five six STOP eight',''],
+['R8','Ako sa vysiela čas 17:12?','Ako 4-miestne číslo: one seven one two (UTC)','seventeen twelve','five twelve PM','one seven colon one two',''],
+['R8','Ktorý čas sa štandardne používa v rádiotelefónii?','UTC (svetový koordinovaný čas)','Miestny letný čas','Čas prístavu odchodu','Čas na mobile',''],
+['R8','Ako sa vyslovuje „4“ v rádiotelefónii?','four (fouer)','for','fír','quatro',''],
+['R8','Ktoré čísla smiem vysielať vcelku?','Celé stovky a tisícky','Celé desiatky','Všetky čísla','Žiadne',''],
+['R9','Ako sa hláskuje volacia značka OMMA11?','Oscar Mike Mike Alfa one one','Oto Mária Mária Adam jedenásť','Ocean Mike Mike Alpha eleven','Oscar Mama Mama Alfa one one',''],
+['R9','Ktoré slovo patrí písmenu Q?','Quebec','Queen','Quido','Quarter',''],
+['R9','Ktoré slovo patrí písmenu Y?','Yankee','Yellow','Yacht','Young',''],
+['R9','Ktoré slovo patrí písmenu J?','Juliett','Jozef','Japan','Jack',''],
+['R9','Ktoré slovo patrí písmenu W?','Whiskey','Water','Wind','Wilma',''],
+['R9','Ktoré slovo patrí písmenu V?','Victor','Viktória','Venus','Vodka',''],
+['R10','Čo znamená OVER?','Príjem – skončil som, vysielajte','Koniec spojenia','Opakujte','Rozumiem',''],
+['R10','Čo znamená OUT?','Koniec – toto vysielanie je ukončené','Vysielajte','Opakujem','Prejdite na iný kanál',''],
+['R10','Ako po anglicky poviem „čakajte“?','STAND BY','GO AHEAD','SAY AGAIN','ROGER',''],
+['R10','Čo znamená ROGER (ROMEO)?','Rozumiem – prijal som celé vaše vysielanie','Áno','Opakujte','Koniec',''],
+['R10','Čo znamená GO AHEAD?','Vysielajte','Choďte preč','Prejdite na kanál','Plávajte ďalej',''],
+['R10','Ako sa pýtam „Ako ma počujete?“','HOW DO YOU READ ME?','DO YOU HEAR?','RADIO OK?','WHO IS CALLING ME?',''],
+['R10','Čo znamená MOB?','Man over board – človek cez palubu','Motor out of order','Mobil na palube','Mayday on board',''],
+['R10','Ako po anglicky „loď sa potápa“?','THE SHIP IS SINKING','THE SHIP IS DRIFTING','FIRE ON THE SHIP','MAST LOST',''],
+['R11','Urobil som chybu vo vysielaní. Čo poviem?','CORRECTION, posledná správna skupina a potom správny text','SAY AGAIN','I REPEAT a celé od začiatku','OUT',''],
+['R11','Kto vysiela SAY AGAIN?','Prijímacia stanica, ktorá nerozumela','Vysielacia stanica','Pobrežná stanica vždy','Nikto, je to zastarané',''],
+['R11','Čo znamená ALL AFTER?','Všetko za (určitým slovom)','Všetko pred','Všetko medzi','Všetci za mnou',''],
+['R11','Kto vysiela READ BACK?','Vysielacia stanica, ktorá si chce overiť správny príjem','Prijímacia stanica, ktorá nerozumela','Pobrežná stanica pri MAYDAY','Loď v tiesni',''],
+['R12','Čo musí urobiť prijímacia stanica po výzve READ BACK?','Zopakovať celý text správy','Potvrdiť slovom ROGER','Prejsť na kanál 16','Ukončiť spojenie',''],
+['R12','Ako si vysielacia stanica vyžiada potvrdenie príjmu?','Slovom CONFIRM','Slovom OUT','Slovom MAYDAY','Slovom SECURITE',''],
+['R12','Ako sa potvrdzuje viac správ za sebou?','Jednotlivo alebo hromadne, zvyčajne s uvedením počtu','Vôbec','Len poslednou','Len písomne',''],
+['R12','Ako najlepšie potvrdím zmenu kanála?','Zopakovaním čísla kanála','Slovom OUT','Mlčaním','Slovom MAYDAY',''],
+['R13','Aká frekvencia zodpovedá kanálu 16?','156,800 MHz','156,525 MHz','121,5 MHz','2182 kHz',''],
+['R13','Aká je frekvencia kanála 70 (DSC)?','156,525 MHz','156,800 MHz','161,975 MHz','406 MHz',''],
+['R13','Aká je letecká tiesňová frekvencia?','121,5 MHz','156,8 MHz','500 kHz','2182 kHz',''],
+['R13','Na akej frekvencii vysielajú tiesňové bóje EPIRB?','406 MHz','156,8 MHz','9 GHz','518 kHz',''],
+['R13','Čo je NAVTEX?','Vysielanie navigačných a bezpečnostných informácií na 518 kHz','Satelitný telefón','Druh antény','Tiesňová bója',''],
+['R13','Aké je námorné pásmo VHF?','156 – 162 MHz','88 – 108 MHz','118 – 137 MHz','400 – 470 MHz',''],
+['R13','Aká je MF rádiotelefónna tiesňová frekvencia?','2182 kHz','500 kHz','8364 MHz','121,5 kHz',''],
+['R14','Čo obsahuje tiesňové volanie?','MAYDAY 3×, THIS IS, meno lode 3×, call sign 1×, MMSI 1×','MAYDAY 1×, ALL STATIONS 3×, poloha','PAN PAN 3×, meno lode 3×','MAYDAY 3×, meno volanej lode 3×, OVER',''],
+['R14','Komu je adresované tiesňové volanie?','Nikomu konkrétnemu – neoslovuje sa','Najbližšej pobrežnej stanici','Coast Guard','ALL STATIONS 3×',''],
+['R14','Čo znamená pomôcka M-I-P-D-A-N-I-O?','Mayday, Identification, Position, Distress, Assistance, Number, Information, Over','Mayday, Info, Port, Danger, Alarm, Name, Inform, Out','Message, ID, Phone, Delay, Answer, Note, Info, Over','Mike, India, Papa, Delta, Alfa, November, India, Oscar',''],
+['R14','Ako je najlepšie udať polohu v tiesňovej správe?','Od orientačného bodu: bod, smer a vzdialenosť (napr. maják, SW, 5 Nm)','Len súradnicami','Názvom mora','Vôbec, záchranári si ju zistia',''],
+['R14','Koľkokrát sa hovorí MAYDAY v samotnej tiesňovej správe (po volaní)?','1×','3×','2×','Vôbec',''],
+['R14','Čo musia urobiť stanice, ktoré počujú tiesňové volanie?','Okamžite prestať vysielať a počúvať','Ihneď ho potvrdiť','Prejsť na kanál 70','Zavolať mobilom políciu',''],
+['R14','Kedy sa smie potvrdiť tiesňové volanie?','Až po odvysielaní tiesňovej správy','Okamžite po prvom MAYDAY','Nikdy','Po 1 hodine',''],
+['R14','Čo znamená D v pomôcke MIPDANIO?','Distress – čo sa stalo (jedným slovom)','Distance – vzdialenosť','Direction – smer','Doctor – lekár',''],
+['R14','Čo znamená N v pomôcke MIPDANIO?','Number – počet osôb na palube vrátane detí','Name – meno lode','North – sever','Nautical miles',''],
+['R14','Aký jazyk/reč sa používa pri tiesni?','Otvorená reč','Šifrovaný kód','Len Q-kódy','Morseovka',''],
+['R15','Počujem cudzie MAYDAY. Čo urobím najskôr?','Počkám pár minút, počúvam a nechám priestor pobrežnej stanici','Hneď ho potvrdím','Prepnem na iný kanál','Pošlem MAYDAY RELAY',''],
+['R15','Ako znie fráza pri potvrdení cudzieho MAYDAY?','RECEIVED MAYDAY + ETA (za aký čas priplávam)','CANCEL MY DISTRESS ALERT','SEELONCE MAYDAY','ROGER MAYDAY OUT',''],
+['R15','Čo vyjadruje ETA pri potvrdení MAYDAY?','Za aký čas priplávam (nie o koľkej)','O koľkej hodine priplávam','Vzdialenosť v míľach','Počet ľudí na mojej lodi',''],
+['R15','Akým signálom začína preposlanie cudzej tiesne?','MAYDAY RELAY 3×','MAYDAY 3×','PAN PAN 3×','SECURITE 3×',''],
+['R15','Pri MAYDAY RELAY uvádzam volaciu značku:','najprv svoju (volám ja), potom v správe značku lode v tiesni','len značku lode v tiesni','len svoju','žiadnu',''],
+['R15','Čo znamená SEELONCE MAYDAY?','Rádiový pokoj – ticho, prebieha tiesňová prevádzka','Koniec tiesne','Zrušenie MAYDAY','Prepínam na pracovný kanál',''],
+['R15','Čo znamená SEELONCE FEENEE?','Koniec rádiového pokoja – tiesňová situácia skončila','Začiatok rádiového pokoja','Obmedzená prevádzka','Volanie o pomoc',''],
+['R15','Ako zruším omylom vyslaný MAYDAY?','ALL STATIONS 3×, THIS IS, meno 3×, call sign, MMSI, CANCEL MY DISTRESS ALERT, OUT','MAYDAY 3×, CANCEL, OUT','Stačí vypnúť rádiostanicu','SEELONCE FEENEE',''],
+['R15','Hovorí sa slovo MAYDAY pri rušení vlastného tiesňového volania?','Nie – situácia už skončila','Áno, 3×','Áno, 1×','Áno, na konci',''],
+['R16','Čo znamená signál PAN PAN?','Súrna správa o bezpečnosti lode alebo osoby – ohrozenie nie je bezprostredné','Bezprostredné ohrozenie života','Meteorologická výstraha','Kontrola rádiostanice',''],
+['R16','Kto smie dať súhlas na vyslanie PAN PAN?','Veliteľ lode (osoba zodpovedná za loď)','Ktokoľvek z posádky','Len pobrežná stanica','Regulačný úrad',''],
+['R16','Akú prioritu má PAN PAN?','Prednosť pred všetkým okrem MAYDAY','Najnižšiu','Rovnakú ako SECURITE','Vyššiu ako MAYDAY',''],
+['R16','Je predpísané ukončenie súrnej korešpondencie?','Nie','Áno, frázou SEELONCE FEENEE','Áno, CANCEL MY DISTRESS ALERT','Áno, poplachovým signálom',''],
+['R16','Typický príklad situácie na PAN PAN:','Nefunguje motor a loď unáša k pobrežiu, treba odťah','Loď sa potápa','Plávajúca debna v plavebnej dráhe','Chceme predpoveď počasia',''],
+['R16','Ako začína súrne volanie?','PAN PAN 3×, ALL STATIONS 3×, THIS IS, meno 3×','PAN PAN 1×, meno 1×','MAYDAY 3×, ALL STATIONS 3×','SECURITE 3×, PAN PAN 3×',''],
+['R17','Čo oznamuje signál SECURITE?','Bezpečnostnú správu – nebezpečenstvo pre plavbu alebo meteorologickú výstrahu','Tieseň','Súrnu potrebu odťahu','Koniec rádiového pokoja',''],
+['R17','Kde sa začína bezpečnostné volanie?','Na kanáli 16, potom sa prejde na ohlásený pracovný kanál','Priamo na kanáli 70','Na kanáli 13','Na mobile',''],
+['R17','Akú prioritu má SECURITE?','Pred všetkým okrem tiesňových a súrnych správ','Najvyššiu','Rovnakú ako bežné volanie','Pred MAYDAY',''],
+['R17','Typický príklad na SECURITE:','Plávajúca debna v úzkej plavebnej dráhe','Požiar na lodi','Muž cez palubu','Porucha motora a unášanie',''],
+['R17','Ako sa vyslovuje SECURITE?','sekjúrité','sekjurit','sekuríte','sikjúriti',''],
+// ---------- ELEKTRO ----------
+['E1','Čím sa vodič líši od izolantu?','Vodič má voľné elektróny, izolant nie','Izolant má voľné elektróny, vodič nie','Vodič je vždy kov, izolant vždy kvapalina','Nelíšia sa',''],
+['E1','Ktorý materiál je dobrý izolant?','Porcelán','Meď','Striebro','Zlato',''],
+['E1','Čo je polovodič?','Látka, ktorá vedie prúd len za určitých podmienok (teplo, svetlo, prímes)','Vodič s polovičným odporom','Izolant navlhčený vodou','Polovica kábla',''],
+['E1','Akú vlastnosť má dióda?','Prepúšťa prúd len jedným smerom','Zosilňuje signál','Uchováva energiu','Mení frekvenciu',''],
+['E1','Na čo sa využíva tranzistor?','Na zosilnenie slabého signálu','Na meranie napätia','Na uzemnenie','Na uskladnenie energie',''],
+['E1','Ktoré častice sú nosičmi elektrického prúdu v kove?','Elektróny','Protóny','Neutróny','Fotóny',''],
+['E2','Schematická značka v tvare obdĺžnika (alebo cikcak) predstavuje:','Rezistor (odpor)','Kondenzátor','Batériu','Žiarovku',''],
+['E2','Dve rovnobežné krátke čiary rovnakej dĺžky predstavujú:','Kondenzátor','Rezistor','Cievku','Poistku',''],
+['E2','Krúžok s písmenom A je značka:','Ampérmetra','Antény','Alternátora','Akumulátora',''],
+['E2','Dlhšia a kratšia rovnobežná čiara (+/−) predstavujú:','Zdroj jednosmerného prúdu (článok, batériu)','Kondenzátor','Uzemnenie','Vypínač',''],
+['E2','Krúžok s krížikom (X) vo vnútri predstavuje:','Žiarovku','Voltmeter','Zdroj striedavého prúdu','Anténu',''],
+['E2','Trojuholník so zvislou čiarou na špičke predstavuje:','Diódu','Anténu','Tranzistor bez bázy','Poistku',''],
+['E3','V akej jednotke sa meria elektrický odpor?','Ohm (Ω)','Volt (V)','Watt (W)','Farad (F)',''],
+['E3','V akej jednotke sa meria výkon?','Watt (W)','Joule (J)','Ampér (A)','Henry (H)',''],
+['E3','V akej jednotke sa meria kapacita kondenzátora?','Farad (F)','Ampérhodina (Ah)','Henry (H)','Siemens (S)',''],
+['E3','V akej jednotke sa meria indukčnosť?','Henry (H)','Hertz (Hz)','Tesla (T)','Farad (F)',''],
+['E3','Čo znamená predpona „M“ (mega)?','10⁶ – milión','10³ – tisíc','10⁻³ – tisícina','10⁹ – miliarda',''],
+['E3','Koľko je 1 mA?','0,001 A','1000 A','0,000 001 A','0,1 A',''],
+['E3','Koľko je 156,8 MHz v hertzoch?','156 800 000 Hz','156 800 Hz','1 568 000 Hz','15 680 000 000 Hz',''],
+['E4','Ako znie Ohmov zákon?','U = R × I','U = R / I','P = U × I','I = U × R',''],
+['E4','Aký prúd tečie obvodom s napätím 12 V a odporom 4 Ω?','3 A','48 A','0,33 A','16 A',''],
+['E4','Aký odpor má spotrebič, ktorým pri 12 V tečie 2 A?','6 Ω','24 Ω','10 Ω','0,17 Ω',''],
+['E4','Ako sa zapája ampérmeter?','Sériovo (do série so spotrebičom)','Paralelne k spotrebiču','Medzi anténu a zem','Kamkoľvek',''],
+['E4','Ako sa zapája voltmeter?','Paralelne k spotrebiču','Sériovo','Do antény','Za poistku',''],
+['E4','Aký vnútorný odpor musí mať voltmeter?','Čo najväčší','Čo najmenší','Nulový','Rovnaký ako spotrebič',''],
+['E4','Aký vnútorný odpor musí mať ampérmeter?','Čo najmenší','Čo najväčší','Nekonečný','Rovnaký ako zdroj',''],
+['E4','Čo sa stane s prúdom, ak pri rovnakom napätí zväčšíme odpor?','Prúd sa zmenší','Prúd sa zväčší','Prúd sa nezmení','Prúd zmení smer',''],
+['E5','Ako vypočítam elektrický výkon jednosmerného prúdu?','P = U × I','P = U / I','P = R × I','P = U × R',''],
+['E5','Aký výkon má spotrebič na 12 V, ktorým tečie 5 A?','60 W','2,4 W','17 W','7 W',''],
+['E5','Čo je účinnosť?','Pomer výkonu k príkonu','Súčet výkonu a strát','Napätie krát prúd','Prúd za hodinu',''],
+['E5','Ako súvisí príkon, výkon a straty?','Príkon = výkon + straty','Výkon = príkon + straty','Straty = výkon + príkon','Príkon = výkon – straty',''],
+['E5','Akú účinnosť má motor s príkonom 1000 W a výkonom 800 W?','80 %','125 %','20 %','8 %',''],
+['E5','Aký prúd odoberá vrátok s príkonom 1200 W z 12 V batérie?','100 A','10 A','14 400 A','1 A',''],
+['E6','Ako sa správa napätie pri sériovom zapojení batérií?','Napätia sa sčítajú','Napätie sa nemení','Napätie sa delí','Napätie klesne na nulu',''],
+['E6','Ako sa správa prúd pri paralelnom zapojení batérií?','Prúdy sa sčítajú, napätie ostáva rovnaké','Prúd sa nemení, napätie sa sčíta','Prúd klesá','Prúd sa delí',''],
+['E6','Dve 12 V batérie zapojené sériovo dajú:','24 V','12 V','6 V','144 V',''],
+['E6','Ktoré batérie smiem zapojiť paralelne?','Len batérie s rovnakým napätím','Akékoľvek','Len rozdielne napätia','Len olovené s alkalickými',''],
+['E6','Aký je výsledný odpor dvoch rezistorov 10 Ω zapojených sériovo?','20 Ω','5 Ω','10 Ω','100 Ω',''],
+['E6','Aký je výsledný odpor dvoch rezistorov 10 Ω zapojených paralelne?','5 Ω','20 Ω','10 Ω','1 Ω',''],
+['E6','Aké napätie má galvanický článok (napr. tužková batéria)?','1,5 V','12 V','2 V','9 V',''],
+['E6','Čo je usmerňovač?','Zdroj, ktorý pomocou diód robí zo striedavého prúdu jednosmerný','Zariadenie na smerovanie antény','Druh poistky','Regulátor hlasitosti',''],
+['E7','Akým prúdom sa nabíja akumulátor s kapacitou 50 Ah (pravidlo 0,1 C)?','5 A','50 A','0,5 A','10 A',''],
+['E7','Čím sa dolieva elektrolyt v olovenom akumulátore?','Destilovanou vodou','Vodou z vodovodu','Morskou vodou','Kyselinou citrónovou',''],
+['E7','Prečo sa olovené akumulátory používajú na štartovanie motorov?','Majú malý vnútorný odpor a dodajú veľký prúd','Sú ľahké','Majú veľký vnútorný odpor','Nepotrebujú údržbu',''],
+['E7','Aké menovité napätie má článok alkalického akumulátora?','1,2 V','2 V','1,5 V','12 V',''],
+['E7','Prečo sa olovené a alkalické akumulátory skladujú oddelene?','Mohli by vzniknúť výbušné zlúčeniny plynov','Kvôli farbe','Navzájom by sa nabíjali','Kvôli hmotnosti',''],
+['E7','Čo urobím s akumulátorom pred jeho dlhším odstavením?','Úplne ho nabijem','Úplne ho vybijem','Vylejem elektrolyt','Skratujem svorky',''],
+['E7','Aký elektrolyt má alkalický akumulátor?','Lúh sodný alebo draselný','Kyselinu sírovú','Destilovanú vodu','Morskú vodu',''],
+['E7','Čo udáva kapacita akumulátora (Ah)?','Súčin prúdu a doby vybíjania v hodinách','Napätie článku','Hmotnosť','Počet nabití',''],
+['E8','Pri akom prúde človek cíti slabé brnenie?','1–3 mA','100 mA','1 A','10 A',''],
+['E8','Pri akom prúde (približne) prestáva srdce plniť svoju funkciu?','okolo 30 mA','okolo 1 mA','okolo 3 A','okolo 300 A',''],
+['E8','Pri akom prúde sa človek nedokáže sám pustiť vodiča?','okolo 10 mA','okolo 1 mA','okolo 1 A','nikdy',''],
+['E8','Čo spôsobujú vysokofrekvenčné prúdy?','Povrchové a hĺbkové popáleniny','Nič, sú neškodné','Len brnenie','Len kŕče',''],
+['E9','Čo urobím ako prvé pri úraze elektrickým prúdom?','Uvoľním postihnutého od styku s prúdom','Začnem masáž srdca','Zavolám lekára a čakám','Polejem ho vodou',''],
+['E9','Postihnutý nedýcha. Čo urobím?','Ihneď začnem umelé dýchanie','Odveziem ho do nemocnice','Nechám ho ležať a čakám','Dám mu napiť',''],
+['E9','Postihnutý nemá hmatateľný pulz. Čo urobím?','Nepriamu masáž srdca','Ošetrím popáleniny','Prenesiem ho do kajuty','Nič',''],
+['E9','Smiem prenášať postihnutého v bezvedomí k lekárovi?','Nie (výnimka: silné krvácanie – prevážať ležiaceho)','Áno, vždy','Áno, ale len v sede','Áno, ak je blízko',''],
+['E9','Čo sa nesmie robiť s prepálenou poistkou?','Opravovať ju','Vymeniť ju za rovnakú hodnotu','Pred výmenou vypnúť prúd','Odstrániť príčinu skratu',''],
+['E9','Čím sa chránia antény pred prepätím (napr. v búrke)?','Iskrišťom, dútnavkami, výbojkami','Poistkou','Diódou','Ampérmetrom',''],
+['E10','Ako sa šíria vlny VHF?','Priamočiaro, na optickú vzdialenosť','Odrazom od ionosféry okolo celej Zeme','Ohybom pozdĺž zemského povrchu','Cez vodu',''],
+['E10','Od čoho najviac závisí dosah VHF?','Od výšky antény','Od výkonu batérie','Od počasia','Od dĺžky kábla',''],
+['E10','Akú frekvenciu majú VKV (VHF)?','30 – 300 MHz','3 – 30 MHz','300 – 3000 kHz','3 – 30 GHz',''],
+['E10','Aký je približný dosah medzi anténou 16 m a 100 m (D = 2,5 × (√H₁ + √H₂))?','35 Nm','116 Nm','14 Nm','290 Nm',''],
+['E10','V akej výške je ionosféra?','Asi 50 – 500 km','Asi 1 – 5 km','Asi 10 000 km','Na úrovni mrakov',''],
+['E10','Ktoré vlny sa odrážajú od ionosféry a umožňujú celosvetové spojenie?','Krátke (KV)','Veľmi krátke (VKV)','Ultra krátke (UKV)','Žiadne',''],
+['E10','Ako sa šíria stredné vlny v noci?','Odrazom od ionosféry (priestorová vlna)','Len priamočiaro','Vôbec sa nešíria','Len cez vodu',''],
+['E10','Od čoho závisí hustota ionosféry?','Od dennej doby, ročného obdobia a slnečnej činnosti','Od výšky antény','Od výkonu vysielača','Od teploty mora',''],
+['E10','Ako sa vypočíta rádiový horizont jednej antény vysokej H metrov?','d = 2,5 × √H (Nm)','d = 2,5 × H (Nm)','d = H / 2,5 (km)','d = √H / 2,5',''],
+['E11','Aký charakter má vyžarovanie tyčovej antény lodnej VHF v horizontálnej rovine?','Všesmerové','Smerové jedným smerom','Osmičkové vo všetkých rovinách','Žiadne',''],
+['E11','Ktorá anténa je smerová?','Yagiho anténa','Tyčová anténa','Zvislý dipól','Prútová anténa ručnej stanice',''],
+['E11','Akú impedanciu má komunikačný koaxiálny kábel?','50 Ω','300 Ω','75 kΩ','1 Ω',''],
+['E11','Akú impedanciu má dvojlinka?','300 Ω','50 Ω','75 Ω','600 kΩ',''],
+['E11','Čo robím, ak sa zlomí anténa?','Nevysielam – signál by sa vrátil a spálil zosilňovač','Vysielam s plným výkonom','Vysielam bez obmedzenia','Prepnem na kanál 70',''],
+['E11','Akú dĺžku má tyčová anténa vzhľadom na vlnovú dĺžku?','λ/4 (štvrť vlny)','λ (celá vlna)','2 λ','λ/100',''],
+['E11','Prečo má ručná vysielačka krátku anténu?','Krátka anténa má širokú charakteristiku a nie je citlivá na náklon','Aby bola lacnejšia','Aby mala väčší dosah','Krátka anténa je smerová',''],
+['E11','Akú vyžarovaciu charakteristiku má dipól (v rovine žiaričov)?','Osmičkovú','Kruhovú','Žiadnu','Úzky lúč',''],
+['E11','Na čo slúži rámová anténa?','Na zameriavanie polohy vysielačov','Na televíziu','Na satelitný príjem','Na DSC',''],
+['E12','Aký je vzťah medzi vlnovou dĺžkou a frekvenciou?','λ = c / f','λ = c × f','λ = f / c','λ = f²',''],
+['E12','Akou rýchlosťou sa šíria rádiové vlny?','300 000 km/s','300 km/s','30 000 km/s','340 m/s',''],
+['E12','Aká je vlnová dĺžka pri frekvencii 100 MHz?','3 m','30 m','0,3 m','300 m',''],
+['E12','Ak sa vlna skracuje, frekvencia:','rastie','klesá','nemení sa','je nulová',''],
+['E12','Aká je približne vlnová dĺžka kanála 16 (156,8 MHz)?','asi 1,9 m','asi 19 m','asi 19 cm','asi 190 m',''],
+['E13','Čo je simplexná prevádzka?','Na jednej frekvencii hovorí vždy len jeden','Obaja hovoria naraz na dvoch frekvenciách','Vysielanie len dát','Komunikácia cez satelit',''],
+['E13','Čo je duplexná prevádzka?','Obaja hovoria súčasne ako po telefóne – na dvoch frekvenciách','Hovorí len jeden','Hovorí sa dvakrát','Prevádzka na dvoch lodiach',''],
+['E13','Ako spolu komunikujú dve lode?','Simplexne','Duplexne','Semiduplexne','Cez pobrežie',''],
+['E13','Čo je semiduplexná prevádzka?','Pobrežie pracuje duplexne, loď s bežnou stanicou simplexne','Obe stanice simplexne na jednej frekvencii','Obe stanice duplexne','Prevádzka len cez deň',''],
+['E13','Prečo sa pri semiduplexe ohlasujem aj typom lode („this is sailboat“)?','Aby pobrežie vedelo, že nepočujem, kým hovorím','Kvôli poplatkom','Aby ma pozdravili','Nie je to potrebné',''],
+['E13','Čo znamená DW (dual watch)?','Sledovanie dvoch kanálov naraz (pracovného a 16)','Duplexná prevádzka','Dvojitá anténa','Dvojnásobný výkon',''],
+['E13','Čo je modulácia?','Spojenie signálu reči s nosnou vlnou','Zosilnenie batérie','Zmena kanála','Uzemnenie antény','']
+];
+
+// Schematické značky (SVG), scenáre komunikácie, plán
+const SYM = (inner) => `<svg viewBox="0 0 100 60" class="sym" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+const SYMBOLS = [
+  { n:'Rezistor (odpor)', s:SYM('<path d="M5 30H28M72 30H95"/><rect x="28" y="22" width="44" height="16"/>') },
+  { n:'Kondenzátor', s:SYM('<path d="M5 30H45M55 30H95M45 14V46M55 14V46"/>') },
+  { n:'Zdroj jednosmerného prúdu (článok)', s:SYM('<path d="M5 30H44M56 30H95M44 12V48"/><path d="M56 21V39" stroke-width="7"/><text x="30" y="14" font-size="13" fill="currentColor" stroke="none">+</text><text x="64" y="16" font-size="15" fill="currentColor" stroke="none">−</text>') },
+  { n:'Cievka', s:SYM('<path d="M5 34H22M78 34H95M22 34a7 7 0 0 1 14 0a7 7 0 0 1 14 0a7 7 0 0 1 14 0a7 7 0 0 1 14 0"/>') },
+  { n:'Transformátor so železným jadrom', s:SYM('<path d="M38 6a6 6 0 0 1 0 12a6 6 0 0 1 0 12a6 6 0 0 1 0 12a6 6 0 0 1 0 12"/><path d="M62 6a6 6 0 0 0 0 12a6 6 0 0 0 0 12a6 6 0 0 0 0 12a6 6 0 0 0 0 12"/><path d="M47 4V56M53 4V56M10 6H38M10 54H38M62 6H90M62 54H90"/>') },
+  { n:'Uzemnenie', s:SYM('<path d="M50 4V32M30 32H70M37 41H63M44 50H56"/>') },
+  { n:'Anténa', s:SYM('<path d="M50 56V12M50 30L34 6M50 30L66 6M34 6H66"/>') },
+  { n:'Žiarovka', s:SYM('<path d="M5 30H36M64 30H95"/><circle cx="50" cy="30" r="14"/><path d="M40 20L60 40M60 20L40 40"/>') },
+  { n:'Ampérmeter', s:SYM('<path d="M5 30H36M64 30H95"/><circle cx="50" cy="30" r="14"/><text x="43" y="37" font-size="20" font-family="Arial" font-weight="bold" fill="currentColor" stroke="none">A</text>') },
+  { n:'Voltmeter', s:SYM('<path d="M5 30H36M64 30H95"/><circle cx="50" cy="30" r="14"/><text x="43" y="37" font-size="20" font-family="Arial" font-weight="bold" fill="currentColor" stroke="none">V</text>') },
+  { n:'Dióda', s:SYM('<path d="M5 30H40M60 30H95M40 16V44L60 30Z M60 16V44"/>') },
+  { n:'Poistka', s:SYM('<path d="M5 30H95"/><rect x="30" y="22" width="40" height="16"/>') },
+  { n:'Vypínač', s:SYM('<path d="M5 34H35M65 34H95M35 34L62 18"/><circle cx="35" cy="34" r="2.5" fill="currentColor"/><circle cx="65" cy="34" r="2.5" fill="currentColor"/>') },
+  { n:'Striedavý prúd', s:SYM('<path d="M15 30C25 8 40 8 50 30S75 52 85 30"/>') },
+  { n:'Jednosmerný prúd', s:SYM('<path d="M15 24H85M15 38H27M37 38H49M59 38H71M81 38H85"/>') }
+];
+
+// Scenáre: b = správne poradie blokov, d = zlé bloky navyše, s = situácia, n = poznámka po vyriešení
+const SCEN = [
+ { id:'c1', g:'Bežná prevádzka', t:'Rutinné volanie loď–loď (kanál 16)',
+   s:'Si na jachte BLUE MOON na kanáli 16. Chceš nadviazať spojenie s jachtou SIRIUS.',
+   b:['SIRIUS, SIRIUS, SIRIUS','THIS IS yacht','BLUE MOON, BLUE MOON, BLUE MOON','OVER'],
+   d:['ALL STATIONS, ALL STATIONS, ALL STATIONS','OUT','SIRIUS'],
+   n:'O-K-O: Oslov 3× (aby obsluha prišla k VHF) – Kto si: THIS IS + meno 3× – OVER. Call sign a MMSI pri súkromnom volaní netreba.' },
+ { id:'c2', g:'Bežná prevádzka', t:'Odpoveď na volanie',
+   s:'Si na SIRIUS. Počul si volanie od BLUE MOON a odpovedáš.',
+   b:['BLUE MOON','THIS IS yacht','SIRIUS','OVER'],
+   d:['BLUE MOON, BLUE MOON, BLUE MOON','OUT','MAYDAY'],
+   n:'Odpoveď stačí 1× – volajúci pri stanici sedí a počúva.' },
+ { id:'c3', g:'Bežná prevádzka', t:'Výzva na zmenu kanála',
+   s:'BLUE MOON je v spojení so SIRIUS na kanáli 16. Vyzvi ho, nech prejde na pracovný kanál 8.',
+   b:['SIRIUS','THIS IS yacht','BLUE MOON','GO TO CHANNEL 8','OVER'],
+   d:['GO TO CHANNEL 16','GO TO CHANNEL 70','OUT'],
+   n:'Pracovné kanály loď–loď: 6, 8, 9, 10, 67, 69, 72, 73, 77. Na novom kanáli sa spojenie nadväzuje znovu (oslovenie opäť 3×).' },
+ { id:'c4', g:'Bežná prevádzka', t:'Potvrdenie kanála',
+   s:'Si na SIRIUS. Potvrď BLUE MOON prechod na kanál 8.',
+   b:['BLUE MOON','THIS IS yacht','SIRIUS','CHANNEL 8','OVER'],
+   d:['MAYDAY','OUT','CHANNEL 16'],
+   n:'Lepšie je zopakovať číslo kanála než len povedať ROGER.' },
+ { id:'c5', g:'Bežná prevádzka', t:'Ukončenie komunikácie',
+   s:'BLUE MOON končí rozhovor so SIRIUS na pracovnom kanáli.',
+   b:['SIRIUS','THIS IS yacht','BLUE MOON','tešíme sa na stretnutie','OUT'],
+   d:['OVER','SIRIUS, SIRIUS, SIRIUS','MAYDAY'],
+   n:'Pri ukončení celé O-K-O a namiesto OVER → OUT. Druhá loď už neodpovedá; obe sa vrátia na 16 alebo zapnú DW.' },
+ { id:'c6', g:'Bežná prevádzka', t:'Volanie pobrežnej stanice',
+   s:'BLUE MOON potrebuje predpoveď počasia. Nepoznáš pracovný kanál, voláš Split Radio na kanáli 16.',
+   b:['SPLIT RADIO, SPLIT RADIO, SPLIT RADIO','THIS IS yacht','BLUE MOON, BLUE MOON, BLUE MOON','OVER'],
+   d:['RADIO SPLIT, RADIO SPLIT, RADIO SPLIT','ALL STATIONS, ALL STATIONS, ALL STATIONS','OUT'],
+   n:'V oslovení najprv „zemepis“, až potom úrad: SPLIT RADIO. Pobrežie preberie riadiacu úlohu a určí pracovný kanál.' },
+ { id:'c7', g:'Bežná prevádzka', t:'Kontrola rádiostanice (RADIO CHECK)',
+   s:'BLUE MOON je už v spojení so Split Marina na pracovnom kanáli 10 a žiada kontrolu rádiostanice.',
+   b:['SPLIT MARINA','THIS IS yacht','BLUE MOON','RADIO CHECK, please','OVER'],
+   d:['READ BACK','MAYDAY','OUT'],
+   n:'Skúšobné vysielanie: volaná stanica, moja stanica, RADIO CHECK.' },
+ { id:'c8', g:'Bežná prevádzka', t:'Odpoveď na RADIO CHECK',
+   s:'Si Split Marina. Počuješ BLUE MOON dobre – čitateľnosť 4.',
+   b:['BLUE MOON','THIS IS','SPLIT MARINA','I READ YOU 4','OUT'],
+   d:['I READ YOU 10','MAYDAY','SAY AGAIN'],
+   n:'Čitateľnosť 1 (nečitateľné) až 5 (dokonale čitateľné), alebo slovami („silne, ale prerušovane“).' },
+ { id:'m1', g:'Tieseň a bezpečnosť', t:'MAYDAY – tiesňové volanie',
+   s:'Si na SIRIUS (call sign OMMA11, MMSI 266 089 164). Loď sa potápa. Vyšli tiesňové VOLANIE (prvú časť).',
+   b:['MAYDAY, MAYDAY, MAYDAY','THIS IS','SIRIUS, SIRIUS, SIRIUS','CALL SIGN Oscar Mike Mike Alfa one one','MMSI two six six zero eight nine one six four'],
+   d:['ALL STATIONS, ALL STATIONS, ALL STATIONS','SPLIT RADIO, SPLIT RADIO, SPLIT RADIO','OVER','PAN PAN, PAN PAN, PAN PAN'],
+   n:'Tiesňové volanie NIKOHO neoslovuje. Meno 3×, call sign 1× hláskovane, MMSI 1×. Potom PAUZA – ostatní si pripravia denník a pero.' },
+ { id:'m2', g:'Tieseň a bezpečnosť', t:'MAYDAY – tiesňová správa (M-I-P-D-A-N-I-O)',
+   s:'Pokračuješ po pauze. SIRIUS sa potápa 3 Nm južne od ostrova Elba, čas 1712 UTC, 10 osôb, opúšťate loď.',
+   b:['MAYDAY','THIS IS','SIRIUS','CALL SIGN OMMA11','MMSI 266 089 164','ISLAND ELBA, SOUTH, 3 NAUTICAL MILES','UTC 1712','SINKING','IMMEDIATE ASSISTANCE','10 PEOPLE','ABANDONING BOAT','OVER'],
+   d:['MAYDAY, MAYDAY, MAYDAY','NEED TOW','OUT'],
+   n:'M – MAYDAY 1×, I – identifikácia, P – poloha a čas, D – čo sa stalo, A – aká pomoc, N – počet osôb, I – doplňujúce info, O – OVER.' },
+ { id:'m3', g:'Tieseň a bezpečnosť', t:'Potvrdenie cudzieho MAYDAY',
+   s:'Si na DAFNE (OMMR41, MMSI 266 089 164). Počul si MAYDAY od SIRIUS, pobrežie sa nehlási. Plávaš na pomoc, budeš tam o hodinu.',
+   b:['MAYDAY','SIRIUS, SIRIUS, SIRIUS','THIS IS','DAFNE, DAFNE, DAFNE','CALL SIGN OMMR41','MMSI 266 089 164','RECEIVED MAYDAY','ETA IS 1 HOUR','OUT'],
+   d:['ETA 18:15 UTC','MAYDAY RELAY','ALL STATIONS, ALL STATIONS, ALL STATIONS'],
+   n:'Najprv pár minút čakaj a nechaj priestor pobrežnej stanici. ETA = ZA AKÝ ČAS priplávaš, nie o koľkej – bez chyby v časových pásmach.' },
+ { id:'m4', g:'Tieseň a bezpečnosť', t:'MAYDAY RELAY – preposlanie tiesne',
+   s:'Si na DAFNE (OMMR41). SIRIUS (OMMA11) sa potápa pri Elbe, pobrežie sa nehlási. Prepošli správu.',
+   b:['MAYDAY RELAY, MAYDAY RELAY, MAYDAY RELAY','ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS','DAFNE, DAFNE, DAFNE','CALL SIGN OMMR41','MAYDAY','yacht SIRIUS, CALL SIGN OMMA11','ISLAND ELBA, SOUTH, 3 NAUTICAL MILES, UTC 1712','SINKING','IMMEDIATE ASSISTANCE','10 PEOPLE','OVER'],
+   d:['MAYDAY, MAYDAY, MAYDAY','RECEIVED MAYDAY','THIS IS SIRIUS'],
+   n:'Volanie je MOJE (moja loď a značka), aby nikto nemyslel, že sa potápam ja. V správe opisujem loď v tiesni („yacht SIRIUS“), nie „this is“.' },
+ { id:'m5', g:'Tieseň a bezpečnosť', t:'Zrušenie MAYDAY (falošný poplach)',
+   s:'Si na SIRIUS. Muža cez palubu ste našli, je v poriadku. Zruš tiesňové volanie.',
+   b:['ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS','SIRIUS, SIRIUS, SIRIUS','CALL SIGN OMMA11','MMSI 266 089 164','CANCEL MY DISTRESS ALERT','OUT'],
+   d:['MAYDAY, MAYDAY, MAYDAY','SEELONCE FEENEE','OVER'],
+   n:'Pri rušení sa slovo MAYDAY NEUVÁDZA – situácia už skončila.' },
+ { id:'m6', g:'Tieseň a bezpečnosť', t:'Rádiový pokoj – SEELONCE MAYDAY',
+   s:'Si na SIRIUS v tiesni a niekto ruší tiesňovú komunikáciu na kanáli 16. Utíš ho.',
+   b:['MAYDAY','ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS yacht SIRIUS','SEELONCE MAYDAY','OUT'],
+   d:['SEELONCE FEENEE','PAN PAN','CANCEL MY DISTRESS ALERT'],
+   n:'SEELONCE MAYDAY = ticho, prebieha tieseň. PRUDONCE = obmedzená prevádzka možná. SEELONCE FEENEE = koniec rádiového pokoja.' },
+ { id:'m7', g:'Tieseň a bezpečnosť', t:'Koniec rádiového pokoja',
+   s:'Tiesňová situácia skončila. Ukonči rádiový pokoj.',
+   b:['MAYDAY','ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS yacht SIRIUS','SEELONCE FEENEE','UTC 2134','OUT'],
+   d:['SEELONCE MAYDAY','PRUDONCE','MAYDAY RELAY'],
+   n:'V učebnici je fráza zapísaná ako „Seelonce Fini“; vyslovuje sa „sílons fíné“.' },
+ { id:'u1', g:'Tieseň a bezpečnosť', t:'PAN PAN – súrne volanie a správa',
+   s:'Si na motorovej jachte DAFNE (OMMR41). Zlyhal motor a unáša vás k pobrežiu, 3 Nm južne od Elby, 1712 LT. Potrebujete odtiahnuť, loď má 42 stôp.',
+   b:['PAN PAN, PAN PAN, PAN PAN','ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS','MOTOR BOAT DAFNE, DAFNE, DAFNE','CALL SIGN OMMR41','MMSI 266 089 164','ISLAND ELBA, SOUTH, 3 NAUTICAL MILES','LT 1712','DRIFTING','NEED TOW','LENGTH 42 FEET','OVER'],
+   d:['MAYDAY','SINKING','OUT'],
+   n:'PAN PAN len so súhlasom veliteľa. Na záchranu nestačím sám, ale ohrozenie NIE JE bezprostredné. Dĺžka lode je tu dôležitá informácia pre odťah.' },
+ { id:'s1', g:'Tieseň a bezpečnosť', t:'SECURITE – bezpečnostná správa',
+   s:'Si na motorovej jachte DAFNE (OMMR41). Pol míle západne od Milny ste videli plávajúcu debnu, 1712 UTC. Varuj ostatné lode.',
+   b:['SECURITE, SECURITE, SECURITE','ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS','MOTOR BOAT DAFNE, DAFNE, DAFNE','CALL SIGN OMMR41','MMSI 266 089 164','FLOATING BOX','0,5 NAUTICAL MILES WEST OF MILNA','UTC 1712','OVER'],
+   d:['PAN PAN, PAN PAN, PAN PAN','IMMEDIATE ASSISTANCE','MAYDAY'],
+   n:'SECURITE: začína sa na 16. Dlhšiu správu ohlásim na 16 a prejdem na pracovný kanál (GO TO CHANNEL…).' },
+ { id:'s2', g:'Tieseň a bezpečnosť', t:'SECURITE s prechodom na pracovný kanál',
+   s:'Si na SIRIUS (MMSI 270 123 456) na kanáli 16. Chceš ohlásiť plavebné nebezpečenstvo a správu odvysielať na kanáli 9.',
+   b:['SECURITE, SECURITE, SECURITE','ALL STATIONS, ALL STATIONS, ALL STATIONS','THIS IS yacht SIRIUS, MMSI 270 123 456','NAVIGATIONAL DANGER','GO TO CHANNEL 9','OVER'],
+   d:['GO TO CHANNEL 70','MAYDAY','SINKING'],
+   n:'Na kanáli 9 potom zopakuje SECURITE 3×, ALL STATIONS 3×, THIS IS… a samotnú správu, na konci OUT.' }
+];
+
+const NATO = {A:'Alfa',B:'Bravo',C:'Charlie',D:'Delta',E:'Echo',F:'Foxtrot',G:'Golf',H:'Hotel',I:'India',J:'Juliett',K:'Kilo',L:'Lima',M:'Mike',N:'November',O:'Oscar',P:'Papa',Q:'Quebec',R:'Romeo',S:'Sierra',T:'Tango',U:'Uniform',V:'Victor',W:'Whiskey',X:'X-ray',Y:'Yankee',Z:'Zulu'};
+const NUMW = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+const FAKE_WORDS = ['Oto','Mária','Alpha','Juliet','Charly','Viktor','Kilogram','Queen','Yellow','Whisky','Adam','Zero-one','eleven','twenty'];
+
+// 5-dňový plán. act: {tab, ...}
+const PLAN = [
+ { d:'Pi 13. 11.', h:'Predpisy I', items:[
+   { t:'Prečítaj ťahák: témy 1–12 z predpisov', act:{tab:'tahak', area:'P'} },
+   { t:'Kvíz Predpisy (aspoň 2 kolá)', act:{tab:'kviz', area:'P'} },
+   { t:'Hláskovacia tabuľka – 10 min', act:{tab:'kom', spell:true} } ]},
+ { d:'So 14. 11.', h:'Predpisy II', items:[
+   { t:'Prečítaj ťahák: témy 13–23 z predpisov', act:{tab:'tahak', area:'P'} },
+   { t:'Kvíz Predpisy – celé, kým nemáš 80 %', act:{tab:'kviz', area:'P'} },
+   { t:'Kartičky: opakuj chyby', act:{tab:'kviz', area:'X'} },
+   { t:'Hláskovanie – 5 volacích značiek', act:{tab:'kom', spell:true} } ]},
+ { d:'Ne 15. 11.', h:'Prevádzka I', items:[
+   { t:'Ťahák prevádzka 1–10 (kanály, volanie, čísla, frázy)', act:{tab:'tahak', area:'R'} },
+   { t:'Komunikácia: všetky scenáre „Bežná prevádzka“', act:{tab:'kom'} },
+   { t:'Kvíz Prevádzka', act:{tab:'kviz', area:'R'} } ]},
+ { d:'Po 16. 11.', h:'Tieseň + Elektro I', items:[
+   { t:'Ťahák prevádzka 11–17 (MAYDAY, PAN PAN, SECURITE) – najdôležitejšie!', act:{tab:'tahak', area:'R'} },
+   { t:'Komunikácia: všetky scenáre „Tieseň a bezpečnosť“', act:{tab:'kom'} },
+   { t:'Ťahák elektro 1–6 (vodiče, značky, Ohm, výkon, batérie)', act:{tab:'tahak', area:'E'} },
+   { t:'Kvíz Elektro', act:{tab:'kviz', area:'E'} } ]},
+ { d:'Ut 17. 11.', h:'Elektro II + skúška naostro', items:[
+   { t:'Ťahák elektro 7–13 (akumulátory, prvá pomoc, vlny, antény)', act:{tab:'tahak', area:'E'} },
+   { t:'Simulácia skúšky č. 1', act:{tab:'skuska'} },
+   { t:'Opakuj chyby', act:{tab:'kviz', area:'X'} },
+   { t:'Simulácia skúšky č. 2 a 3', act:{tab:'skuska'} } ]},
+ { d:'St 18. 11.', h:'Deň skúšky', items:[
+   { t:'Ráno: prebehni „Zapamätaj“ vety všetkých tém', act:{tab:'tahak', area:'P'} },
+   { t:'Jedno kolo hláskovania a MAYDAY scenár', act:{tab:'kom'} } ]}
+];
+
+</script>
+<script>
+(function(){
+'use strict';
+// ---------- storage ----------
+const KEY='vhf-skuska-v1';
+let S={res:{},plan:{},scen:{},exams:[]};
+try{const raw=localStorage.getItem(KEY); if(raw) S=Object.assign(S,JSON.parse(raw));}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+// ---------- helpers ----------
+const $=s=>document.querySelector(s);
+const main=$('#main');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const TOP={}; TOPICS.forEach(t=>TOP[t.id]=t);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),1600);}
+
+// ---------- questions ----------
+const QS=Q.map(q=>({k:q[0]+'|'+q[1],t:q[0],q:q[1],ok:q[2],wr:[q[3],q[4],q[5]],e:q[6]||''}));
+SYMBOLS.forEach(s=>QS.push({k:'E2|sym|'+s.n,t:'E2',q:'Čo predstavuje táto schematická značka?',sym:s.s,ok:s.n,wr:null,e:''}));
+function opts(q){
+  const wr=q.wr||pick(SYMBOLS.filter(s=>s.n!==q.ok).map(s=>s.n),3);
+  return shuffle([q.ok].concat(wr));
+}
+const byTopic={}; QS.forEach(q=>(byTopic[q.t]=byTopic[q.t]||[]).push(q));
+function mastery(tid){const qs=byTopic[tid]||[];let ok=0,seen=0;qs.forEach(q=>{if(q.k in S.res){seen++;if(S.res[q.k])ok++;}});return {ok,seen,n:qs.length,p:qs.length?ok/qs.length:0};}
+function areaMastery(a){let ok=0,n=0;TOPICS.filter(t=>t.a===a).forEach(t=>{const m=mastery(t.id);ok+=m.ok;n+=m.n;});return n?ok/n:0;}
+
+// ---------- countdown ----------
+(function(){
+  const exam=new Date(2026,10,18); const now=new Date(); now.setHours(0,0,0,0);
+  const d=Math.round((exam-now)/864e5);
+  $('#count').innerHTML=d>1?`<b>${d}</b>dní do skúšky`:d===1?'<b>zajtra</b>skúška':d===0?'<b>dnes</b>skúška!':'<b>✓</b>po skúške';
+})();
+
+// ---------- nav ----------
+let tab='plan';
+const VIEW={};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+let retTab=null, planY=0;
+function go(t,opt){opt=opt||{};if(tab==='plan')planY=window.scrollY;retTab=(opt.tab||opt.topic||opt.open||opt.spell)&&tab!==t?tab:null;tab=t;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));VIEW[t](opt);window.scrollTo(0,t==='plan'?planY:0);}
+function back(fallback){if(retTab){const r=retTab;retTab=null;go(r);}else fallback();}
+
+// ================= PLÁN =================
+VIEW.plan=function(){
+  const today=new Date(); const iso=today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  const dayIdx={'2026-11-13':0,'2026-11-14':1,'2026-11-15':2,'2026-11-16':3,'2026-11-17':4,'2026-11-18':5}[iso];
+  let total=0,done=0;
+  PLAN.forEach((d,i)=>d.items.forEach((x,j)=>{total++;if(S.plan[i+'-'+j])done++;}));
+  let h=`<h2>5-dňový plán</h2>
+  <div class="card"><div class="muted" style="margin-bottom:6px">Splnené úlohy: ${done} / ${total}</div><div class="bar"><i style="width:${total?done/total*100:0}%"></i></div>
+  <div class="stat3" style="margin-top:12px">${['P','R','E'].map(a=>`<div class="card"><span class="tag" style="background:${AREAS[a].color}">${AREAS[a].short}</span><b>${Math.round(areaMastery(a)*100)} %</b><span class="muted">zvládnuté</span></div>`).join('')}</div></div>`;
+  PLAN.forEach((d,i)=>{
+    h+=`<div class="card day ${i===dayIdx?'today':''}"><div class="dh"><b>${d.d} · ${d.h}</b>${i===dayIdx?'<span class="tag" style="background:var(--red)">DNES</span>':''}</div>`;
+    d.items.forEach((x,j)=>{const on=!!S.plan[i+'-'+j];
+      h+=`<div class="task ${on?'done':''}"><button class="chk ${on?'on':''}" data-p="${i}-${j}" aria-label="splnené">${on?'✓':''}</button><span>${esc(x.t)}</span><button class="go" data-a='${JSON.stringify(x.act)}'>Otvoriť →</button></div>`;});
+    h+=`</div>`;
+  });
+  h+=`<p class="muted">Tip: každý deň aspoň 5 minút hláskovania a 1 MAYDAY scenár. Tieseň (MAYDAY, PAN PAN, SECURITE) býva jadro skúšky.</p>`;
+  main.innerHTML=h;
+  main.querySelectorAll('.chk').forEach(b=>b.onclick=()=>{S.plan[b.dataset.p]=!S.plan[b.dataset.p];save();VIEW.plan();});
+  main.querySelectorAll('.go').forEach(b=>b.onclick=()=>{const a=JSON.parse(b.dataset.a);go(a.tab,a);});
+};
+
+// ================= ŤAHÁK =================
+let tArea='P', tOpen=null, tSearch='';
+VIEW.tahak=function(o){
+  if(o.area&&o.area!=='X')tArea=o.area; if(o.open){tOpen=o.open;tArea=TOP[o.open].a;}
+  let h=`<h2>Ťahák</h2><div class="pills">${['P','R','E'].map(a=>`<button class="pill ${a===tArea&&!tSearch?'on':''}" data-a="${a}">${AREAS[a].short} (${TOPICS.filter(t=>t.a===a).length})</button>`).join('')}</div>
+  <input class="search" id="srch" placeholder="Hľadať v ťaháku… (napr. MMSI, 16, Ohm)" value="${esc(tSearch)}">`;
+  const s=tSearch.trim().toLowerCase();
+  const list=s?TOPICS.filter(t=>(t.t+' '+t.k+' '+t.b.join(' ')).toLowerCase().includes(s)):TOPICS.filter(t=>t.a===tArea);
+  if(!s)h+=`<p class="muted">${AREAS[tArea].name}. Číslovanie podľa zoznamu otázok na skúšku. Ťukni na tému.</p>`;
+  if(s&&!list.length)h+=`<p class="muted">Nič sa nenašlo.</p>`;
+  h+=`<div id="tl">`+list.map(t=>{const m=mastery(t.id);
+    return `<div class="card topic ${tOpen===t.id?'open':''}" id="t-${t.id}"><button data-t="${t.id}"><span class="num" style="background:${AREAS[t.a].color}">${t.a==='P'?'':t.a==='R'?'':''}${t.n}</span><span class="tt">${esc(t.t)}</span><span class="mast">${m.seen?Math.round(m.p*100)+' %':'–'}</span></button>
+    <div class="body"><div class="key">${t.k}</div><ul>${t.b.map(x=>`<li>${x}</li>`).join('')}</ul>
+    ${t.sym?`<div class="symgrid">${SYMBOLS.map(s=>`<div>${s.s}${esc(s.n)}</div>`).join('')}</div>`:''}
+    <div class="btns"><button class="btn" data-q="${t.id}">Kvíz z témy (${(byTopic[t.id]||[]).length})</button></div></div></div>`;}).join('')+`</div>`;
+  main.innerHTML=h;
+  main.querySelectorAll('.pill').forEach(b=>b.onclick=()=>{tArea=b.dataset.a;tSearch='';tOpen=null;VIEW.tahak({});});
+  const inp=$('#srch'); inp.oninput=()=>{tSearch=inp.value;const pos=inp.selectionStart;VIEW.tahak({});const n=$('#srch');n.focus();n.setSelectionRange(pos,pos);};
+  main.querySelectorAll('.topic>button').forEach(b=>b.onclick=()=>{const id=b.dataset.t;tOpen=tOpen===id?null:id;main.querySelectorAll('.topic').forEach(c=>c.classList.toggle('open',c.id==='t-'+tOpen));});
+  main.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>go('kviz',{topic:b.dataset.q,start:true}));
+  if(o.open){const el=$('#t-'+o.open);if(el)setTimeout(()=>el.scrollIntoView({block:'start'}),30);}
+};
+
+// ================= KVÍZ =================
+let qArea='P', qMode='quiz', QZ=null;
+function poolFor(area,topic){
+  if(topic)return byTopic[topic]||[];
+  if(area==='X')return QS.filter(q=>S.res[q.k]===0);
+  if(area==='A')return QS;
+  return QS.filter(q=>TOP[q.t].a===area);
+}
+function startQuiz(area,topic){
+  const pool=poolFor(area,topic);
+  if(!pool.length){toast(area==='X'?'Zatiaľ nemáš žiadne chyby 👍':'Žiadne otázky');return VIEW.kviz({});}
+  // prednostne nevidené a chybné
+  const w=q=>!(q.k in S.res)?3:S.res[q.k]===0?4:1;
+  const ranked=shuffle(pool).sort((a,b)=>w(b)-w(a)+ (Math.random()-.5)*1.5);
+  const n=topic?pool.length:Math.min(10,pool.length);
+  QZ={from:retTab,area,topic,items:ranked.slice(0,n).map(q=>({q,o:opts(q),a:null})),i:0,flip:false};
+}
+VIEW.kviz=function(o){
+  if(o.area){qArea=o.area;QZ=null;}
+  if(o.topic){startQuiz(null,o.topic);}
+  if(QZ)return renderQ();
+  const cnt=a=>poolFor(a).length;
+  let h=`<h2>Kvíz a kartičky</h2>
+  <div class="pills">${[['quiz','Kvíz'],['flash','Kartičky']].map(([k,l])=>`<button class="pill ${qMode===k?'on':''}" data-m="${k}">${l}</button>`).join('')}</div>
+  <div class="card"><b>Z čoho?</b><div class="pills" style="margin-bottom:0">
+  ${['P','R','E'].map(a=>`<button class="pill ${qArea===a?'on':''}" data-a="${a}">${AREAS[a].short} (${cnt(a)})</button>`).join('')}
+  <button class="pill ${qArea==='A'?'on':''}" data-a="A">Všetko (${cnt('A')})</button>
+  <button class="pill ${qArea==='X'?'on':''}" data-a="X">❗ Moje chyby (${cnt('X')})</button></div></div>
+  <button class="btn wide" id="go">${qMode==='quiz'?'Spustiť kvíz – 10 otázok':'Spustiť kartičky – 10 kusov'}</button>
+  <p class="muted">Kvíz uprednostňuje otázky, ktoré si ešte nevidel alebo si ich pokazil. Výsledky sa ukladajú v tomto prehliadači.</p>
+  <h3>Prehľad podľa tém</h3>`;
+  ['P','R','E'].forEach(a=>{
+    h+=`<div class="card"><span class="tag" style="background:${AREAS[a].color}">${AREAS[a].short}</span><div style="margin-top:8px">`+
+    TOPICS.filter(t=>t.a===a).map(t=>{const m=mastery(t.id);const c=!m.seen?'#cfd8e0':m.p>=.8?'var(--green)':m.p>=.5?'var(--amber)':'var(--red)';
+      return `<button class="pill" style="margin:3px;border-color:${c};border-width:2px" data-t="${t.id}" title="${esc(t.t)}">${t.n}</button>`;}).join('')+`</div></div>`;
+  });
+  h+=`<p class="muted">Farba čísla: šedá = nevidené, červená/oranžová/zelená = úspešnosť. Ťukni na číslo pre kvíz z témy.</p>`;
+  main.innerHTML=h;
+  main.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{qMode=b.dataset.m;VIEW.kviz({});});
+  main.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{qArea=b.dataset.a;VIEW.kviz({});});
+  main.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>VIEW.kviz({topic:b.dataset.t}));
+  $('#go').onclick=()=>{startQuiz(qArea);renderQ();};
+};
+function record(q,ok){S.res[q.k]=ok?1:0;save();}
+function renderQ(){
+  const it=QZ.items[QZ.i]; const q=it.q; const t=TOP[q.t];
+  const head=`<div class="qhead"><span><span class="tag" style="background:${AREAS[t.a].color}">${AREAS[t.a].short} ${t.n}</span> ${esc(t.t.length>38?t.t.slice(0,36)+'…':t.t)}</span><span style="white-space:nowrap">${QZ.i+1} / ${QZ.items.length}</span></div><div class="bar" style="margin-bottom:10px"><i style="width:${(QZ.i)/QZ.items.length*100}%"></i></div>`;
+  let h=`<div class="card">${head}`;
+  if(q.sym)h+=`<div class="qsym">${q.sym}</div>`;
+  h+=`<div class="qtext">${esc(q.q)}</div>`;
+  if(qMode==='flash'){
+    h+=`<div class="flash" id="fl">${QZ.flip?`<div class="ans">${esc(q.ok)}</div>${q.e?`<div class="expl" style="text-align:left">${esc(q.e)}</div>`:''}`:'<div class="muted">Povedz si odpoveď nahlas a ťukni pre otočenie ↻</div>'}</div>`;
+    if(QZ.flip)h+=`<div class="btns"><button class="btn red" id="no" style="flex:1">Nevedel som</button><button class="btn" id="yes" style="flex:1;background:var(--green)">Vedel som</button></div>`;
+  } else {
+    h+=it.o.map((x,i)=>{let c='';if(it.a!==null){if(x===q.ok)c='ok';else if(i===it.a)c='bad';else c='dim';}return `<button class="opt ${c}" data-i="${i}" ${it.a!==null?'disabled':''}>${esc(x)}</button>`;}).join('');
+    if(it.a!==null){const ok=it.o[it.a]===q.ok;
+      h+=`<div class="expl"><b>${ok?'✓ Správne.':'✗ Správne je: '+esc(q.ok)}</b>${q.e?' '+esc(q.e):''}<br><button class="link" id="tl">Otvoriť ťahák k téme</button></div>
+      <button class="btn wide" id="nx" style="margin-top:12px">${QZ.i+1<QZ.items.length?'Ďalej →':'Výsledok'}</button>`;}
+  }
+  h+=`</div><button class="link" id="quit">← ukončiť</button>`;
+  main.innerHTML=h;
+  $('#quit').onclick=()=>{const f=QZ.from;QZ=null;f?go(f):VIEW.kviz({});};
+  if(qMode==='flash'){
+    $('#fl').onclick=()=>{QZ.flip=!QZ.flip;renderQ();};
+    if(QZ.flip){$('#no').onclick=()=>{it.a=0;record(q,false);nextQ();};$('#yes').onclick=()=>{it.a=1;record(q,true);nextQ();};}
+  } else {
+    main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{it.a=+b.dataset.i;record(q,it.o[it.a]===q.ok);renderQ();});
+    if(it.a!==null){$('#nx').onclick=nextQ;$('#tl').onclick=()=>go('tahak',{open:q.t});}
+  }
+}
+function nextQ(){QZ.flip=false;if(QZ.i+1<QZ.items.length){QZ.i++;renderQ();}else quizDone();}
+function quizDone(){
+  const its=QZ.items; const ok=its.filter(it=>qMode==='flash'?it.a===1:it.o[it.a]===it.q.ok).length;
+  const pct=Math.round(ok/its.length*100);
+  let h=`<div class="card" style="text-align:center"><div class="big" style="color:${pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)'}">${pct} %</div><p>${ok} z ${its.length} správne</p>
+  <p class="muted">${pct>=80?'Výborne, ide ti to!':pct>=50?'Dobre, ešte to precvič.':'Pozri si ťahák a skús znova.'}</p></div>`;
+  const bad=its.filter(it=>!(qMode==='flash'?it.a===1:it.o[it.a]===it.q.ok));
+  if(bad.length)h+=`<h3>Na zopakovanie</h3>`+bad.map(it=>`<div class="rev"><b>${esc(it.q.q)}</b><br><span class="y">✓ ${esc(it.q.ok)}</span> · <button class="link" data-t="${it.q.t}">ťahák</button></div>`).join('');
+  h+=`<div class="btns"><button class="btn" id="again" style="flex:1">Ďalšie kolo</button><button class="btn ghost" id="back" style="flex:1">${QZ.from==='plan'?'Späť na plán':QZ.from==='tahak'?'Späť na ťahák':'Späť'}</button></div>`;
+  const prev=QZ; main.innerHTML=h;
+  main.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>go('tahak',{open:b.dataset.t}));
+  $('#again').onclick=()=>{startQuiz(prev.area||qArea,prev.topic);QZ.from=prev.from;renderQ();};
+  $('#back').onclick=()=>{QZ=null;prev.from?go(prev.from):VIEW.kviz({});};
+  QZ=null;
+}
+
+// ================= KOMUNIKÁCIA =================
+let K=null, komFrom=null; // {sc, pool:[{txt,id}], picked:[ids], checked}
+VIEW.kom=function(o){
+  if(o.tab)komFrom=retTab;
+  if(o.spell)return startSpell();
+  if(K)return renderK();
+  const groups=[...new Set(SCEN.map(s=>s.g))];
+  let h=`<h2>Tréning komunikácie</h2><p class="muted">Poskladaj volanie z blokov v správnom poradí. Nahlas si ho pri tom hovor – presne tak ako do mikrofónu.</p>
+  <button class="scen" id="sp" style="border-color:var(--navy2)"><span><b>🔤 Hláskovanie volacej značky</b><br><span class="muted">Náhodná značka → poskladaj Alfa, Bravo…</span></span><span>›</span></button>`;
+  groups.forEach(g=>{h+=`<h3>${g}</h3>`+SCEN.filter(s=>s.g===g).map(s=>`<button class="scen" data-s="${s.id}"><span>${esc(s.t)}</span><span class="${S.scen[s.id]?'ok':'muted'}">${S.scen[s.id]?'✓':'›'}</span></button>`).join('');});
+  h+=`<div class="card"><b>Pomôcka O-K-O</b><br><span class="muted">Oslov (3×) · Kto si – THIS IS + meno (3×) · O čom / OVER. Odpoveď stačí 1×. Koniec: OUT.</span><br><br><b>M-I-P-D-A-N-I-O</b><br><span class="muted">Mayday · Identification · Position (at time) · Distress · Assistance · Number · Information · Over</span></div>`;
+  main.innerHTML=h;
+  $('#sp').onclick=startSpell;
+  main.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>startScen(SCEN.find(s=>s.id===b.dataset.s)));
+};
+function startScen(sc){
+  const all=sc.b.map((t,i)=>({txt:t,c:i})).concat((sc.d||[]).map(t=>({txt:t,c:-1})));
+  K={sc,pool:shuffle(all).map((x,i)=>Object.assign(x,{id:i})),picked:[],checked:false};renderK();
+}
+function startSpell(){
+  const L='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const r=()=>L[Math.floor(Math.random()*26)];
+  const type=Math.random();
+  let cs = type<0.6 ? 'OM'+r()+r()+(2+Math.floor(Math.random()*8))+(Math.floor(Math.random()*10)) : type<0.85 ? 'OM'+r()+r() : 'OM'+(1+Math.floor(Math.random()*8))+r()+r()+r();
+  const words=[...cs].map(ch=>/\d/.test(ch)?NUMW[+ch]:NATO[ch]);
+  const used=new Set(words);
+  const fakes=pick(Object.values(NATO).filter(w=>!used.has(w)).concat(FAKE_WORDS),4);
+  const sc={id:'spell',t:'Hláskovanie',s:`Vyhláskuj volaciu značku:<div class="spellbig">${cs}</div>`,b:words,d:fakes,n:'Písmená podľa medzinárodnej hláskovacej tabuľky, číslice po jednej anglicky (zero, one, two…).',spell:true};
+  startScen(sc);
+}
+function renderK(){
+  const sc=K.sc;
+  let h=`<div class="qhead"><span class="tag" style="background:var(--navy2)">${esc(sc.g||'Hláskovanie')}</span><span></span></div><h2 style="margin-top:4px">${esc(sc.t)}</h2>
+  <div class="sit">${sc.spell?sc.s:esc(sc.s)}</div>
+  <div class="slot" id="slot">${K.picked.map((pid,i)=>{const x=K.pool[pid];let c='';if(K.checked)c=(x.c===i)?'ok':'bad';return `<button class="blk ${c}" data-u="${i}"><span class="n">${i+1}.</span>${esc(x.txt)}</button>`;}).join('')}</div>
+  <div class="pool">${K.pool.filter(x=>!K.picked.includes(x.id)).map(x=>`<button class="blk" data-p="${x.id}">${esc(x.txt)}</button>`).join('')}</div>`;
+  if(K.checked){
+    const ok=K.picked.length===sc.b.length&&K.picked.every((pid,i)=>K.pool[pid].c===i);
+    h+= ok?`<div class="note" style="border-color:var(--green);background:#e8f6ef"><b>✓ Výborne, presne tak!</b><br>${esc(sc.n)}</div>`
+          :`<div class="note"><b>Ešte nie. Správne poradie:</b><ol style="margin:6px 0 4px;padding-left:20px">${sc.b.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${esc(sc.n)}</div>`;
+    if(ok&&!sc.spell){S.scen[sc.id]=true;save();}
+    h+=`<div class="btns"><button class="btn" id="again" style="flex:1">${sc.spell?'Ďalšia značka':'Skúsiť znova'}</button><button class="btn ghost" id="back" style="flex:1">Zoznam</button></div>`;
+  } else {
+    h+=`<div class="btns"><button class="btn" id="chk" style="flex:2" ${K.picked.length?'':'disabled'}>Skontrolovať</button><button class="btn ghost" id="undo" style="flex:1" ${K.picked.length?'':'disabled'}>↶ Späť</button></div>
+    <button class="link" id="back" style="margin-top:12px">← zoznam scenárov</button>`;
+  }
+  main.innerHTML=h;
+  main.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{K.picked.push(+b.dataset.p);renderK();});
+  main.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{if(K.checked)return;K.picked.splice(+b.dataset.u,1);renderK();});
+  const c=$('#chk'); if(c)c.onclick=()=>{K.checked=true;renderK();};
+  const u=$('#undo'); if(u)u.onclick=()=>{K.picked.pop();renderK();};
+  const a=$('#again'); if(a)a.onclick=()=>{sc.spell?startSpell():startScen(sc);};
+  $('#back').onclick=()=>{K=null;if(sc.spell&&komFrom){const f=komFrom;komFrom=null;go(f);}else VIEW.kom({});};
+}
+
+// ================= SKÚŠKA =================
+let EX=null;
+VIEW.skuska=function(){
+  if(EX)return EX.oral?renderOral():renderEx();
+  let h=`<h2>Simulácia skúšky</h2>
+  <div class="card"><b>📝 Písomná simulácia</b><p class="muted" style="margin:6px 0 10px">15 otázok: 5 z predpisov, 5 z prevádzky, 5 z elektrotechniky – každá z inej témy. Výsledok uvidíš až na konci.</p><button class="btn wide" id="w">Začať test</button></div>
+  <div class="card"><b>🎤 Ťahanie tém (ústne)</b><p class="muted" style="margin:6px 0 10px">Vylosuje 5 tém z každej oblasti. Povedz si nahlas, čo o téme vieš, potom si otvor ťahák a ohodnoť sa.</p><button class="btn ghost wide" id="o">Vylosovať témy</button></div>`;
+  if(S.exams.length){h+=`<h3>Moje pokusy</h3><div class="card">`+S.exams.slice(-8).reverse().map(e=>`<div class="res"><span>${e.d}</span><span>P ${e.p}/5 · R ${e.r}/5 · E ${e.e}/5 · <b>${e.p+e.r+e.e}/15</b></span></div>`).join('')+`</div>`;}
+  main.innerHTML=h;
+  $('#w').onclick=()=>{
+    const items=[];['P','R','E'].forEach(a=>{pick(TOPICS.filter(t=>t.a===a),5).sort((x,y)=>x.n-y.n).forEach(t=>{const q=pick(byTopic[t.id],1)[0];items.push({q,o:opts(q),a:null});});});
+    EX={items,i:0};renderEx();};
+  $('#o').onclick=()=>{EX={oral:true,list:['P','R','E'].map(a=>pick(TOPICS.filter(t=>t.a===a),5).sort((x,y)=>x.n-y.n)),open:null,score:{}};renderOral();};
+};
+function renderEx(){
+  if(EX.done)return exDone();
+  const it=EX.items[EX.i]; const q=it.q; const t=TOP[q.t];
+  let h=`<div class="card"><div class="qhead"><span class="tag" style="background:${AREAS[t.a].color}">${AREAS[t.a].name}</span><span>${EX.i+1} / 15</span></div><div class="bar" style="margin-bottom:10px"><i style="width:${EX.i/15*100}%"></i></div>
+  ${q.sym?`<div class="qsym">${q.sym}</div>`:''}<div class="qtext">${esc(q.q)}</div>`+
+  it.o.map((x,i)=>`<button class="opt ${it.a===i?'on':''}" style="${it.a===i?'border-color:var(--navy);background:var(--sea)':''}" data-i="${i}">${esc(x)}</button>`).join('')+
+  `<div class="btns"><button class="btn ghost" id="pv" ${EX.i?'':'disabled'} style="flex:1">← Späť</button><button class="btn" id="nx" style="flex:2" ${it.a===null?'disabled':''}>${EX.i<14?'Ďalej →':'Odovzdať test'}</button></div></div>
+  <button class="link" id="quit">← zrušiť test</button>`;
+  main.innerHTML=h;
+  main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{it.a=+b.dataset.i;renderEx();});
+  $('#pv').onclick=()=>{EX.i--;renderEx();};
+  $('#nx').onclick=()=>{if(EX.i<14){EX.i++;renderEx();}else{EX.done=true;
+    const sc={P:0,R:0,E:0};EX.items.forEach(it=>{const ok=it.o[it.a]===it.q.ok;record(it.q,ok);if(ok)sc[TOP[it.q.t].a]++;});
+    const d=new Date();S.exams.push({d:d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'),p:sc.P,r:sc.R,e:sc.E});save();renderEx();}};
+  $('#quit').onclick=()=>{EX=null;VIEW.skuska();};
+}
+function exDone(){
+  const sc={P:0,R:0,E:0};EX.items.forEach(it=>{if(it.o[it.a]===it.q.ok)sc[TOP[it.q.t].a]++;});
+  const tot=sc.P+sc.R+sc.E;
+  let h=`<div class="card" style="text-align:center"><div class="big" style="color:${tot>=12?'var(--green)':tot>=9?'var(--amber)':'var(--red)'}">${tot} / 15</div><p class="muted">${tot>=12?'Skvelé – takto to na skúške zvládneš.':tot>=9?'Slušné, doplň slabé témy.':'Ešte to chce opakovanie – pozri chyby nižšie.'}</p></div>
+  <div class="card">${['P','R','E'].map(a=>`<div class="res"><span>${AREAS[a].name}</span><b>${sc[a]} / 5</b></div>`).join('')}</div><h3>Prehľad odpovedí</h3>`;
+  h+=EX.items.map(it=>{const ok=it.o[it.a]===it.q.ok;const t=TOP[it.q.t];return `<div class="rev"><span class="${ok?'y':'n'}">${ok?'✓':'✗'}</span> <b>${t.a}${t.n}</b> ${esc(it.q.q)}<br>${ok?'':`<span class="n">Tvoja: ${esc(it.o[it.a])}</span><br>`}<span class="y">Správne: ${esc(it.q.ok)}</span> · <button class="link" data-t="${t.id}">ťahák</button></div>`;}).join('');
+  h+=`<div class="btns"><button class="btn" id="nw" style="flex:1">Nový test</button><button class="btn ghost" id="bk" style="flex:1">Späť</button></div>`;
+  main.innerHTML=h;
+  main.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{EX=null;go('tahak',{open:b.dataset.t});});
+  $('#nw').onclick=()=>{EX=null;VIEW.skuska();$('#w').click();};
+  $('#bk').onclick=()=>{EX=null;VIEW.skuska();};
+}
+function renderOral(){
+  let h=`<h2>Vylosované témy</h2><p class="muted">Ku každej téme povedz nahlas aspoň 3 fakty. Potom ťukni, pozri ťahák a ohodnoť sa.</p>`;
+  EX.list.forEach((ts,ai)=>{const a=['P','R','E'][ai];
+    h+=`<h3><span class="tag" style="background:${AREAS[a].color}">${AREAS[a].name}</span></h3>`+ts.map(t=>{const s=EX.score[t.id];const op=EX.open===t.id;
+      return `<div class="card topic ${op?'open':''}"><button data-t="${t.id}"><span class="num" style="background:${AREAS[a].color}">${t.n}</span><span class="tt">${esc(t.t)}</span><span class="mast">${s===1?'✅':s===0?'❌':'👀'}</span></button>
+      <div class="body"><div class="key">${t.k}</div><ul>${t.b.map(x=>`<li>${x}</li>`).join('')}</ul>${t.sym?`<div class="symgrid">${SYMBOLS.map(s=>`<div>${s.s}${esc(s.n)}</div>`).join('')}</div>`:''}
+      <div class="btns"><button class="btn red" data-s="${t.id}|0" style="flex:1">Nevedel som</button><button class="btn" data-s="${t.id}|1" style="flex:1;background:var(--green)">Vedel som</button></div></div></div>`;}).join('');});
+  const sc=Object.values(EX.score);
+  h+=`<div class="card"><b>Výsledok: ${sc.filter(x=>x===1).length} / 15 vedel</b></div><div class="btns"><button class="btn" id="nw" style="flex:1">Vylosovať znova</button><button class="btn ghost" id="bk" style="flex:1">Späť</button></div>`;
+  main.innerHTML=h;
+  main.querySelectorAll('.topic>button').forEach(b=>b.onclick=()=>{EX.open=EX.open===b.dataset.t?null:b.dataset.t;renderOral();const el=b.closest('.topic');});
+  main.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const [id,v]=b.dataset.s.split('|');EX.score[id]=+v;EX.open=null;renderOral();});
+  $('#nw').onclick=()=>{EX=null;VIEW.skuska();$('#o').click();};
+  $('#bk').onclick=()=>{EX=null;VIEW.skuska();};
+}
+
+go('plan');
+})();
+
+</script>
+</body>
+</html>
